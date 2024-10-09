@@ -1,4 +1,6 @@
-# Nuxt 3 Minimal Starter
+# Spin Request Frontend (Nuxt33)
+
+![GitHub Actions](https://github.com/SpinRequest/SPR-fe/actions/workflows/cpanel-deploy.yml/badge.svg)
 
 Look at the [Nuxt 3 documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
 
@@ -73,4 +75,7 @@ bun run preview
 ```
 
 Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
-# SPR-fe-new
+
+### SpinRequest Backend API Documentation
+
+The API documentation for SpinRequest can be found at [https://documenter.getpostman.com/view/37268715/2sA3kaAyNz](https://documenter.getpostman.com/view/37268715/2sA3kaAyNz)
