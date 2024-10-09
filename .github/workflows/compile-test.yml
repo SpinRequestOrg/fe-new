@@ -18,6 +18,8 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: 18.x
-          cache: "npm"
-      - run: npm update
-      - run: npm run generate --if-present
+          cache: "pnpm"
+      - name: Install pnpm
+        run: npm install -g pnpm
+      - run: pnpm update
+      - run: pnpm run generate --if-present
