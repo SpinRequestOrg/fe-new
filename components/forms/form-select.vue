@@ -14,9 +14,10 @@
       :id="id"
       :options="options"
       :state="errorMessage ? 'error' : 'normal'"
+      :label="label"
     />
     <div
-      class="text-sm text-destructive animate-in slide-in-from-top-1 absolute -bottom-4"
+      class="text-sm text-destructive animate-in slide-in-from-top-1 absolute -bottom-4 font-semibold"
       v-if="meta.touched || showErrorOnTouch"
     >
       {{ errorMessage }}
@@ -32,6 +33,7 @@ import SelectField from "../ui/select-field.vue";
 withDefaults(
   defineProps<{
     name: string;
+    label?: string;
     id?: string;
     placeholder?: string;
     disabled?: boolean;
@@ -41,6 +43,7 @@ withDefaults(
   {
     showErrorOnTouch: false,
     options: () => [],
+    label: "",
   }
 );
 </script>

@@ -1,5 +1,3 @@
-import { defineStore } from "pinia";
-
 type ToastVariant = "normal" | "warning";
 type ToastAction = {
   title: string;

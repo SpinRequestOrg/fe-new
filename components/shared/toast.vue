@@ -15,13 +15,13 @@
       "
     >
       <ToastTitle
-        class="[grid-area:_title] font-medium text-foreground text-[15px]"
+        class="[grid-area:_title] font-medium text-foreground text-[16px]"
       >
         {{ title }}
       </ToastTitle>
       <ToastDescription as-child v-if="description">
         <div
-          class="[grid-area:_description] m-0 text-foreground text-[13px] leading-[1.3]"
+          class="[grid-area:_description] m-0 text-muted-foreground text-[15px] leading-[1.3]"
         >
           {{ description }}
         </div>

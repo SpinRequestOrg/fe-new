@@ -94,7 +94,7 @@ const config = {
         "accordion-up": "accordion-up 0.2s ease-out",
         "fade-in": "fade-in 0.6s ease-in",
         hide: "hide 100ms ease-in",
-        slideIn: "slideIn 150ms cubic-bezier(0.16, 1, 0.3, 1)",
+        slideIn: "slideIn 200ms cubic-bezier(0.16, 1, 0.3, 1)",
         swipeOut: "swipeOut 100ms ease-out",
       },
     },

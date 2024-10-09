@@ -22,4 +22,9 @@ export default defineNuxtConfig({
     "radix-vue/nuxt",
     "@pinia/nuxt",
   ],
+  runtimeConfig: {
+    public: {
+      API_BASE_URL: process.env.API_BASE_URL,
+    },
+  },
 });

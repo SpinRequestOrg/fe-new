@@ -18,7 +18,7 @@
       :state="errorMessage && meta.touched ? 'error' : 'normal'"
     />
     <div
-      class="text-sm text-destructive animate-in slide-in-from-top-1 absolute -bottom-4"
+      class="text-sm text-destructive animate-in slide-in-from-top-1 absolute -bottom-5 font-semibold"
       v-if="meta.touched || showErrorOnTouch"
     >
       {{ errorMessage }}
