@@ -4,8 +4,8 @@
 name: Compile Check Workflow
 
 on:
-  - push
-  - pull_request
+  pull_request:
+    branches: ["master", "main"]
 
 jobs:
   build:
