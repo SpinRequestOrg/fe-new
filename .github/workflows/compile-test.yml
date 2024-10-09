@@ -29,6 +29,6 @@ jobs:
           cache: "pnpm"
 
       - name: Install dependencies
-        run: pnpm update
+        run: pnpm install
       - name: Generate build
         run: pnpm generate --if-present
