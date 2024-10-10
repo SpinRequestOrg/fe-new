@@ -3,9 +3,13 @@ import type {
   CreateHost,
   LoginForm,
   LoginResponse,
+  SignUpResponse,
+  AuthUser,
 } from "~/types/auth";
 import type { ApiResponse } from "~/types";
-import type { $Fetch } from "nitropack";
+import type { $Fetch, NitroFetchOptions } from "nitropack";
+type FetchOptions = NitroFetchOptions<"json">;
+type FetchMethods = FetchOptions["method"];
 
 export default class Auth {
   private $fetch: $Fetch;
@@ -18,30 +22,36 @@ export default class Auth {
     this.$fetch = fetcher;
   }
 
-  async registerAudience(body: CreateUser) {
-    return await this.$fetch<{ name: string }>(this.REGISTER_AUDIENCE, {
-      method: "POST",
-      body,
+  async call<O>(
+    method: FetchMethods,
+    route: string,
+    data?: object,
+    options?: FetchOptions
+  ) {
+    return this.$fetch<ApiResponse<O>>(route, {
+      method,
+      body: data,
+      ...options,
     });
+  }
+
+  async registerAudience(body: CreateUser) {
+    return await this.call<SignUpResponse>(
+      "POST",
+      this.REGISTER_AUDIENCE,
+      body
+    );
   }
 
   async registerHost(body: CreateHost) {
-    return await this.$fetch<{ name: string }>(this.REGISTER_HOST, {
-      method: "POST",
-      body,
-    });
+    return await this.call("POST", this.REGISTER_HOST, body);
   }
 
   async loginUser(body: LoginForm) {
-    return await this.$fetch<ApiResponse<LoginResponse>>(this.LOGIN_USER, {
-      method: "POST",
-      body,
-    });
+    return await this.call<LoginResponse>("POST", this.LOGIN_USER, body);
   }
 
   async fetchProfile() {
-    return await this.$fetch<ApiResponse<LoginResponse>>(this.USER_PROFILE, {
-      method: "GET",
-    });
+    return await this.call<AuthUser>("GET", this.USER_PROFILE);
   }
 }

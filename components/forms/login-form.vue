@@ -16,12 +16,7 @@
         type="password"
         label="Password"
       />
-      <Button
-        class="w-full flex"
-        type="submit"
-        :size="'lg'"
-        :disabled="loading"
-      >
+      <Button class="w-full" type="submit" :size="'lg'" :disabled="loading">
         <Loader v-if="loading" class="animate-spin mr-2" />
         <span>{{ loading ? "Please wait..." : "Submit" }}</span>
       </Button>
@@ -48,7 +43,6 @@ const onSubmit = async ({
   const payload = {
     email,
     password,
-    password_confirmation: password,
   };
   try {
     loading.value = true;
@@ -57,8 +51,9 @@ const onSubmit = async ({
     showToast({ title: "Success", description: message, variant: "normal" });
     saveAuthUser(response.data.token, response.data.user);
     loading.value = false;
-    response.data;
-    console.log({ response });
+    const destination =
+      response?.data?.role === "host" ? "/profile" : "/search";
+    useRouter().push(destination);
   } catch (e) {
     loading.value = false;
     showToast({
@@ -66,7 +61,7 @@ const onSubmit = async ({
       description: e?.data?.message ?? "Invalid credentials",
       variant: "warning",
     });
-    console.log("ERROR LOGGING IN", e?.data?.message);
+    console.error("ERROR LOGGING IN", e?.data?.message);
   }
 };
 

@@ -1,13 +1,15 @@
-import yup, { object, string } from "yup";
+import type yup from "yup";
+import { object, string } from "yup";
 
 export const AudienceSchema = object({
   name: string().optional().min(3, "Name should be at least 3 characters long"),
   email: string().required("Email is required").email("Enter a valid email"),
   password: string()
     .required("Enter your password")
-    .min(5, "Password should be at least 5 characters long")
-    .matches(/[a-z]/, "Password should contain at least a lowercase letter")
-    .matches(/[A-Z]/, "Password should contain at least a uppercase letter")
+    .min(8, "Password should be at least 5 characters long")
+    .matches(/[0-9]/, "Password should contain at least one number")
+    .matches(/[a-z]/, "Password should contain at least one lowercase letter")
+    .matches(/[A-Z]/, "Password should contain at least one uppercase letter")
     .matches(
       /[!@#$%^&*(),.?":{}|<>]/,
       "Password should contain at least a special character"
@@ -23,7 +25,7 @@ export const HostSchema = object({
   profession: string().required("Profession is required"),
   password: string()
     .required("Enter your password")
-    .min(5, "Password should be at least 5 characters long")
+    .matches(/[0-9]/, "Password should contain at least one number")
     .matches(/[a-z]/, "Password should contain at least one lowercase letter")
     .matches(/[A-Z]/, "Password should contain at least one uppercase letter")
     .matches(
@@ -32,4 +34,5 @@ export const HostSchema = object({
     ),
 });
 
+export type Audience = yup.InferType<typeof AudienceSchema>;
 export type Host = yup.InferType<typeof HostSchema>;

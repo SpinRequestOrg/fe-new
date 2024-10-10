@@ -8,7 +8,7 @@
           <AvatarFallback
             class="leading-1 flex h-full w-full items-center justify-center text-[15px] font-medium uppercase"
           >
-            {{ getInitials(auth_user?.email || "") }}
+            {{ getInitials(auth_user?.stage_name ?? auth_user?.email ?? "") }}
           </AvatarFallback>
         </AvatarRoot>
       </Button>
@@ -28,7 +28,7 @@
         </DropdownMenuItem>
         <DropdownMenuItem
           class="relative flex cursor-pointer select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none transition-colors focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50"
-          @select="(_e) => logUserOut()"
+          @select="(_e) => logUserOut(gotoLogin)"
         >
           <LogOut class="size-4 mr-2" />
           <span>Log out</span>
@@ -42,4 +42,7 @@
 import Button from "./ui/button.vue";
 import { LogOut, UserCircle2 } from "lucide-vue-next";
 const { logOut: logUserOut, auth_user } = useAuth();
+const gotoLogin = () => {
+  useRouter().push("/login");
+};
 </script>

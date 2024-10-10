@@ -48,3 +48,10 @@ export interface LoginResponse {
   token: string;
   role: string;
 }
+
+export interface SignUpResponse {
+  id: number;
+  name: string;
+  email: string;
+  stagename: string;
+}

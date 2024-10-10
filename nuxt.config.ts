@@ -21,6 +21,7 @@ export default defineNuxtConfig({
     "nuxt-svgo-loader",
     "radix-vue/nuxt",
     "@pinia/nuxt",
+    "pinia-plugin-persistedstate/nuxt",
   ],
   runtimeConfig: {
     public: {
