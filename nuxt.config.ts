@@ -21,5 +21,11 @@ export default defineNuxtConfig({
     "nuxt-svgo-loader",
     "radix-vue/nuxt",
     "@pinia/nuxt",
+    "pinia-plugin-persistedstate/nuxt",
   ],
+  runtimeConfig: {
+    public: {
+      API_BASE_URL: process.env.API_BASE_URL,
+    },
+  },
 });

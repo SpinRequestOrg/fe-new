@@ -1,50 +1,76 @@
 <template>
   <Form
-    @submit="handleSubmission"
-    :validation-schema="simpleNameSchema"
-    class="space-y-6"
-    :initial-values="{ gender: 'Male', password: 'Random', email: 'rilwan' }"
+    v-slot="{ handleSubmit }"
+    :validation-schema="simpleLoginSchema"
+    as="div"
   >
-    <FormInput name="email" placeholder="Enter your email here" label="Email" />
-    <FormInput
-      name="password"
-      placeholder="Enter your password here"
-      type="password"
-      label="Password"
-    />
-    <FormSelect :options="gender" name="gender" placeholder="Gender" />
-
-    <Button class="w-full flex" type="submit" :size="'lg'">Submit</Button>
+    <form @submit="handleSubmit($event, onSubmit)" class="space-y-7">
+      <FormInput
+        name="email"
+        placeholder="Enter your email here"
+        label="Email"
+      />
+      <FormInput
+        name="password"
+        placeholder="Enter your password here"
+        type="password"
+        label="Password"
+      />
+      <Button class="w-full" type="submit" :size="'lg'" :disabled="loading">
+        <Loader v-if="loading" class="animate-spin mr-2" />
+        <span>{{ loading ? "Please wait..." : "Submit" }}</span>
+      </Button>
+    </form>
   </Form>
 </template>
 
 <script lang="ts" setup>
 import { Form } from "vee-validate";
 import FormInput from "./form-input.vue";
-import FormSelect from "./form-select.vue";
 import Button from "../ui/button.vue";
+import { Loader } from "lucide-vue-next";
 
-const handleSubmission = (data: any) => {
-  console.log({ data });
+const { $repo } = useNuxtApp();
+const { saveAuthUser } = useAuth();
+const loading = ref(false);
+const onSubmit = async ({
+  email,
+  password,
+}: {
+  email: string;
+  password: string;
+}) => {
+  const payload = {
+    email,
+    password,
+  };
+  try {
+    loading.value = true;
+    const response = await $repo.auth.loginUser(payload);
+    const message = response?.message;
+    showToast({ title: "Success", description: message, variant: "normal" });
+    saveAuthUser(response.data.token, response.data.user);
+    loading.value = false;
+    const destination =
+      response?.data?.role === "host" ? "/profile" : "/search";
+    useRouter().push(destination);
+  } catch (e) {
+    loading.value = false;
+    showToast({
+      title: "Failed",
+      description: e?.data?.message ?? "Invalid credentials",
+      variant: "warning",
+    });
+    console.error("ERROR LOGGING IN", e?.data?.message);
+  }
 };
 
-const test = ref([
-  { name: "Rilwan", id: "reelee" },
-  { name: "Yusuf", id: "yusuf" },
-]);
-
-const gender = ref(["Male", "Female", "Others"]);
-
-const simpleNameSchema = {
+const simpleLoginSchema = {
   email: (name: string) => {
-    return name === "Rilwan" ? true : "Test error message";
+    return name ? true : "Enter your email";
   },
   password: (pass: string) => {
-    return pass?.length > 4 ? true : "Password not long enough";
-  },
-  gender: (gender: string) => {
-    const valid = ["Male", "Female", "Others"].includes(gender);
-    return valid ? valid : "Choose good gender";
+    return pass ? true : "Enter your password";
   },
 };
 </script>

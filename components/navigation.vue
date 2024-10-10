@@ -8,16 +8,20 @@
     </NuxtLink>
 
     <nav class="flex items-center gap-x-2">
-      <NuxtLink to="/login"> <Button> LOGIN </Button> </NuxtLink>
+      <ProfileMenu v-if="isLoggedIn" />
+      <template v-else>
+        <NuxtLink to="/login"> <Button> LOGIN </Button> </NuxtLink>
 
-      <NuxtLink to="/signup">
-        <Button :variant="'secondary'"> SIGN UP </Button>
-      </NuxtLink>
-      <ProfileMenu />
+        <NuxtLink to="/signup">
+          <Button :variant="'secondary'"> SIGN UP </Button>
+        </NuxtLink>
+      </template>
     </nav>
   </header>
 </template>
 
 <script lang="ts" setup>
 import Button from "./ui/button.vue";
+
+const { isLoggedIn } = useAuth();
 </script>
