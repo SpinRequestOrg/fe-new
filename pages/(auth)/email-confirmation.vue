@@ -42,14 +42,12 @@
         v-else
       >
         <CheckCircle2 class="size-10 text-primary" />
-        <div class="text-2xl md:text-3xl font-semibold text-center">
-          Email verified
+        <div class="text-2xl md:text-3xl font-semibold text-center mb-6">
+          Email ({{ authEmail }}) verified
         </div>
 
         <NuxtLink :to="successRoute">
-          <Button :disabled="resending" @click="resendVerificationEmail">
-            Done
-          </Button>
+          <Button> Done </Button>
         </NuxtLink>
       </div>
     </div>
@@ -91,7 +89,7 @@
 <script lang="ts" setup>
 import Button from "~/components/ui/button.vue";
 import { Loader, AlertTriangle, CheckCircle2 } from "lucide-vue-next";
-const { authEmail, auth_user } = useAuth();
+const { authEmail, auth_user, saveAuthUser } = useAuth();
 
 const successRoute = computed(() => {
   const role = auth_user.value?.role;
@@ -107,5 +105,20 @@ const {
   resendVerificationEmail,
   resending,
   verifyEmail,
+  is_verified,
 } = useEmailVerification(userID.value, emailVerifyUrl.value as string);
+
+watch(
+  is_verified,
+  (state) => {
+    const user = state?.data?.user;
+    const token = state?.data?.token;
+    if (user && token) {
+      saveAuthUser(token, user);
+    }
+  },
+  {
+    immediate: true,
+  }
+);
 </script>

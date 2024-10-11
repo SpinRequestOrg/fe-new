@@ -13,6 +13,7 @@ export const useAuthStore = defineStore(
     const saveAuthUser = (token: string, user: AuthUser) => {
       auth_token.value = token;
       auth_user.value = user;
+      console.log({ user }, "tobe saved here then");
       cookie_token.value = token; // persist token in cookie
     };
 

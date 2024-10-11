@@ -38,15 +38,11 @@ export default class Auth {
   }
 
   async registerAudience(body: CreateUser) {
-    return await this.call<SignUpResponse>(
-      "POST",
-      this.REGISTER_AUDIENCE,
-      body
-    );
+    return await this.call<LoginResponse>("POST", this.REGISTER_AUDIENCE, body);
   }
 
   async registerHost(body: CreateHost) {
-    return await this.call("POST", this.REGISTER_HOST, body);
+    return await this.call<LoginResponse>("POST", this.REGISTER_HOST, body);
   }
 
   async loginUser(body: LoginForm) {

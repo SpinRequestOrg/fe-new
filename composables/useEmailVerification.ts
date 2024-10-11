@@ -10,12 +10,13 @@ export const useEmailVerification = (
   const resendData = ref<unknown>(null);
   const resending = ref(false);
   const immediate = !!user_id && !!token;
+  const url = decodeBase64(token, `/email/verify/${user_id}/${token}`);
   const {
     data: is_verified,
     execute: verifyEmail,
     status,
     error,
-  } = useCustomFetch(`/email/verify/${user_id}/${token}`, {
+  } = useCustomFetch(url, {
     immediate,
     lazy: true,
   });

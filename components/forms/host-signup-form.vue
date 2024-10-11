@@ -48,6 +48,8 @@ const {
   $repo: { auth },
 } = useNuxtApp();
 
+const { saveAuthUser } = useAuth();
+
 const loading = ref(false);
 const handleSubmit = async (data: Host) => {
   loading.value = true;
@@ -70,6 +72,10 @@ const handleSubmit = async (data: Host) => {
       duration: 80000,
     });
     loading.value = false;
+    saveAuthUser(response.data.token, response.data.user);
+    const destination =
+      response?.data?.role === "host" ? "/profile" : "/search";
+    useRouter().push(destination);
   } catch (e) {
     loading.value = false;
     showToast({

@@ -9,11 +9,11 @@ export interface AuthUser {
   country: string;
   email_verified: boolean;
   role: "host" | "audience";
-  slug: string;
-  profession: string;
-  stage_name: string;
-  is_live: false;
-  bank_account: string | null;
+  slug?: string;
+  profession?: string;
+  stage_name?: string;
+  is_live?: false;
+  bank_account?: string | null;
 }
 
 export const PROFESSIONAL_TYPES = [
