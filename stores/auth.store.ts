@@ -47,10 +47,18 @@ export const useAuth = () => {
     onDone?.();
   };
 
+  const isEmailVerified = computed(() => {
+    return !!store?.auth_user?.email_verified;
+  });
+
+  const authEmail = computed(() => store?.auth_user?.email ?? "");
+
   return {
     auth_token: computed(() => store.auth_token),
     auth_user: computed(() => store.auth_user),
     isLoggedIn: computed(() => store.isLoggedIn),
+    authEmail,
+    isEmailVerified,
     saveAuthUser,
     logOut,
   };

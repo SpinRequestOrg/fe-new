@@ -6,7 +6,7 @@ export const AudienceSchema = object({
   email: string().required("Email is required").email("Enter a valid email"),
   password: string()
     .required("Enter your password")
-    .min(8, "Password should be at least 5 characters long")
+    .min(8, "Password should be at least 8 characters long")
     .matches(/[0-9]/, "Password should contain at least one number")
     .matches(/[a-z]/, "Password should contain at least one lowercase letter")
     .matches(/[A-Z]/, "Password should contain at least one uppercase letter")
@@ -25,6 +25,7 @@ export const HostSchema = object({
   profession: string().required("Profession is required"),
   password: string()
     .required("Enter your password")
+    .min(8, "Password should be at least 8 characters long")
     .matches(/[0-9]/, "Password should contain at least one number")
     .matches(/[a-z]/, "Password should contain at least one lowercase letter")
     .matches(/[A-Z]/, "Password should contain at least one uppercase letter")

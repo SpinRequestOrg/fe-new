@@ -17,6 +17,8 @@ export default class Auth {
   REGISTER_HOST = "/registerhost";
   LOGIN_USER = "/login";
   USER_PROFILE = "/user";
+  EMAIL_VERIFICATION = "/email/verify";
+  RESEND_VERIFICATION_EMAIL = "/resendverification";
 
   constructor(fetcher: $Fetch) {
     this.$fetch = fetcher;
@@ -53,5 +55,19 @@ export default class Auth {
 
   async fetchProfile() {
     return await this.call<AuthUser>("GET", this.USER_PROFILE);
+  }
+
+  async verifyEmail(user_id: string, signature: string) {
+    return await this.call<string>(
+      "GET",
+      `${this.EMAIL_VERIFICATION}/${user_id}/${signature}`
+    );
+  }
+
+  async resendEmail(user_id: string | number) {
+    return await this.call(
+      "POST",
+      `${this.RESEND_VERIFICATION_EMAIL}/${user_id}`
+    );
   }
 }
