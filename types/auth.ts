@@ -55,3 +55,9 @@ export interface SignUpResponse {
   email: string;
   stagename: string;
 }
+
+export interface ResetPasswordForm {
+  password: string;
+  password_confirmation: string;
+  token: string;
+}

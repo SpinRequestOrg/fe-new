@@ -1,3 +1,6 @@
+import type { ApiResponse } from "~/types";
+import type { LoginResponse } from "~/types/auth";
+
 export const useEmailVerification = (
   user_id?: string | number,
   token?: string
@@ -12,11 +15,11 @@ export const useEmailVerification = (
   const immediate = !!user_id && !!token;
   const url = decodeBase64(token, `/email/verify/${user_id}/${token}`);
   const {
-    data: is_verified,
+    data: authState,
     execute: verifyEmail,
     status,
     error,
-  } = useCustomFetch(url, {
+  } = useCustomFetch<ApiResponse<LoginResponse>>(url, {
     immediate,
     lazy: true,
   });
@@ -41,7 +44,7 @@ export const useEmailVerification = (
   };
 
   return {
-    is_verified,
+    authState,
     verifyEmail,
     verificationStatus: status,
     verificationError: error,

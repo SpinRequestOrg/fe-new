@@ -105,11 +105,11 @@ const {
   resendVerificationEmail,
   resending,
   verifyEmail,
-  is_verified,
+  authState,
 } = useEmailVerification(userID.value, emailVerifyUrl.value as string);
 
 watch(
-  is_verified,
+  authState,
   (state) => {
     const user = state?.data?.user;
     const token = state?.data?.token;

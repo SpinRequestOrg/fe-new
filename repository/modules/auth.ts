@@ -3,8 +3,8 @@ import type {
   CreateHost,
   LoginForm,
   LoginResponse,
-  SignUpResponse,
   AuthUser,
+  ResetPasswordForm,
 } from "~/types/auth";
 import type { ApiResponse } from "~/types";
 import type { $Fetch, NitroFetchOptions } from "nitropack";
@@ -19,6 +19,8 @@ export default class Auth {
   USER_PROFILE = "/user";
   EMAIL_VERIFICATION = "/email/verify";
   RESEND_VERIFICATION_EMAIL = "/resendverification";
+  FORGOT_PASSWORD = "/forgot-password";
+  RESET_PASSWORD = "/reset-password";
 
   constructor(fetcher: $Fetch) {
     this.$fetch = fetcher;
@@ -65,5 +67,13 @@ export default class Auth {
       "POST",
       `${this.RESEND_VERIFICATION_EMAIL}/${user_id}`
     );
+  }
+
+  async requestResetLink(email: string) {
+    return await this.call<boolean>("POST", this.FORGOT_PASSWORD, { email });
+  }
+
+  async resetPassword(payload: ResetPasswordForm) {
+    return await this.call<boolean>("POST", this.RESET_PASSWORD, payload);
   }
 }
