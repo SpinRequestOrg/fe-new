@@ -1,10 +1,12 @@
 <template>
-  <div class="grid md:grid-cols-2 gap-10 min-h-full">
-    <div class="relative container mx-auto z-10">
+  <div class="grid md:grid-cols-2 gap-10 min-h-full container">
+    <div class="relative z-10">
       <div
         class="bg-sp-purple/50 blur-[200px] size-56 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-[2]"
       ></div>
-      <div class="relative z-[3]">
+      <div
+        class="relative z-[3] pt-32 md:pt-0 md:grid md:place-items-center h-full w-full -translate-y-10"
+      >
         <slot />
       </div>
     </div>

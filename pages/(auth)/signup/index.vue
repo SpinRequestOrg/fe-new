@@ -1,7 +1,7 @@
 <template>
   <div class="h-full">
     <NuxtLayout :name="'auth'">
-      <div class="pt-10 md:pt-20">
+      <div>
         <h4 class="text-center text-primary text-xl md:text-2xl">
           Create account
         </h4>
@@ -13,7 +13,7 @@
         >
           <NuxtLink
             to="/signup/host"
-            class="border p-6 relative z-10 rounded-2xl transition-colors hover:border-primary bg-background"
+            class="border py-10 px-8 relative z-10 rounded-2xl transition-colors hover:border-primary bg-background"
           >
             <div class="text-2xl font-semibold">As a show host</div>
             <div class="text-muted-foreground leading-5 mt-4">
@@ -22,7 +22,7 @@
           </NuxtLink>
 
           <NuxtLink
-            class="border p-6 relative z-10 rounded-2xl transition-colors hover:border-primary bg-background"
+            class="border py-10 px-8 relative z-10 rounded-2xl transition-colors hover:border-primary bg-background"
             to="/signup/audience"
           >
             <div class="text-2xl font-semibold">To request songs</div>
@@ -35,3 +35,14 @@
     </NuxtLayout>
   </div>
 </template>
+
+<style scoped>
+.card {
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: radial-gradient(
+    circle,
+    rgba(255, 255, 255, 1) 0%,
+    rgba(255, 255, 255, 0) 100%
+  );
+}
+</style>

@@ -1,14 +1,13 @@
 <template>
   <Field
     :name="name"
-    v-slot="{ value, handleChange, handleBlur, errorMessage, meta }"
+    v-slot="{ value, handleChange, errorMessage, meta }"
     class="relative"
     as="div"
   >
     <InputField
       :model-value="value"
       @change="handleChange"
-      @blur="handleBlur"
       :name="name"
       :type="type"
       :disabled="disabled"

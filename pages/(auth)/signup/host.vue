@@ -1,13 +1,15 @@
 <template>
   <div class="h-full">
     <NuxtLayout :name="'auth'">
-      <BackButton to="/signup" />
+      <div class="fixed top-12 left-0">
+        <BackButton to="/signup" />
+      </div>
       <div class="pt-2">
         <div class="text-primary text-center my-2 text-xl">
           Create your account
         </div>
         <div
-          class="text-4xl lg:text-5xl font-semibold my-4 text-center max-w-[595px] mx-auto"
+          class="text-4xl lg:text-5xl font-semibold my-4 text-center max-w-[595px] mx-auto font-display"
         >
           Create your free host account
         </div>
