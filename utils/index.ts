@@ -11,3 +11,12 @@ export const getInitials = (...name: string[]) => {
     lastname ? lastname.at(0) : firstname ? firstname.at(1) : ""
   }`;
 };
+
+export const decodeBase64 = (data?: string | null, fallback = "") => {
+  try {
+    if (!data) return fallback;
+    return atob(data);
+  } catch {
+    return fallback ?? null;
+  }
+};

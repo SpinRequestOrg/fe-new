@@ -79,3 +79,5 @@ Check out the [deployment documentation](https://nuxt.com/docs/getting-started/d
 ### SpinRequest Backend API Documentation
 
 The API documentation for SpinRequest can be found at [https://documenter.getpostman.com/view/37268715/2sA3kaAyNz](https://documenter.getpostman.com/view/37268715/2sA3kaAyNz)
+
+The Figma design for SpinRequest can be found at [Design](https://www.figma.com/design/Y2ycFR3JO8usIczdBcT8yb/Product?node-id=0-1&node-type=canvas&t=RgT4CPrNrY0AEkcx-0)

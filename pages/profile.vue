@@ -9,7 +9,7 @@
     <div class="container pt-8" v-else>
       <div class="flex gap-x-2 items-center">
         <Avatar
-          class="bg-[#FF99F1] size-[56px] text-background text-xl font-bold"
+          class="!bg-[#FF99F1] size-[56px] text-background text-xl font-bold"
           :initials="initials"
           :image="profilePicture"
         />

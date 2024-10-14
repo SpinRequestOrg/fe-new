@@ -13,6 +13,7 @@ export const useAuthStore = defineStore(
     const saveAuthUser = (token: string, user: AuthUser) => {
       auth_token.value = token;
       auth_user.value = user;
+      console.log({ user }, "tobe saved here then");
       cookie_token.value = token; // persist token in cookie
     };
 
@@ -47,10 +48,18 @@ export const useAuth = () => {
     onDone?.();
   };
 
+  const isEmailVerified = computed(() => {
+    return !!store?.auth_user?.email_verified;
+  });
+
+  const authEmail = computed(() => store?.auth_user?.email ?? "");
+
   return {
     auth_token: computed(() => store.auth_token),
     auth_user: computed(() => store.auth_user),
     isLoggedIn: computed(() => store.isLoggedIn),
+    authEmail,
+    isEmailVerified,
     saveAuthUser,
     logOut,
   };

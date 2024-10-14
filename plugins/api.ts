@@ -1,4 +1,4 @@
-import Auth from "~/repository/modules/auth";
+import { apiModules } from "~/repository";
 
 export default defineNuxtPlugin((nuxtApp) => {
   const {
@@ -22,16 +22,11 @@ export default defineNuxtPlugin((nuxtApp) => {
       }
     },
   });
-
-  const AuthModule = new Auth(api);
-  const repo = {
-    auth: AuthModule,
-  };
-
+  const modules = apiModules(api);
   return {
     provide: {
       api,
-      repo,
+      repo: { ...modules },
     },
   };
 });
