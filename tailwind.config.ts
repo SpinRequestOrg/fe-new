@@ -61,6 +61,9 @@ const config = {
         md: "calc(var(--radius) - 2px)",
         sm: "calc(var(--radius) - 4px)",
       },
+      gridTemplateColumns: {
+        "host-item": "50px 1fr auto 10px",
+      },
       keyframes: {
         "accordion-down": {
           from: { height: "0" },
