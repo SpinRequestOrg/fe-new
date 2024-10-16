@@ -7,6 +7,8 @@
       placeholder="Search DJs MCs, Hypeman name"
       class="focus-visible:outline-none bg-transparent text-base absolute inset-0 p-[inherit] z-[3]"
       v-model="search"
+      :disabled="searching"
+      @keyup="handleKeyEvent"
     />
     <Search
       class="absolute left-4 top-1/2 -translate-y-[52%] size-5 text-muted-foreground"
@@ -16,15 +18,18 @@
         :size="'icon'"
         :variant="'outline'"
         class="animate-in slide-in-from-left-1 fade-out-0"
-        v-if="search"
+        v-if="search || searching"
+        :loading="searching"
+        @click="handleSearch"
       >
         <ArrowRight />
       </Button>
     </div>
     <div class="absolute left-0 translate-y-[35px] z-[5] w-full">
       <HostSearchList
+        :hosts="searched_hosts"
         class="animate-in slide-in-from-top-1 fade-in-20"
-        v-if="search"
+        v-if="show_result && search"
       />
     </div>
   </div>
@@ -33,6 +38,43 @@
 <script lang="ts" setup>
 import { Search, ArrowRight } from "lucide-vue-next";
 import Button from "./ui/button.vue";
+import type { Host } from "~/types/user";
 
 const search = ref("");
+const searching = ref(false);
+const searched_hosts = ref<Host[]>([]);
+const show_result = ref(false);
+
+const {
+  $repo: { user },
+} = useNuxtApp();
+
+watch(search, (data) => {
+  if (!data) {
+    searched_hosts.value = [];
+    show_result.value = false;
+  }
+});
+
+const handleSearch = async () => {
+  try {
+    searching.value = true;
+    const response = await user.searchHost(search.value);
+    searching.value = false;
+    if (response?.data?.hosts?.length) {
+      searched_hosts.value = response?.data?.hosts;
+    }
+    show_result.value = true;
+  } catch (e) {
+    searching.value = false;
+    searched_hosts.value = [];
+    console.error("ERORO", e);
+  }
+};
+
+const handleKeyEvent = (e: KeyboardEvent) => {
+  if (e.key === "Enter" && search.value) {
+    handleSearch();
+  }
+};
 </script>
