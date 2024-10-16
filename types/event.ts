@@ -35,7 +35,7 @@ export interface EventRequest {
     created_at: string;
     updated_at: string;
   };
-  type: string;
+  type: "song" | "hype";
   status: "new";
   hype_message: string;
   artist: null;

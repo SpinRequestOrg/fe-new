@@ -1,5 +1,5 @@
 <template>
-  <div class="container pt-10">
+  <div class="container pt-10 pb-20">
     <div class="flex gap-x-2 items-center mb-8">
       <Avatar
         class="!bg-[#FF99F1] size-[56px] shrink-0 text-background text-xl font-bold"
@@ -45,30 +45,22 @@
             consectetur, adipisci velit, sed qu
           </div>
           <NuxtLink to="/create-event">
-            <Button :size="'lg'" class="w-full mt-6"> CREATE AN EVENT </Button>
+            <Button :size="'lg'" class="w-full mt-6 uppercase">
+              ✨ Create an event ✨
+            </Button>
           </NuxtLink>
         </div>
 
-        <div
-          class="rounded-2xl bg-[#F5F5F50D]/5 px-6 py-4 relative overflow-hidden w-full"
-        >
-          <div
-            class="bg-[#FFEE99] opacity-20 rounded-[1000px] blur-[100px] translate-x-1/2 -translate-y-1/2 size-56 absolute right-0 top-0 z-[2]"
-          ></div>
-          <div class="mb-1 font-semibold text-2xl">The Quisine</div>
-          <div class="flex text-sm text-muted-foreground gap-1 items-center">
-            <SvgIcon name="location" />
-            <div>Quilox bar, elegushi</div>
-          </div>
-          <div class="spece-y-6 mt-6">
-            <div class="flex">Song request</div>
-            <div class="flex">Hype request</div>
-          </div>
-          <NuxtLink to="/create-event">
-            <Button :size="'lg'" class="w-full mt-6 animate-pulse">
-              GO LIVE</Button
-            >
-          </NuxtLink>
+        <template v-if="data && !error">
+          <EventCard
+            v-for="event in hostEvents"
+            :key="event.id"
+            :event="event"
+          />
+        </template>
+
+        <div class="my-6 grid place-items-center" v-if="status === 'pending'">
+          <Loader class="size-5 animate-spin" />
         </div>
       </div>
     </div>
@@ -77,8 +69,19 @@
 
 <script lang="ts" setup>
 import Button from "~/components/ui/button.vue";
+import type { ApiResponse } from "~/types";
+import type { LiveEvent } from "~/types/event";
+import { Loader } from "lucide-vue-next";
+import EventCard from "~/components/cards/event-card.vue";
+
 definePageMeta({
   middleware: ["host"],
 });
 const { auth_user } = useAuth();
+const { data, status, error } =
+  useCustomFetch<ApiResponse<LiveEvent[]>>("/events");
+
+const hostEvents = computed(() =>
+  data.value?.data?.length ? data.value?.data : []
+);
 </script>

@@ -96,14 +96,23 @@
               <div class="text-2xl font-semibold">
                 Song <span class="hidden sm:inline">request</span>
               </div>
-              <input
-                v-model="song_price"
-                type="number"
-                :min="100"
-                :step="100"
-                placeholder="Enter price"
-                class="outline-none ring-[0.5px] rounded-full focus:ring-primary px-4 py-2 bg-white/5 border-none"
-              />
+              <div class="relative">
+                <div
+                  class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3"
+                >
+                  <span class="text-muted-foreground sm:text-sm font-medium"
+                    >₦</span
+                  >
+                </div>
+                <input
+                  v-model="song_price"
+                  type="number"
+                  :min="100"
+                  :step="100"
+                  placeholder="Enter price"
+                  class="outline-none ring-[0.5px] max-w-[180px] rounded-full focus:ring-primary pr-4 pl-7 py-2 bg-white/5 border-none"
+                />
+              </div>
             </div>
             <div
               class="flex justify-between items-center"
@@ -112,14 +121,23 @@
               <div class="text-2xl font-semibold">
                 Hype <span class="hidden sm:inline">request</span>
               </div>
-              <input
-                type="number"
-                :min="100"
-                :step="100"
-                placeholder="Enter price"
-                class="outline-none ring-[0.5px] rounded-full focus:ring-primary px-4 py-2 bg-white/5 border-none"
-                v-model="hype_price"
-              />
+              <div class="relative">
+                <div
+                  class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3"
+                >
+                  <span class="text-muted-foreground sm:text-sm font-medium"
+                    >₦</span
+                  >
+                </div>
+                <input
+                  v-model="hype_price"
+                  type="number"
+                  :min="100"
+                  :step="100"
+                  placeholder="Enter price"
+                  class="outline-none ring-[0.5px] max-w-[180px] rounded-full focus:ring-primary pr-4 pl-7 py-2 bg-white/5 border-none"
+                />
+              </div>
             </div>
           </div>
 
@@ -157,18 +175,7 @@ definePageMeta({
   middleware: ["host"],
 });
 
-const countries = ref(["Nigeria"]);
-const states = ref([
-  "Abia",
-  "Oyo",
-  "Osun",
-  "Ekiti",
-  "Lagos",
-  "Taraba",
-  "Adamawa",
-  "Imo",
-  "Kaduna",
-]);
+const { all_countries: countries, nigerian_states: states } = useCountry();
 
 const type = ref<"song" | "hype" | "both" | undefined>(undefined);
 const song_price = ref(100);
