@@ -13,6 +13,9 @@ const config = {
       },
     },
     extend: {
+      screens: {
+        mac: "950px",
+      },
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
@@ -60,6 +63,10 @@ const config = {
         lg: "var(--radius)",
         md: "calc(var(--radius) - 2px)",
         sm: "calc(var(--radius) - 4px)",
+      },
+      gridTemplateColumns: {
+        "host-item": "50px 1fr 15px",
+        "host-item__live": "50px 1fr auto 10px",
       },
       keyframes: {
         "accordion-down": {

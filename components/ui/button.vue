@@ -1,10 +1,20 @@
 <template>
-  <button :class="buttonVariants({ variant, size })">
-    <slot />
+  <button
+    :class="buttonVariants({ variant, size })"
+    :disabled="loading || disabled"
+  >
+    <slot name="loader" v-if="loading">
+      <div class="flex gap-x-2 items-center">
+        <Loader class="size-4 animate-spin" />
+        <span v-if="size != 'icon'">Please wait...</span>
+      </div>
+    </slot>
+    <slot v-else />
   </button>
 </template>
 
 <script lang="ts" setup>
+import { Loader } from "lucide-vue-next";
 import { cva, type VariantProps } from "class-variance-authority";
 
 const buttonVariants = cva(
@@ -44,7 +54,9 @@ withDefaults(
   defineProps<{
     variant?: ButtonProps["variant"];
     size?: ButtonProps["size"];
+    loading?: boolean;
+    disabled?: boolean;
   }>(),
-  { variant: "primary", size: "md" }
+  { variant: "primary", size: "md", loading: false, disabled: false }
 );
 </script>

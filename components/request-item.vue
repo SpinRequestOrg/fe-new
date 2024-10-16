@@ -4,19 +4,23 @@
       <SvgIcon :name="type == 'song' ? 'music' : 'mic'" />
     </div>
     <div class="space-y-1">
-      <div class="flex items-center gap-2">
-        <div class="font-medium text-lg">Champion sound</div>
-        <div class="text-muted-foreground">by Adekunle Gold</div>
+      <div class="flex items-center gap-2 text-base">
+        <div class="text-muted-foreground">From</div>
+        <div class="font-medium">{{ request.audience.name }}</div>
       </div>
       <div class="flex items-center text-muted-foreground">
-        <div class="flex items-center gap-px text-primary-foreground">
+        <div class="flex items-center gap-1 text-primary-foreground">
           <SvgIcon :name="'money'" />
-          <div class="text-primary-foreground font-medium">$500.00</div>
+          <div class="text-primary-foreground font-medium">
+            ${{ request.amount }}
+          </div>
         </div>
         <Dot />
-        <div class="text-muted-foreground">SONG REQUEST</div>
-        <Dot />
-        <div class="text-muted-foreground">From Pablo</div>
+        <div class="text-muted-foreground text-sm">
+          {{ request.type == "hype" ? "HYPE" : "SONG" }} REQUEST
+        </div>
+        <!-- <Dot /> -->
+        <!-- <div class="text-muted-foreground text-sm">From Pablo</div> -->
       </div>
     </div>
   </div>
@@ -25,6 +29,7 @@
 <script lang="ts" setup>
 import { Dot } from "lucide-vue-next";
 import { cva, type VariantProps } from "class-variance-authority";
+import type { HostProfile } from "~/types/user";
 
 const avatar_variant = cva("size-12 rounded-full grid place-items-center", {
   variants: {
@@ -39,5 +44,11 @@ const avatar_variant = cva("size-12 rounded-full grid place-items-center", {
 });
 
 type AvatarVariant = VariantProps<typeof avatar_variant>;
-withDefaults(defineProps<{ type: AvatarVariant["type"] }>(), { type: "song" });
+withDefaults(
+  defineProps<{
+    type: AvatarVariant["type"];
+    request: HostProfile["live_event"]["requests"][number];
+  }>(),
+  { type: "song" }
+);
 </script>

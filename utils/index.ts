@@ -6,7 +6,7 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 export const getInitials = (...name: string[]) => {
-  const [firstname, lastname] = name;
+  const [firstname, lastname] = name?.length > 1 ? name : name[0].split(" ");
   return `${firstname ? firstname.at(0) : ""}${
     lastname ? lastname.at(0) : firstname ? firstname.at(1) : ""
   }`;

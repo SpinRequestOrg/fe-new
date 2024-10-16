@@ -1,5 +1,5 @@
 <template>
-  <div class="grid md:grid-cols-2 gap-10 min-h-full container">
+  <div class="grid md:grid-cols-2 gap-10 min-h-full containe">
     <div class="relative z-10">
       <div
         class="bg-sp-purple/50 blur-[200px] size-56 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-[2]"

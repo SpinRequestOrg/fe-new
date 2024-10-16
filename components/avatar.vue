@@ -1,11 +1,9 @@
 <template>
   <AvatarRoot
-    class="bg-muted inline-flex size-[40px] select-pointer items-center justify-center overflow-hidden rounded-full align-middle"
+    class="bg-muted inline-flex max-w-full max-h-full size-[40px] text-[15px] font-medium leading-1 uppercase select-pointer items-center justify-center overflow-hidden rounded-full align-middle"
   >
     <AvatarImage :src="image" class="h-full w-full object-cover" />
-    <AvatarFallback
-      class="leading-1 flex h-full w-full items-center justify-center text-[15px] font-medium uppercase"
-    >
+    <AvatarFallback class="flex h-full w-full items-center justify-center">
       {{ initials }}
     </AvatarFallback>
   </AvatarRoot>
