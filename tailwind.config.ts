@@ -69,6 +69,17 @@ const config = {
         "host-item__live": "50px 1fr auto 10px",
       },
       keyframes: {
+        "overlay-show": {
+          from: { opacity: "0" },
+          to: { opacity: "1" },
+        },
+        "content-show": {
+          from: {
+            opacity: "0",
+            transform: "translate(-50%, -48%) scale(0.96)",
+          },
+          to: { opacity: "1", transform: "translate(-50%, -50%) scale(1)" },
+        },
         "accordion-down": {
           from: { height: "0" },
           to: { height: "var(--radix-accordion-content-height)" },
@@ -103,6 +114,8 @@ const config = {
         hide: "hide 100ms ease-in",
         slideIn: "slideIn 1000ms cubic-bezier(0.16, 1, 0.3, 1)",
         swipeOut: "swipeOut 100ms ease-out",
+        overlayShow: "overlay-show 150ms cubic-bezier(0.16, 1, 0.3, 1)",
+        contentShow: "content-show 150ms cubic-bezier(0.16, 1, 0.3, 1)",
       },
     },
   },
