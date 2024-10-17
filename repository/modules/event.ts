@@ -10,6 +10,8 @@ export default class Auth {
   private $fetch: $Fetch;
   CREATE_EVENT = "events";
   GO_LIVE = "events/go-live";
+  UPDATE_EVENT_PRICE = "events/type";
+  END_EVENT = "events/end";
 
   constructor(fetcher: $Fetch) {
     this.$fetch = fetcher;
@@ -29,10 +31,22 @@ export default class Auth {
   }
 
   async createEvent(event: EventPayload) {
-    return this.call<LiveEvent>("POST", this.CREATE_EVENT, event);
+    return await this.call<LiveEvent>("POST", this.CREATE_EVENT, event);
   }
 
   async goLive(event_id: string | number) {
-    return this.call<LiveEvent>("PUT", `${this.GO_LIVE}/${event_id}`);
+    return await this.call<LiveEvent>("PUT", `${this.GO_LIVE}/${event_id}`);
+  }
+
+  async updateEventPrice(type_id: string | number, price: number) {
+    return await this.call<{
+      id: number;
+      name: "song" | "hype";
+      price: number;
+    }>("PUT", `${this.UPDATE_EVENT_PRICE}/${type_id}`, { price });
+  }
+
+  async endEvent(event_id: string | number) {
+    return await this.call<LiveEvent>("PUT", `${this.END_EVENT}/${event_id}`);
   }
 }

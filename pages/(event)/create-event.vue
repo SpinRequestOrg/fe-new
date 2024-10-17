@@ -96,23 +96,8 @@
               <div class="text-2xl font-semibold">
                 Song <span class="hidden sm:inline">request</span>
               </div>
-              <div class="relative">
-                <div
-                  class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3"
-                >
-                  <span class="text-muted-foreground sm:text-sm font-medium"
-                    >₦</span
-                  >
-                </div>
-                <input
-                  v-model="song_price"
-                  type="number"
-                  :min="100"
-                  :step="100"
-                  placeholder="Enter price"
-                  class="outline-none ring-[0.5px] max-w-[180px] rounded-full focus:ring-primary pr-4 pl-7 py-2 bg-white/5 border-none"
-                />
-              </div>
+
+              <NumberInput v-model="song_price" id="SONG_PRICE" :step="100" />
             </div>
             <div
               class="flex justify-between items-center"
@@ -121,23 +106,7 @@
               <div class="text-2xl font-semibold">
                 Hype <span class="hidden sm:inline">request</span>
               </div>
-              <div class="relative">
-                <div
-                  class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3"
-                >
-                  <span class="text-muted-foreground sm:text-sm font-medium"
-                    >₦</span
-                  >
-                </div>
-                <input
-                  v-model="hype_price"
-                  type="number"
-                  :min="100"
-                  :step="100"
-                  placeholder="Enter price"
-                  class="outline-none ring-[0.5px] max-w-[180px] rounded-full focus:ring-primary pr-4 pl-7 py-2 bg-white/5 border-none"
-                />
-              </div>
+              <NumberInput v-model="hype_price" id="HYPE_PRICE" :step="100" />
             </div>
           </div>
 
@@ -169,6 +138,7 @@ import { X } from "lucide-vue-next";
 import { Form } from "vee-validate";
 import FormInput from "~/components/forms/form-input.vue";
 import FormSelect from "~/components/forms/form-select.vue";
+import NumberInput from "~/components/ui/number-input.vue";
 import Button from "~/components/ui/button.vue";
 import { EventSchema, type HostEvent } from "~/schemas/event-schema";
 definePageMeta({
@@ -183,9 +153,7 @@ const hype_price = ref(100);
 const show_tip = ref(true);
 const disabled = computed(
   () =>
-    !type.value ||
-    Number(song_price.value) <= 0 ||
-    Number(hype_price.value) <= 0
+    !type.value || Number(song_price.value) < 0 || Number(hype_price.value) < 0
 );
 const loading = ref(false);
 

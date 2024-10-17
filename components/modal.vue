@@ -7,12 +7,23 @@
     </DialogTrigger>
     <DialogPortal>
       <DialogOverlay
-        class="bg-foreground/10 data-[state=open]:animate-overlayShow fixed inset-0 z-10"
+        class="bg-foreground/10 data-[state=open]:animate-overlayShow fixed inset-0 z-[100]"
       />
       <DialogContent
         class="[&[data-state='open']_.content]:animate-contentShow [&[data-state='open']_.header]:slide-in-from-top-1"
       >
         <div :class="modal_variants({ size })">
+          <div
+            class="absolute left-0 right-0 h-[0.5px] bg-slate-300/20 top-[46px]"
+            v-if="showClose"
+          ></div>
+          <DialogClose
+            class="text-foreground/60 hover:bg-foreground/10 focus:shadow-foreground/50 absolute top-[10px] right-[10px] inline-flex h-[25px] w-[25px] appearance-none items-center justify-center rounded-full focus:shadow-[0_0_0_2px] focus:outline-none"
+            aria-label="Close"
+            v-if="showClose"
+          >
+            <X />
+          </DialogClose>
           <div>
             <DialogTitle>
               <slot name="title">
@@ -28,14 +39,6 @@
 
             <slot :toggle>Modal Content</slot>
           </div>
-
-          <DialogClose
-            class="text-foreground/60 hover:bg-foreground/10 focus:shadow-foreground/50 absolute top-[10px] right-[10px] inline-flex h-[25px] w-[25px] appearance-none items-center justify-center rounded-full focus:shadow-[0_0_0_2px] focus:outline-none"
-            aria-label="Close"
-            v-if="showClose"
-          >
-            <X />
-          </DialogClose>
         </div>
       </DialogContent>
     </DialogPortal>
@@ -48,7 +51,7 @@ import Button from "./ui/button.vue";
 import { cva, type VariantProps } from "class-variance-authority";
 
 const modal_variants = cva(
-  "content fixed top-[50%] left-[50%] w-[98vw] translate-x-[-50%] translate-y-[-50%] rounded-xl bg-background p-[25px] shadow-[hsl(206_22%_7%_/_35%)_0px_10px_38px_-10px,_hsl(206_22%_7%_/_20%)_0px_10px_20px_-15px] focus:outline-none z-[51]",
+  "content fixed bg-gray-900 top-[50%] left-[50%] w-[90vw] translate-x-[-50%] translate-y-[-50%] rounded-xl bg-background p-[25px] shadow-[hsl(206_22%_7%_/_35%)_0px_10px_38px_-10px,_hsl(206_22%_7%_/_20%)_0px_10px_20px_-15px] focus:outline-none z-[99]",
   {
     variants: {
       size: {
@@ -69,7 +72,7 @@ type ModalVariant = VariantProps<typeof modal_variants>;
 withDefaults(
   defineProps<{
     showClose?: boolean;
-    size: ModalVariant["size"];
+    size?: ModalVariant["size"];
   }>(),
   { showClose: true, size: "md" }
 );
