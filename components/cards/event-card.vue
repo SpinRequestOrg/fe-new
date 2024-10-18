@@ -1,6 +1,6 @@
 <template>
   <div
-    class="rounded-2xl bg-[#F5F5F50D]/5 px-6 py-4 relative overflow-hidden w-full"
+    class="rounded-2xl bg-[#F5F5F50D] px-6 py-4 relative overflow-hidden w-full"
   >
     <div
       class="bg-[#FFEE99] opacity-20 rounded-[1000px] blur-[100px] translate-x-1/2 -translate-y-1/2 size-56 absolute right-0 top-0 z-[2]"
@@ -23,7 +23,7 @@
         <div></div>
       </div>
     </div>
-    <NuxtLink :to="`/request-list/${event.id}`" v-if="event.status === 'live'">
+    <NuxtLink :to="`/events/${event.id}`" v-if="event.status === 'live'">
       <Button
         :size="'lg'"
         class="w-full mt-6 bg-[#38F08D] text-background"

@@ -20,3 +20,10 @@ export const decodeBase64 = (data?: string | null, fallback = "") => {
     return fallback ?? null;
   }
 };
+
+export const formatMoney = (_number: number | string) => {
+  const number = Number(_number);
+  return number.toLocaleString("en-US", {
+    minimumFractionDigits: 2,
+  });
+};

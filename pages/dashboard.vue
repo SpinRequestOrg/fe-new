@@ -34,7 +34,7 @@
         class="max-w-full w-full mac:w-[380px] order-1 mac:order-2 grid space-y-6"
       >
         <div
-          class="rounded-2xl bg-[#F5F5F50D]/5 px-6 py-4 relative overflow-hidden w-full"
+          class="rounded-2xl bg-background border border-foreground/20 px-6 py-4 sticky top-[80px] z-10 overflow-hidden w-full"
         >
           <div
             class="bg-[#FFEE99] opacity-20 rounded-[1000px] blur-[100px] translate-x-1/2 -translate-y-1/2 size-56 absolute right-0 top-0 z-[2]"
@@ -51,6 +51,10 @@
           </NuxtLink>
         </div>
 
+        <div class="my-6 grid place-items-center" v-if="status === 'pending'">
+          <Loader class="size-5 animate-spin" />
+        </div>
+
         <template v-if="data && !error">
           <EventCard
             v-for="event in hostEvents"
@@ -58,10 +62,6 @@
             :event="event"
           />
         </template>
-
-        <div class="my-6 grid place-items-center" v-if="status === 'pending'">
-          <Loader class="size-5 animate-spin" />
-        </div>
       </div>
     </div>
   </div>

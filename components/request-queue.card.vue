@@ -47,6 +47,6 @@ import type { HostProfile } from "~/types/user";
 const props = defineProps<{ event: HostProfile["live_event"] }>();
 
 const activeRequest = computed(() =>
-  props.event.requests.find((item) => item.status === "live")
+  props.event.requests.find((item) => item.status === "now-playing")
 );
 </script>

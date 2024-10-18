@@ -80,9 +80,11 @@
           </RadioGroupRoot>
         </div>
 
+        <InputCheck label="Mark as free event" v-model="free" />
+
         <div
-          class="bg-white/5 rounded-2xl p-4 !mt-8 border animate-in slide-in-from-top-1"
-          v-if="type"
+          class="bg-white/5 rounded-2xl p-4 !mt-8 border animate-in slide-in-from-top-1 animate-out fade-in-0"
+          v-if="type && !free"
         >
           <div class="text-sm text-muted-foreground">
             Set your starting prices
@@ -139,6 +141,7 @@ import { Form } from "vee-validate";
 import FormInput from "~/components/forms/form-input.vue";
 import FormSelect from "~/components/forms/form-select.vue";
 import NumberInput from "~/components/ui/number-input.vue";
+import InputCheck from "~/components/ui/input-check.vue";
 import Button from "~/components/ui/button.vue";
 import { EventSchema, type HostEvent } from "~/schemas/event-schema";
 definePageMeta({
@@ -156,6 +159,7 @@ const disabled = computed(
     !type.value || Number(song_price.value) < 0 || Number(hype_price.value) < 0
 );
 const loading = ref(false);
+const free = ref(false);
 
 const types = computed<{ name: "hype" | "song"; price: number }[]>(() => {
   switch (type.value) {
@@ -163,25 +167,25 @@ const types = computed<{ name: "hype" | "song"; price: number }[]>(() => {
       return [
         {
           name: "song",
-          price: Number(song_price.value),
+          price: free.value ? 0 : Number(song_price.value),
         },
         {
           name: "hype",
-          price: Number(hype_price.value),
+          price: free.value ? 0 : Number(hype_price.value),
         },
       ];
     case "hype":
       return [
         {
           name: "hype",
-          price: Number(hype_price.value),
+          price: free.value ? 0 : Number(hype_price.value),
         },
       ];
     case "song":
       return [
         {
           name: "song",
-          price: Number(song_price.value),
+          price: free.value ? 0 : Number(song_price.value),
         },
       ];
     default:

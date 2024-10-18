@@ -2,7 +2,7 @@ import type { ApiResponse } from "~/types";
 import type { $Fetch, NitroFetchOptions } from "nitropack";
 import type { Host } from "~/types/user";
 import type { EventPayload } from "~/schemas/event-schema";
-import type { LiveEvent } from "~/types/event";
+import type { EventRequest, LiveEvent } from "~/types/event";
 type FetchOptions = NitroFetchOptions<"json">;
 type FetchMethods = FetchOptions["method"];
 
@@ -12,6 +12,8 @@ export default class Auth {
   GO_LIVE = "events/go-live";
   UPDATE_EVENT_PRICE = "events/type";
   END_EVENT = "events/end";
+  UPDATE_EVENT_REQUEST = "requests/status";
+  EVENT_REQUESTS = "requests";
 
   constructor(fetcher: $Fetch) {
     this.$fetch = fetcher;
@@ -48,5 +50,23 @@ export default class Auth {
 
   async endEvent(event_id: string | number) {
     return await this.call<LiveEvent>("PUT", `${this.END_EVENT}/${event_id}`);
+  }
+
+  async getEventRequests(event_id: string | number) {
+    return await this.call<EventRequest[]>(
+      "GET",
+      `${this.EVENT_REQUESTS}?event_id=${event_id}`
+    );
+  }
+
+  async updateEventRequest(
+    request_id: string | number,
+    status: EventRequest["status"]
+  ) {
+    return await this.call<EventRequest>(
+      "PUT",
+      `${this.UPDATE_EVENT_REQUEST}/${request_id}`,
+      { status }
+    );
   }
 }
