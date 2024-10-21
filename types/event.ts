@@ -36,12 +36,26 @@ export interface EventRequest {
     updated_at: string;
   };
   type: "song" | "hype";
-  status: "new" | "live";
+  status:
+    | "new"
+    | "payment-pending"
+    | "now-playing"
+    | "declined"
+    | "completed"
+    | "ignored";
   hype_message: string;
   artist: null;
   song: null;
   amount: string;
   created_at: string;
+}
+
+export interface ActiveEventRequest extends Omit<EventRequest, "status"> {
+  status: "new" | "now-playing";
+}
+
+export interface InActiveEventRequest extends Omit<EventRequest, "status"> {
+  status: "payment-pending" | "declined" | "completed" | "ignored";
 }
 
 export interface LiveEvent {
@@ -50,13 +64,13 @@ export interface LiveEvent {
   address: string;
   country: string;
   state: string;
-  status: "live" | "new";
+  status: "live" | "new" | "ended";
   start_date: string;
   end_date: null;
   earnings: number;
   types: {
     id: number;
-    name: string;
+    name: "song" | "hype";
     price: number;
   }[];
   requests: EventRequest[];

@@ -1,5 +1,5 @@
 <template>
-  <ConfigProvider :use-id="useIdFunction">
+  <ConfigProvider :use-id="useIdFunction" >
     <NuxtLayout>
       <Toast
         :open="store.open"

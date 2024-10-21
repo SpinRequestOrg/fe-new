@@ -7,7 +7,7 @@
     </DialogTrigger>
     <DialogPortal>
       <DialogOverlay
-        class="bg-foreground/10 data-[state=open]:animate-overlayShow fixed inset-0 z-[100]"
+        class="fixed inset-0 z-50 bg-black/70 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0"
       />
       <DialogContent
         class="[&[data-state='open']_.content]:animate-contentShow [&[data-state='open']_.header]:slide-in-from-top-1"
@@ -51,7 +51,7 @@ import Button from "./ui/button.vue";
 import { cva, type VariantProps } from "class-variance-authority";
 
 const modal_variants = cva(
-  "content fixed bg-gray-900 top-[50%] left-[50%] w-[90vw] translate-x-[-50%] translate-y-[-50%] rounded-xl bg-background p-[25px] shadow-[hsl(206_22%_7%_/_35%)_0px_10px_38px_-10px,_hsl(206_22%_7%_/_20%)_0px_10px_20px_-15px] focus:outline-none z-[99]",
+  "content fixed bg-gray-900 top-[50%] left-[50%] w-[90vw] translate-x-[-50%] translate-y-[-50%] rounded-xl bg-background p-[25px] shadow-[hsl(206_22%_7%_/_35%)_0px_10px_38px_-10px,_hsl(206_22%_7%_/_20%)_0px_10px_20px_-15px] focus:outline-none z-[100]",
   {
     variants: {
       size: {

@@ -24,6 +24,7 @@
     --input: 215 27.9% 16.9%;
     --ring: 263.4 70% 50.4%;
     --radius: 0.5rem;
+    --cp: 2rem;
   }
 
   .light {
@@ -60,5 +61,24 @@
   }
   body {
     @apply bg-background text-foreground font-grotesk;
+  }
+
+  .place-center {
+    @apply absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2;
+  }
+
+  @keyframes looped {
+    0% {
+      right: 0;
+    }
+    99% {
+      right: 100%;
+    }
+    100% {
+      right: -5%;
+    }
+  }
+  .looped {
+    animation: looped linear 20s infinite;
   }
 }

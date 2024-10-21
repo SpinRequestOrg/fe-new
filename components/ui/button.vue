@@ -6,7 +6,7 @@
     <slot name="loader" v-if="loading">
       <div class="flex gap-x-2 items-center">
         <Loader class="size-4 animate-spin" />
-        <span v-if="size != 'icon'">Please wait...</span>
+        <span v-if="size != 'icon' && !hide_loading_text">Please wait...</span>
       </div>
     </slot>
     <slot v-else />
@@ -56,7 +56,14 @@ withDefaults(
     size?: ButtonProps["size"];
     loading?: boolean;
     disabled?: boolean;
+    hide_loading_text?: boolean;
   }>(),
-  { variant: "primary", size: "md", loading: false, disabled: false }
+  {
+    variant: "primary",
+    size: "md",
+    loading: false,
+    disabled: false,
+    hide_loading_text: false,
+  }
 );
 </script>

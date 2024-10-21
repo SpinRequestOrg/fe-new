@@ -1,14 +1,14 @@
 <template>
-  <div
-    :class="cn(loading || error ? 'min-h-[60vh] grid place-items-center' : '')"
-  >
-    <Loader class="size-5 animate-spin" v-if="loading" />
+  <div :class="cn(loading || error ? 'min-h-[60vh]' : '')">
+    <div v-if="loading" class="place-center">
+      <Loader class="size-5 animate-spin" />
+    </div>
     <slot name="error" v-else-if="error">
-      <div class="text-destructive">
-        {{ error?.data?.message ?? fallback_error_message }}
+      <div class="text-destructive place-center text-center">
+        <div>{{ error?.data?.message ?? fallback_error_message }}</div>
       </div>
     </slot>
-    <slot v-else />
+    <slot v-if="!error" />
   </div>
 </template>
 

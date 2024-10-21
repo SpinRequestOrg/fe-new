@@ -1,14 +1,28 @@
 <template>
-  <div class="container pt-10 pb-20">
+  <div class="container pt-10 pb-40">
     <div class="flex gap-x-2 items-center mb-8">
       <Avatar
         class="!bg-[#FF99F1] size-[56px] shrink-0 text-background text-xl font-bold"
         :initials="getInitials(auth_user?.stage_name ?? '')"
         :image="auth_user?.profile_picture"
       />
-      <div class="text-3xl md:text-4xl lg:text-5xl font-display tracking-wide">
+      <div
+        class="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-display tracking-wide"
+      >
         Welcome, <b>{{ auth_user?.stage_name }}</b>
       </div>
+    </div>
+
+    <div class="sticky mac:hidden w-scree -trnslate-x-[var(--cp)] mb-6 z-20">
+      <div
+        class="absolute inset-0 border broder-red-500 z-10"
+        v-if="status === 'pending'"
+      >
+        <div class="place-center">
+          <Loader class="size-5 animate-spin" />
+        </div>
+      </div>
+      <EventCarousel :events="allEvents" />
     </div>
 
     <div class="grid mac:grid-cols-[1fr_auto] items-start gap-4">
@@ -31,37 +45,24 @@
       </div>
 
       <div
-        class="max-w-full w-full mac:w-[380px] order-1 mac:order-2 grid space-y-6"
+        class="max-w-full w-full hidden mac:grid mac:w-[380px] order-1 mac:order-2 space-y-6"
       >
-        <div
-          class="rounded-2xl bg-[#F5F5F50D]/5 px-6 py-4 relative overflow-hidden w-full"
-        >
-          <div
-            class="bg-[#FFEE99] opacity-20 rounded-[1000px] blur-[100px] translate-x-1/2 -translate-y-1/2 size-56 absolute right-0 top-0 z-[2]"
-          ></div>
-          <div class="mb-4 font-semibold text-2xl">Events</div>
-          <div class="text-muted-foreground">
-            Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet,
-            consectetur, adipisci velit, sed qu
-          </div>
-          <NuxtLink to="/create-event">
-            <Button :size="'lg'" class="w-full mt-6 uppercase">
-              ✨ Create an event ✨
-            </Button>
-          </NuxtLink>
+        <div class="sticky top-[80px] left-0 right-0 z-10 space-y-6">
+          <CreateEventCard />
+          <EventCard :event="hostLiveEvent" v-if="hostLiveEvent" />
         </div>
-
-        <template v-if="data && !error">
-          <EventCard
-            v-for="event in hostEvents"
-            :key="event.id"
-            :event="event"
-          />
-        </template>
 
         <div class="my-6 grid place-items-center" v-if="status === 'pending'">
           <Loader class="size-5 animate-spin" />
         </div>
+
+        <template v-if="data && !error">
+          <EventCard
+            v-for="event in hostNewEvents"
+            :key="event.id"
+            :event="event"
+          />
+        </template>
       </div>
     </div>
   </div>
@@ -73,6 +74,7 @@ import type { ApiResponse } from "~/types";
 import type { LiveEvent } from "~/types/event";
 import { Loader } from "lucide-vue-next";
 import EventCard from "~/components/cards/event-card.vue";
+import CreateEventCard from "~/components/cards/create-event-card.vue";
 
 definePageMeta({
   middleware: ["host"],
@@ -81,7 +83,19 @@ const { auth_user } = useAuth();
 const { data, status, error } =
   useCustomFetch<ApiResponse<LiveEvent[]>>("/events");
 
-const hostEvents = computed(() =>
-  data.value?.data?.length ? data.value?.data : []
+const hostNewEvents = computed(() =>
+  data.value?.data?.length
+    ? data.value?.data.filter((event) => event.status === "new")
+    : []
+);
+
+const hostLiveEvent = computed(() =>
+  data.value?.data.find((item) => item.status === "live")
+);
+
+const allEvents = computed(() =>
+  hostLiveEvent.value
+    ? [hostLiveEvent.value, ...hostNewEvents.value]
+    : [...hostNewEvents.value]
 );
 </script>

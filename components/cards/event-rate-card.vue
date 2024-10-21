@@ -1,7 +1,7 @@
 <template>
   <div class="w-full border rounded-3xl bg-white/5 px-6 py-4 relative">
     <div
-      class="absolute inset-0 grid place-items-center bg-background/65 rounded-[inherit]"
+      class="absolute inset-0 grid place-items-center bg-background/65 rounded-[inherit] z-10"
       v-if="updating"
     >
       <Loader class="size-5 animate-spin" />
@@ -14,7 +14,7 @@
         :key="service.id"
       >
         <div class="text-lg text-muted-foreground capitalize min-w-fit">
-          {{ service.name }} request
+          {{ service.name }} <span class="hidden md:inline">request</span>
         </div>
 
         <NumberInput

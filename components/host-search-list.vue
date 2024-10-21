@@ -6,7 +6,7 @@
           v-for="(host, index) in hosts"
           :key="host.id + index"
           :value="host.id"
-          @select="handleSelection"
+          @select="(e) => handleSelection(e, host.slug)"
         >
           <NuxtLink
             :to="`/${host?.slug}`"
@@ -53,7 +53,8 @@ import { ArrowUpLeft } from "lucide-vue-next";
 import type { Host } from "~/types/user";
 withDefaults(defineProps<{ hosts: Host[] }>(), { hosts: () => [] });
 
-const handleSelection = (e: Event) => {
+const handleSelection = (e: Event, slug: string) => {
   e.preventDefault();
+  navigateTo(`/${slug}`);
 };
 </script>

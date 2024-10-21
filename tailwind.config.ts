@@ -7,7 +7,7 @@ const config = {
   theme: {
     container: {
       center: true,
-      padding: "2rem",
+      padding: "var(--cp)",
       screens: {
         "2xl": "1400px",
       },
@@ -67,6 +67,7 @@ const config = {
       gridTemplateColumns: {
         "host-item": "50px 1fr 15px",
         "host-item__live": "50px 1fr auto 10px",
+        "request-line-item": "auto 1fr 150px 120px 220px",
       },
       keyframes: {
         "overlay-show": {
@@ -106,6 +107,32 @@ const config = {
           from: { transform: "translateX(var(--radix-toast-swipe-end-x))" },
           to: { transform: "translateX(calc(100% + var(--viewport-padding)))" },
         },
+        collapsibleSlideDown: {
+          from: { height: "0" },
+          to: {
+            height: "var(--radix-collapsible-content-height)",
+          },
+        },
+        collapsibleSlideUp: {
+          from: { height: "var(--radix-collapsible-content-height)" },
+          to: { height: "0" },
+        },
+        slideDownAndFade: {
+          from: { opacity: "0", transform: "translateY(-2px)" },
+          to: { opacity: "1", transform: "translateY(0)" },
+        },
+        slideLeftAndFade: {
+          from: { opacity: "0", transform: "translateX(2px)" },
+          to: { opacity: "1", transform: "translateX(0)" },
+        },
+        slideUpAndFade: {
+          from: { opacity: "0", transform: "translateY(2px)" },
+          to: { opacity: "1", transform: "translateY(0)" },
+        },
+        slideRightAndFade: {
+          from: { opacity: "0", transform: "translateX(-2px)" },
+          to: { opacity: "1", transform: "translateX(0)" },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
@@ -116,10 +143,17 @@ const config = {
         swipeOut: "swipeOut 100ms ease-out",
         overlayShow: "overlay-show 150ms cubic-bezier(0.16, 1, 0.3, 1)",
         contentShow: "content-show 150ms cubic-bezier(0.16, 1, 0.3, 1)",
+        collapsibleSlideDown:
+          "collapsibleSlideDown 300ms cubic-bezier(0.87, 0, 0.13, 1)",
+        collapsibleSlideUp:
+          "collapsibleSlideUp 300ms cubic-bezier(0.87, 0, 0.13, 1)",
       },
     },
   },
-  plugins: [require("tailwindcss-animate")],
+  plugins: [
+    require("tailwindcss-animate"),
+    require("tailwindcss-debug-screens"),
+  ],
 } satisfies Config;
 
 export default config;
