@@ -1,32 +1,50 @@
 <template>
   <div
-    class="grid md:grid-cols-[70px_1fr] gap-2 px-6 py-3 b-white/5 rounded-2xl text-muted-foreground"
+    class="grid md:grid-cols-[70px_1fr] gap-2 px-2 sm:px-6 py-4 b-white/5 rounded-2xl text-muted-foreground"
   >
-    <div>5:45pm</div>
+    <div>{{ useDateFormat(new Date(request.created_at), "h:mma") }}</div>
     <div class="grid md:grid-cols-[1fr_200px] gap-2 items-center">
       <div class="space-y-1">
         <div class="flex gap-x-2 items-center">
-          <div class="text-base text-foreground font-medium">
-            {{ request.name }}
-          </div>
-          <div class="text-sm">Adekunle gold</div>
+          <Summary
+            :content="request.hype_message"
+            class="text-base text-foreground font-medium"
+            v-if="request.type === 'hype'"
+          />
+          <template v-else>
+            <div class="text-base text-foreground font-medium">
+              {{ request.name }}
+            </div>
+            <div class="text-sm">{{ request.audience.name }}</div>
+          </template>
         </div>
         <div class="flex gap-x- items-center">
-          <div>Pablo richie</div>
+          <div>{{ request.audience.name }}</div>
           <Dot />
           <div class="flex items-center gap-x-1">
-            <SvgIcon name="music" class="scale-75" />
-            <div>SONG</div>
+            <SvgIcon
+              class="scale-50"
+              :name="request.type == 'song' ? 'music' : 'mic'"
+            />
+            <div class="uppercase">{{ request.type }}</div>
           </div>
           <Dot />
-          <div class="tabular-nums">₦{{ formatMoney(4500) }}</div>
+          <div class="tabular-nums">₦{{ formatMoney(request.amount) }}</div>
         </div>
       </div>
       <div class="flex gap-x-1 md:justify-end items-center">
-        <div>Accepted</div>
-        <UiButton :size="'icon'" :variant="'ghost'">
-          <RefreshCcw class="text-muted-foreground size-4" />
-        </UiButton>
+        <div class="capitalize">{{ request.status }}</div>
+        <Tooltip message="Return to request list" :delay="200">
+          <UiButton
+            :size="'icon'"
+            :variant="'ghost'"
+            :disabled="updating"
+            :loading="updating"
+            @click="() => updateRequest('new')"
+          >
+            <RefreshCcw class="text-muted-foreground size-4" />
+          </UiButton>
+        </Tooltip>
       </div>
     </div>
   </div>
@@ -35,13 +53,15 @@
 <script lang="ts" setup>
 import type { EventRequest } from "~/types/event";
 import { Dot, RefreshCcw } from "lucide-vue-next";
+import Tooltip from "../ui/tooltip.vue";
+import Summary from "../shared/summary.vue";
 
 const props = defineProps<{
   request: EventRequest;
   index?: number;
   onUpdate?: () => void;
 }>();
-const { updateEventRequest, update_status, updating } = useLiveEvent();
+const { updateEventRequest, updating } = useLiveEvent();
 
 const updateRequest = (status: EventRequest["status"]) => {
   updateEventRequest(props.request.id, status, props.onUpdate);

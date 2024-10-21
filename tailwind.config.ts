@@ -7,7 +7,7 @@ const config = {
   theme: {
     container: {
       center: true,
-      padding: "2rem",
+      padding: "var(--cp)",
       screens: {
         "2xl": "1400px",
       },
@@ -117,6 +117,22 @@ const config = {
           from: { height: "var(--radix-collapsible-content-height)" },
           to: { height: "0" },
         },
+        slideDownAndFade: {
+          from: { opacity: "0", transform: "translateY(-2px)" },
+          to: { opacity: "1", transform: "translateY(0)" },
+        },
+        slideLeftAndFade: {
+          from: { opacity: "0", transform: "translateX(2px)" },
+          to: { opacity: "1", transform: "translateX(0)" },
+        },
+        slideUpAndFade: {
+          from: { opacity: "0", transform: "translateY(2px)" },
+          to: { opacity: "1", transform: "translateY(0)" },
+        },
+        slideRightAndFade: {
+          from: { opacity: "0", transform: "translateX(-2px)" },
+          to: { opacity: "1", transform: "translateX(0)" },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
@@ -134,7 +150,10 @@ const config = {
       },
     },
   },
-  plugins: [require("tailwindcss-animate")],
+  plugins: [
+    require("tailwindcss-animate"),
+    require("tailwindcss-debug-screens"),
+  ],
 } satisfies Config;
 
 export default config;

@@ -1,6 +1,6 @@
 <template>
   <div
-    class="grid grid-cols-request-line-item gap-x-4 items-center px-6 py-3 bg-white/5 rounded-2xl"
+    class="grid grid-cols-request-line-item gap-x-4 items-center px-2 sm:px-6 py-4 bg-white/5 rounded-2xl"
   >
     <div
       :class="
@@ -14,8 +14,14 @@
       {{ index ?? "-" }}
     </div>
     <div class="space-y-1">
-      <div class="font-medium">{{ request.name }}</div>
-      <div class="text-sm text-muted-foreground">by Adekunle gold</div>
+      <Summary
+        v-if="request.type === 'hype'"
+        :content="request?.hype_message"
+      />
+      <template v-else>
+        <div class="font-medium">{{ request.name }}</div>
+        <div class="text-sm text-muted-foreground">by Adekunle gold</div>
+      </template>
     </div>
 
     <div class="space-y-1">
@@ -42,9 +48,10 @@
         message="Are you sure you want to reject this request?"
       >
         <Button
-          :variant="'destructive'"
+          :variant="'secondary'"
           :disabled="updating"
           :loading="updating && update_status === 'declined'"
+          class="!border-destructive !text-destructive"
         >
           Reject
           <X class="size-3 ml-2" />
@@ -55,7 +62,7 @@
       class="py-1 px-6 bg-foreground text-background text-center text-sm rounded-2xl animate-pulse justify-self-end"
       v-else-if="request.status === 'now-playing'"
     >
-      Now playing
+      Now {{ request.type === "hype" ? "hyping" : "playing" }}
     </div>
   </div>
 </template>
@@ -65,6 +72,7 @@ import type { EventRequest } from "~/types/event";
 import { X, Check } from "lucide-vue-next";
 import Button from "../ui/button.vue";
 import ConfirmDialog from "../modals/confirm-dialog.vue";
+import Summary from "../shared/summary.vue";
 
 const props = defineProps<{
   request: EventRequest;

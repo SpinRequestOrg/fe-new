@@ -9,16 +9,8 @@ export const useLiveEvent = () => {
   const update_status = ref<EventRequest["status"] | null>(null);
   const updating = ref(false);
 
-  const fetchEventRequests = async (
-    event_id: number | string
-  ): Promise<EventRequest[]> => {
-    // return await event.getEventRequests(event_id)
-    return await new Promise((res, rej) => {
-      setTimeout(() => {
-        res(eventRequests);
-        //   rej("Mocked error");
-      }, 2500);
-    });
+  const fetchEventRequests = async (event_id: number | string) => {
+    return await event.getEventRequests(event_id);
   };
 
   const endEvent = async (event_id: number | string) => {

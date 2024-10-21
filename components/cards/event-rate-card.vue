@@ -14,7 +14,7 @@
         :key="service.id"
       >
         <div class="text-lg text-muted-foreground capitalize min-w-fit">
-          {{ service.name }} request
+          {{ service.name }} <span class="hidden md:inline">request</span>
         </div>
 
         <NumberInput

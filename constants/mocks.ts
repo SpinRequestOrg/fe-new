@@ -407,3 +407,6 @@ export const eventRequests: EventRequest[] = [
     created_at: "2023-10-16T20:00:00Z",
   },
 ];
+
+export const LONG_ARTICLE =
+  "Lorem ipsum dolor sit amet consectetur adipisicing elit. Esse quod asperiores error cum, iusto, suscipit praesentium voluptate quae voluptatum magnam officia incidunt quas distinctio illum dignissimos quibusdam eaque veritatis! Fugiat.";

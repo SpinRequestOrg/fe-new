@@ -7,7 +7,7 @@
     </DialogTrigger>
     <DialogPortal>
       <DialogOverlay
-        class="bg-foreground/10 data-[state=open]:animate-overlayShow fixed inset-0 z-[99]"
+        class="fixed inset-0 z-50 bg-black/70 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0"
       />
       <DialogContent
         class="[&[data-state='open']_.content]:animate-contentShow [&[data-state='open']_.header]:slide-in-from-top-1"

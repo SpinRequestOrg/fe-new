@@ -1,46 +1,60 @@
 <template>
   <div
-    class="rounded-2xl bg-[#F5F5F50D] px-6 py-4 relative overflow-hidden w-full"
+    class="rounded-2xl bg-background border border-ring/30 px-4 md:px-6 py-4 relative overflow-hidden w-full grid"
   >
     <div
       class="bg-[#FFEE99] opacity-20 rounded-[1000px] blur-[100px] translate-x-1/2 -translate-y-1/2 size-56 absolute right-0 top-0 z-[2]"
     ></div>
-    <div class="mb-1 font-semibold text-2xl">{{ event.title }}</div>
+    <div class="mb-1 font-semibold text-2xl">
+      {{ event.title }}
+    </div>
     <div class="flex text-sm text-muted-foreground gap-1 items-center">
       <SvgIcon name="location" />
       <div>{{ event.address }}</div>
     </div>
-    <div class="space-y-6 mt-6">
+    <div class="space-y-2 my-6">
       <div
-        class="grid grid-cols-[25px_1fr_auto] gap-x-2"
-        v-for="request in event.requests"
+        class="grid grid-cols-[35px_1fr_auto] gap-x-2 items-center"
+        v-for="request in event.types"
         :key="request.id"
       >
-        <div :class="avatar_variant({ type: request.type })">
-          <SvgIcon :name="request.type == 'song' ? 'music' : 'mic'" />
+        <div :class="avatar_variant({ type: request.name })">
+          <SvgIcon
+            class="scale-50"
+            :name="request.name == 'song' ? 'music' : 'mic'"
+          />
         </div>
-        <div class="capitalize">{{ request.type }} request</div>
-        <div></div>
+        <div class="capitalize">
+          {{ request.name }} <span class="hidden md:inline">request</span>
+        </div>
+        <div class="tabular-nums">₦{{ formatMoney(request.price) }}</div>
       </div>
     </div>
-    <NuxtLink :to="`/events/${event.id}`" v-if="event.status === 'live'">
+
+    <NuxtLink
+      :to="`/events/${event.id}`"
+      v-if="event.status === 'live'"
+      class="mt-auto"
+    >
       <Button
         :size="'lg'"
-        class="w-full mt-6 bg-[#38F08D] text-background"
+        class="w-full bg-[#38F08D] text-background"
         :variant="'ghost'"
-        ><Dot /> BACK TO EVENT <Dot />
+        ><Dot />BACK TO EVENT
+        <Dot />
       </Button>
     </NuxtLink>
 
     <Button
       :size="'lg'"
-      class="w-full mt-6 animate-pulse bg-gradient-to-r from-[#844AFF] from-[1.28%] via-[#E991DD] via-[58.26%] to-[#FCF0AF] to-[100%]"
+      class="w-full mt-auto animate-pulse bg-gradient-to-r from-[#844AFF] from-[1.28%] via-[#E991DD] via-[58.26%] to-[#FCF0AF] to-[100%]"
       v-else
       @click="goLive"
       :loading="loading"
+      :disabled="event.status === 'ended'"
     >
-      GO LIVE</Button
-    >
+      {{ event.status === "ended" ? "ENDED" : "GO LIVE" }}
+    </Button>
   </div>
 </template>
 
@@ -79,7 +93,7 @@ const goLive = async () => {
     const response = await eventModule.goLive(props.event.id);
     showToast({ title: response.message });
     if (response.data) {
-      navigateTo(`/request-list/${response.data.id}`);
+      navigateTo(`/events/${response.data.id}`);
     }
     loading.value = false;
   } catch (e) {

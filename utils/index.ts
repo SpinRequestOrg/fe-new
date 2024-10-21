@@ -27,3 +27,23 @@ export const formatMoney = (_number: number | string) => {
     minimumFractionDigits: 2,
   });
 };
+
+export const timeDifference = (
+  startDate: Date | string,
+  endDate: Date | string
+) => {
+  const start = new Date(startDate).getTime();
+  const end = new Date(endDate).getTime();
+  let diffInSeconds = Math.floor((end - start) / 1000);
+
+  const hours = Math.floor(diffInSeconds / 3600);
+  diffInSeconds %= 3600;
+
+  const minutes = Math.floor(diffInSeconds / 60);
+  const seconds = diffInSeconds % 60;
+
+  return `${String(hours).padStart(2, "0")}:${String(minutes).padStart(
+    2,
+    "0"
+  )}:${String(seconds).padStart(2, "0")}`;
+};

@@ -4,17 +4,16 @@
       <Loader class="size-5 animate-spin" />
     </div>
     <slot name="error" v-else-if="error">
-      <div class="text-destructive place-center">
+      <div class="text-destructive place-center text-center">
         <div>{{ error?.data?.message ?? fallback_error_message }}</div>
       </div>
     </slot>
-    <slot />
+    <slot v-if="!error" />
   </div>
 </template>
 
 <script lang="ts" setup>
 import { Loader } from "lucide-vue-next";
-import { date } from "yup";
 
 withDefaults(
   defineProps<{

@@ -1,19 +1,18 @@
 <template>
   <div>
-    <div class="fixed left-0 right-0 bg-[#FFEE99] py-2 z-10">
-      <div class="container flex justify-between items-center">
-        <Button :variant="'outline'"> 00:45:87</Button>
-        <ConfirmDialog
-          :onConfirm="endLiveEvent"
-          message="Are you sure you want to end this event?"
-        >
-          <Button :variant="'destructive'" :ending="ending">END EVENT</Button>
-        </ConfirmDialog>
-      </div>
-    </div>
+    <LiveBanner
+      :ending="ending"
+      :onEndEvent="endLiveEvent"
+      :start-date="data?.data.start_date"
+    />
 
     <div class="container py-20">
-      <SharedBackButton to="/dashboard" />
+      <div class="flex items-center gap-x-2">
+        <SharedBackButton to="/dashboard" />
+        <div class="text-foreground font-medium text-lg">
+          {{ data?.data?.title }}
+        </div>
+      </div>
 
       <SharedLoadingArea :error="error" class="mt-8">
         <div class="grid xl:grid-cols-[1fr_auto] items-start gap-4">
@@ -58,6 +57,7 @@ import ConfirmDialog from "~/components/modals/confirm-dialog.vue";
 import Button from "~/components/ui/button.vue";
 import EventRateCard from "~/components/cards/event-rate-card.vue";
 import RequestsTab from "~/components/request/requests-tab.vue";
+import LiveBanner from "~/components/live-banner.vue";
 import type { ApiResponse } from "~/types";
 import type { LiveEvent } from "~/types/event";
 import { useLiveEvent } from "~/composables/useLiveEvent";
@@ -72,3 +72,5 @@ const endLiveEvent = () => {
   endEvent(route.params.id as string);
 };
 </script>
+
+<style></style>

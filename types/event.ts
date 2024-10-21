@@ -54,6 +54,10 @@ export interface ActiveEventRequest extends Omit<EventRequest, "status"> {
   status: "new" | "now-playing";
 }
 
+export interface InActiveEventRequest extends Omit<EventRequest, "status"> {
+  status: "payment-pending" | "declined" | "completed" | "ignored";
+}
+
 export interface LiveEvent {
   id: number;
   title: string;
@@ -66,7 +70,7 @@ export interface LiveEvent {
   earnings: number;
   types: {
     id: number;
-    name: string;
+    name: "song" | "hype";
     price: number;
   }[];
   requests: EventRequest[];

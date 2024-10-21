@@ -1,7 +1,12 @@
 <template>
-  <CollapsibleRoot class="bg-white/5 rounded-2xl">
+  <CollapsibleRoot
+    class="bg-white/5 rounded-2xl"
+    :open="open"
+    :disabled="disabled"
+  >
     <CollapsibleTrigger
-      class="grid grid-cols-[auto_1fr_auto] gap-x-4 w-full items-center justify-start relative px-6 py-3 [&[data-state='open']_.caret]:rotate-180"
+      class="grid grid-cols-[auto_1fr_auto] gap-x-4 w-full items-center justify-start relative px-4 sm:px-6 py-3 [&[data-state='open']_.caret]:rotate-180"
+      @click="handleOpening"
     >
       <div
         :class="
@@ -15,14 +20,21 @@
         {{ index ?? "-" }}
       </div>
       <div class="space-y-1 text-left">
-        <div class="font-medium">{{ request.name }}</div>
-        <div class="text-sm text-muted-foreground">by Adekunle gold</div>
+        <Summary
+          v-if="request.type === 'hype'"
+          :content="request?.hype_message"
+          v-model="popover_open"
+        />
+        <template v-else>
+          <div class="font-medium">{{ request.name }}</div>
+          <div class="text-sm text-muted-foreground">by Adekunle gold</div>
+        </template>
       </div>
       <ChevronDown class="size-5 caret transition-transform relative" />
     </CollapsibleTrigger>
 
     <CollapsibleContent
-      class="data-[state=open]:animate-collapsibleSlideDown data-[state=closed]:animate-collapsibleSlideUp overflow-hidden px-6"
+      class="data-[state=open]:animate-collapsibleSlideDown data-[state=closed]:animate-collapsibleSlideUp overflow-hidden px-4 sm:px-6"
     >
       <div class="py-4 mt-4 border-t border-t-white/5">
         <div class="flex gap-x-2">
@@ -50,8 +62,8 @@
           </Button>
           <ConfirmDialog :onConfirm="() => updateRequest('declined')">
             <Button
-              :variant="'destructive'"
-              class="w-full"
+              :variant="'secondary'"
+              class="w-full !border-destructive !text-destructive"
               :disabled="updating"
               :loading="updating && update_status === 'declined'"
             >
@@ -64,7 +76,7 @@
           class="py-1 px-6 bg-foreground text-background text-center text-sm mt-8 rounded-3xl animate-pulse"
           v-else-if="request.status === 'now-playing'"
         >
-          Now playing
+          Now {{ request.type === "hype" ? "hyping" : "playing" }}
         </div>
       </div>
     </CollapsibleContent>
@@ -76,13 +88,26 @@ import type { EventRequest } from "~/types/event";
 import Button from "../ui/button.vue";
 import { ChevronDown, Check, X } from "lucide-vue-next";
 import ConfirmDialog from "../modals/confirm-dialog.vue";
+import Summary from "../shared/summary.vue";
 
-const props = defineProps<{
-  request: EventRequest;
-  index?: number;
-  onUpdate?: () => void;
-}>();
+const props = withDefaults(
+  defineProps<{
+    request: EventRequest;
+    index?: number;
+    onUpdate?: () => void;
+    defaultOpen?: boolean;
+    disabled?: boolean;
+  }>(),
+  { defaultOpen: false, disabled: false }
+);
+
+const open = ref(props.defaultOpen);
+const popover_open = ref(false);
 const { updateEventRequest, update_status, updating } = useLiveEvent();
+const handleOpening = () => {
+  if (props.disabled || popover_open.value) return;
+  open.value = !open.value;
+};
 
 const updateRequest = (status: EventRequest["status"]) => {
   updateEventRequest(props.request.id, status, props.onUpdate);

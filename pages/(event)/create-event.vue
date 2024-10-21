@@ -80,7 +80,7 @@
           </RadioGroupRoot>
         </div>
 
-        <InputCheck label="Mark as free event" v-model="free" />
+        <!-- <InputCheck label="Mark as free event" v-model="free" /> -->
 
         <div
           class="bg-white/5 rounded-2xl p-4 !mt-8 border animate-in slide-in-from-top-1 animate-out fade-in-0"

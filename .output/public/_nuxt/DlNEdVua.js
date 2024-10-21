@@ -1,1 +1,0 @@
-import{_ as e}from"./DlAUqK2U.js";import{c as n,o as r}from"./BYH92m9P.js";const c={};function o(t,s){return r(),n("div",null,"SUMMARY OF EVENT EARNING")}const f=e(c,[["render",o]]);export{f as default};
