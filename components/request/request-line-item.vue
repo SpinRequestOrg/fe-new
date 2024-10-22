@@ -14,10 +14,7 @@
       {{ index ?? "-" }}
     </div>
     <div class="space-y-1">
-      <Summary
-        v-if="request.type === 'hype'"
-        :content="request?.hype_message"
-      />
+      <Summary v-if="request.type === 'hype'" :content="request?.description" />
       <template v-else>
         <div class="font-medium">{{ request.name }}</div>
         <div class="text-sm text-muted-foreground">by Adekunle gold</div>

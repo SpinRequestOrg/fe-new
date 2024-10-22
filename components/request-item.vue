@@ -6,7 +6,9 @@
     <div class="space-y-1">
       <div class="flex items-center gap-2 text-base">
         <div class="text-muted-foreground">From</div>
-        <div class="font-medium">{{ request.audience.name }}</div>
+        <div class="font-medium">
+          {{ request?.nickname ?? request.audience.name }}
+        </div>
       </div>
       <div class="flex items-center text-muted-foreground">
         <div class="flex items-center gap-1 text-primary-foreground">

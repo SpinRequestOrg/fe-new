@@ -9,4 +9,8 @@
 
 <script setup lang="ts">
 import BackButton from "~/components/shared/back-button.vue";
+
+useSeoMeta({
+  title: "Event Earnings",
+});
 </script>

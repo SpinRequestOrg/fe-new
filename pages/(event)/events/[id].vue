@@ -71,6 +71,17 @@ const { data, error, status, refresh } = useCustomFetch<ApiResponse<LiveEvent>>(
 const endLiveEvent = () => {
   endEvent(route.params.id as string);
 };
+
+const active_tab = computed(
+  () => route?.query?.request_tab as "song" | "hype" | "history"
+);
+
+useSeoMeta({
+  title: () =>
+    active_tab.value === "history"
+      ? "Request History"
+      : "Song and Hype Request List",
+});
 </script>
 
 <style></style>

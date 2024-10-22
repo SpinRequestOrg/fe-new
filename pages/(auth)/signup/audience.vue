@@ -30,4 +30,8 @@
 <script lang="ts" setup>
 import BackButton from "~/components/shared/back-button.vue";
 import AudienceSignupForm from "~/components/forms/audience-signup-form.vue";
+
+useSeoMeta({
+  title: "Sign Up As An Audience",
+});
 </script>
