@@ -22,12 +22,14 @@
       <div class="space-y-1 text-left">
         <Summary
           v-if="request.type === 'hype'"
-          :content="request?.hype_message"
+          :content="request?.description"
           v-model="popover_open"
         />
         <template v-else>
-          <div class="font-medium">{{ request.name }}</div>
-          <div class="text-sm text-muted-foreground">by Adekunle gold</div>
+          <div class="font-medium">{{ request.song_title }}</div>
+          <div class="text-sm text-muted-foreground">
+            by {{ request.artist }}
+          </div>
         </template>
       </div>
       <ChevronDown class="size-5 caret transition-transform relative" />
@@ -40,12 +42,14 @@
         <div class="flex gap-x-2">
           <div class="space-y-1 w-full">
             <div class="text-sm text-muted-foreground">Requested by</div>
-            <div class="text-white/80">{{ request.audience.name }}</div>
+            <div class="text-white/80">
+              {{ request.nickname ?? request.audience.name }}
+            </div>
           </div>
           <div class="space-y-1 w-full">
             <div class="text-sm text-muted-foreground">Amount paid</div>
             <div class="tabular-nums text-white/80">
-              ₦{{ formatMoney(request.amount) }}
+              ₦{{ formatMoney(request.price) }}
             </div>
           </div>
         </div>

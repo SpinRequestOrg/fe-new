@@ -1,5 +1,15 @@
 <template>
   <div class="fixed left-0 right-0 bg-[#FFEE99] py-2 z-[20]">
+    <!-- <AutoScrollCarousel class="absolute inset-0">
+      <div
+        v-for="i in 40"
+        :key="i"
+        class="font-semibold text-background mx-2 flex items-center gap-x-2"
+      >
+        <Dot />
+        <span>LIVE</span>
+      </div>
+    </AutoScrollCarousel> -->
     <div class="container flex justify-between items-center relative z-10">
       <Button :variant="'outline'" class="min-w-[100px]">{{
         timePassed

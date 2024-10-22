@@ -1,6 +1,6 @@
 <template>
   <div
-    class="rounded-2xl bg-background border border-ring/30 px-4 md:px-6 py-4 relative overflow-hidden w-full grid"
+    class="rounded-2xl bg-background border border-ring/30 px-4 sm:px-6 py-4 relative overflow-hidden w-full grid"
   >
     <div
       class="bg-[#FFEE99] opacity-20 rounded-[1000px] blur-[100px] translate-x-1/2 -translate-y-1/2 size-56 absolute right-0 top-0 z-[2]"

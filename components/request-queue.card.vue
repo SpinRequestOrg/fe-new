@@ -22,9 +22,15 @@
           src="/images/disco.png"
           :class="cn('size-[120px]', activeRequest && 'animate-spin')"
         />
-        <div class="font-semibold text-base" v-if="activeRequest">
-          {{ activeRequest.name }}
-        </div>
+        <Summary
+          class="font-semibold text-base"
+          v-if="activeRequest"
+          :content="
+            activeRequest?.type === 'hype'
+              ? activeRequest?.description
+              : activeRequest?.song_title ?? ''
+          "
+        />
         <div class="text-sm text-muted-foreground" v-if="activeRequest">
           Now playing...
         </div>
@@ -35,16 +41,19 @@
           v-for="item in event.requests"
           :key="item.id"
           :request="item"
-          :type="item.type == 'hype' ? 'hype' : 'song'"
+          :type="item.type"
         />
       </div>
-      <div class="p-6 text-center" v-else>No requests yet</div>
+      <div class="p-3 text-center grid place-items-center" v-else>
+        No requests yet, hang tight
+      </div>
     </div>
   </div>
 </template>
 <script lang="ts" setup>
 import type { HostProfile } from "~/types/user";
 const props = defineProps<{ event: HostProfile["live_event"] }>();
+import Summary from "./shared/summary.vue";
 
 const activeRequest = computed(() =>
   props.event.requests.find((item) => item.status === "now-playing")

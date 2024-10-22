@@ -63,13 +63,14 @@
                 >
                   Follow
                 </Button>
-                <Button
-                  class="w-full md:w-auto"
-                  :size="'lg'"
+                <NuxtLink
                   v-if="data?.data.live_event"
+                  :to="`/${route.params.host}/make-a-request`"
                 >
-                  Make a request
-                </Button>
+                  <Button class="w-full md:w-auto" :size="'lg'">
+                    Make a request
+                  </Button>
+                </NuxtLink>
 
                 <Button class="w-full md:w-auto" :size="'lg'" v-else>
                   Notify me when DJ goes live

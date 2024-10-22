@@ -5,7 +5,7 @@
         class="bg-sp-purple/50 blur-[200px] size-56 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-[2]"
       ></div>
       <div
-        class="relative z-[3] pt-32 md:pt-0 md:grid md:place-items-center h-full w-full -translate-y-10"
+        class="relative z-[3] pt-32 px-[var(--cp)] md:pt-0 md:grid md:place-items-center h-full w-full -translate-y-10"
       >
         <slot />
       </div>

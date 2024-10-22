@@ -7,19 +7,19 @@
       <div class="space-y-1">
         <div class="flex gap-x-2 items-center">
           <Summary
-            :content="request.hype_message"
+            :content="request.description"
             class="text-base text-foreground font-medium"
             v-if="request.type === 'hype'"
           />
           <template v-else>
             <div class="text-base text-foreground font-medium">
-              {{ request.name }}
+              {{ request.song_title }}
             </div>
-            <div class="text-sm">{{ request.audience.name }}</div>
+            <div class="text-sm">by {{ request.artist }}</div>
           </template>
         </div>
         <div class="flex gap-x- items-center">
-          <div>{{ request.audience.name }}</div>
+          <div>{{ request.nickname ?? request.audience.name }}</div>
           <Dot />
           <div class="flex items-center gap-x-1">
             <SvgIcon
@@ -29,7 +29,7 @@
             <div class="uppercase">{{ request.type }}</div>
           </div>
           <Dot />
-          <div class="tabular-nums">₦{{ formatMoney(request.amount) }}</div>
+          <div class="tabular-nums">₦{{ formatMoney(request.price) }}</div>
         </div>
       </div>
       <div class="flex gap-x-1 md:justify-end items-center">

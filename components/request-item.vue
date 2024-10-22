@@ -1,18 +1,18 @@
 <template>
   <div class="flex gap-3 items-center">
     <div :class="avatar_variant({ type })">
-      <SvgIcon :name="type == 'song' ? 'music' : 'mic'" />
+      <SvgIcon :name="type == 'song' ? 'music' : 'mic'" class="scale-75" />
     </div>
-    <div class="space-y-1">
+    <div class="space-y-px">
       <div class="flex items-center gap-2 text-base">
-        <div class="text-muted-foreground">From</div>
+        <div class="text-muted-foreground text-sm">From</div>
         <div class="font-medium">{{ request.audience.name }}</div>
       </div>
       <div class="flex items-center text-muted-foreground">
         <div class="flex items-center gap-1 text-primary-foreground">
           <SvgIcon :name="'money'" />
           <div class="text-primary-foreground font-medium">
-            ${{ request.amount }}
+            ₦{{ formatMoney(request.price ?? request?.amount) }}
           </div>
         </div>
         <Dot />
@@ -31,7 +31,7 @@ import { Dot } from "lucide-vue-next";
 import { cva, type VariantProps } from "class-variance-authority";
 import type { HostProfile } from "~/types/user";
 
-const avatar_variant = cva("size-12 rounded-full grid place-items-center", {
+const avatar_variant = cva("size-10 rounded-full grid place-items-center", {
   variants: {
     type: {
       song: "bg-[#FFEE99]/10",
