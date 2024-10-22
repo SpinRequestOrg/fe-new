@@ -32,7 +32,7 @@
           "
         />
         <div class="text-sm text-muted-foreground" v-if="activeRequest">
-          Now playing...
+          Now {{ activeRequest.type === "song" ? "playing" : "hyping" }}...
         </div>
       </div>
       <div class="text-muted-foreground mb-4">PREVIOUS REQUESTS</div>
@@ -52,6 +52,7 @@
 </template>
 <script lang="ts" setup>
 import type { HostProfile } from "~/types/user";
+import Summary from "./shared/summary.vue";
 const props = defineProps<{ event: HostProfile["live_event"] }>();
 import Summary from "./shared/summary.vue";
 

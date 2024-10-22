@@ -98,4 +98,8 @@ const allEvents = computed(() =>
     ? [hostLiveEvent.value, ...hostNewEvents.value]
     : [...hostNewEvents.value]
 );
+
+useSeoMeta({
+  title: "Host Dashboard",
+});
 </script>

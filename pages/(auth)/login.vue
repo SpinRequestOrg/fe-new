@@ -31,4 +31,7 @@
 
 <script lang="ts" setup>
 import LoginForm from "~/components/forms/login-form.vue";
+useSeoMeta({
+  title: "Login",
+});
 </script>

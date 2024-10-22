@@ -121,4 +121,8 @@ watch(
     immediate: true,
   }
 );
+
+useSeoMeta({
+  title: "Confirm your email",
+});
 </script>

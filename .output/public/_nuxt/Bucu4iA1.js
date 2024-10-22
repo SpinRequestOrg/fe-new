@@ -1,1 +1,0 @@
-import{_ as e}from"./IDfWNahu.js";import{p as o,o as s,c as t,b as r,a as n}from"./CDWzObpM.js";import"./Fg1Jie9v.js";const m={class:"container pt-10 pb-20"},l=o({__name:"summary",setup(p){return(c,a)=>(s(),t("div",m,[r(e,{to:"/dashboard"}),a[0]||(a[0]=n("div",{class:"w-full max-w-[867px] mx-auto border bg-white/5"}," Event summary and earnings ",-1))]))}});export{l as default};

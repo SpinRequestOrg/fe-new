@@ -136,4 +136,8 @@ const { data, error, status } = useCustomFetch<ApiResponse<HostProfile>>(
   `/user/host/${route.params.host}`
 );
 const host = computed(() => data?.value?.data?.user);
+
+useSeoMeta({
+  title: () => `${host.value?.stage_name}`,
+});
 </script>

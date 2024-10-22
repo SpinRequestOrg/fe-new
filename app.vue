@@ -1,5 +1,5 @@
 <template>
-  <ConfigProvider :use-id="useIdFunction" >
+  <ConfigProvider :use-id="useIdFunction">
     <NuxtLayout>
       <Toast
         :open="store.open"
@@ -21,4 +21,8 @@ const useIdFunction = () => useId();
 import Toast from "./components/shared/toast.vue";
 const store = useToastStore();
 const { toastOnAction, toggleToast } = store;
+
+useHead({
+  titleTemplate: "%s | Spin Request",
+});
 </script>

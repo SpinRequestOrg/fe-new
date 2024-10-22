@@ -30,4 +30,8 @@
 <script lang="ts" setup>
 import BackButton from "~/components/shared/back-button.vue";
 import HostSignupForm from "~/components/forms/host-signup-form.vue";
+
+useSeoMeta({
+  title: "Sign Up As A host",
+});
 </script>

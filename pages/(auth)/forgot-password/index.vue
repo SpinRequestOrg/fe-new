@@ -72,4 +72,8 @@ const handleSubmit = async ({ email }: { email: string }) => {
     console.error("ERROR", e?.data?.message);
   }
 };
+
+useSeoMeta({
+  title: "Forget Password",
+});
 </script>
