@@ -220,4 +220,8 @@ const handleSubmit = async (event: HostEvent) => {
     console.error("FAILED TO CREATE EVENT", e);
   }
 };
+
+useSeoMeta({
+  title: "Create Event",
+});
 </script>

@@ -87,4 +87,8 @@ const handleSubmit = async ({
     console.error("ERROR RESETTING PASSWORD", e?.data?.message);
   }
 };
+
+useSeoMeta({
+  title: "Input New Password",
+});
 </script>

@@ -15,4 +15,6 @@
   </div>
 </template>
 
-<script lang="ts" setup></script>
+<script lang="ts" setup>
+useSeoMeta({ title: "Search Results" });
+</script>

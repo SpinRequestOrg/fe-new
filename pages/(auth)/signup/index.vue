@@ -36,6 +36,12 @@
   </div>
 </template>
 
+<script lang="ts" setup>
+useSeoMeta({
+  title: "Create An Account",
+});
+</script>
+
 <style scoped>
 .card {
   border: 1px solid rgba(255, 255, 255, 0.1);
