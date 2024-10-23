@@ -1,5 +1,7 @@
 export interface EventRequest {
   id: number;
+  user_id: number;
+  event_id: number;
   host: {
     id: number;
     name: string;
@@ -17,7 +19,7 @@ export interface EventRequest {
     created_at: string;
     updated_at: string;
   };
-  name: string;
+  nickname: string;
   audience: {
     id: number;
     name: string;
@@ -43,10 +45,10 @@ export interface EventRequest {
     | "declined"
     | "completed"
     | "ignored";
-  hype_message: string;
-  artist: null;
-  song: null;
-  amount: string;
+  description: string;
+  artist: string | null;
+  song_title: string | null;
+  price: string | number;
   created_at: string;
 }
 
@@ -58,6 +60,11 @@ export interface InActiveEventRequest extends Omit<EventRequest, "status"> {
   status: "payment-pending" | "declined" | "completed" | "ignored";
 }
 
+export interface EventType {
+  id: number;
+  name: "song" | "hype";
+  price: number;
+}
 export interface LiveEvent {
   id: number;
   title: string;
@@ -68,10 +75,6 @@ export interface LiveEvent {
   start_date: string;
   end_date: null;
   earnings: number;
-  types: {
-    id: number;
-    name: "song" | "hype";
-    price: number;
-  }[];
+  types: EventType[];
   requests: EventRequest[];
 }

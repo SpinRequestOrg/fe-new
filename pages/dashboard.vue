@@ -13,15 +13,14 @@
       </div>
     </div>
 
+    <div
+      v-if="status === 'pending'"
+      class="flex justify-center mac:hidden py-2"
+    >
+      <Loader class="size-5 animate-spin" />
+    </div>
+
     <div class="sticky mac:hidden w-scree -trnslate-x-[var(--cp)] mb-6 z-20">
-      <div
-        class="absolute inset-0 border broder-red-500 z-10"
-        v-if="status === 'pending'"
-      >
-        <div class="place-center">
-          <Loader class="size-5 animate-spin" />
-        </div>
-      </div>
       <EventCarousel :events="allEvents" />
     </div>
 

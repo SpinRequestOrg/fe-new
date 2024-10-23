@@ -16,19 +16,21 @@
     <div class="space-y-1">
       <Summary v-if="request.type === 'hype'" :content="request?.description" />
       <template v-else>
-        <div class="font-medium">{{ request.name }}</div>
-        <div class="text-sm text-muted-foreground">by Adekunle gold</div>
+        <div class="font-medium">{{ request.song_title }}</div>
+        <div class="text-sm text-muted-foreground">by {{ request.artist }}</div>
       </template>
     </div>
 
     <div class="space-y-1">
       <div class="text-sm text-muted-foreground">Requested by</div>
-      <div class="text-white/80">{{ request.audience.name }}</div>
+      <div class="text-white/80">
+        {{ request.nickname ?? request.audience.name }}
+      </div>
     </div>
     <div class="space-y-1">
       <div class="text-sm text-muted-foreground">Amount paid</div>
       <div class="tabular-nums text-white/80">
-        ₦{{ formatMoney(request.amount) }}
+        ₦{{ formatMoney(request.price) }}
       </div>
     </div>
     <div class="flex gap-x-2 justify-self-end" v-if="request.status === 'new'">
@@ -59,7 +61,7 @@
       class="py-1 px-6 bg-foreground text-background text-center text-sm rounded-2xl animate-pulse justify-self-end"
       v-else-if="request.status === 'now-playing'"
     >
-      Now {{ request.type === "hype" ? "hyping" : "playing" }}
+      Now {{ request.type === "hype" ? "performing hype" : "playing" }}
     </div>
   </div>
 </template>
