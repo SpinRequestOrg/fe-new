@@ -3,6 +3,10 @@ import type { $Fetch, NitroFetchOptions } from "nitropack";
 import type { Host } from "~/types/user";
 import type { EventPayload } from "~/schemas/event-schema";
 import type { EventRequest, LiveEvent } from "~/types/event";
+import type {
+  HypeRequestPayload,
+  SongRequestPayload,
+} from "~/schemas/request-schema";
 type FetchOptions = NitroFetchOptions<"json">;
 type FetchMethods = FetchOptions["method"];
 
@@ -14,6 +18,7 @@ export default class Auth {
   END_EVENT = "events/end";
   UPDATE_EVENT_REQUEST = "requests/status";
   EVENT_REQUESTS = "requests";
+  CREATE_REQUEST = "requests";
 
   constructor(fetcher: $Fetch) {
     this.$fetch = fetcher;
@@ -68,5 +73,9 @@ export default class Auth {
       `${this.UPDATE_EVENT_REQUEST}/${request_id}`,
       { status }
     );
+  }
+
+  async createRequest(request: HypeRequestPayload | SongRequestPayload) {
+    return await this.call<EventRequest>("POST", this.CREATE_REQUEST, request);
   }
 }

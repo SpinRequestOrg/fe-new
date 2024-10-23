@@ -87,7 +87,7 @@
         </TabsTrigger>
       </TabsList>
     <div 
-      class="min-h-[350px] rounded-[inherit] grid place-items-center z-10"
+      class="min-h-[350px] absolute inset-0 rounded-[inherit] grid place-items-center z-10"
       v-if="status == 'pending' || error"
     >
       <Loader class="size-5 animate-spin" v-if="status === 'pending'" />

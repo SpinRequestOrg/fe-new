@@ -1,12 +1,28 @@
 <template>
   <div class="container pt-6 pb-20">
-    <SharedBackButton to="/search" />
+    <LiveBanner
+      class="-translate-y-6"
+      :user="'audience'"
+      :start-date="data?.data?.live_event?.start_date"
+      animate
+      v-if="data?.data.live_event"
+    >
+      <NuxtLink
+        :to="`/${route.params.host}/${data?.data?.live_event?.id}/make-a-request`"
+      >
+        <Button> Make a request </Button>
+      </NuxtLink>
+    </LiveBanner>
+    <SharedBackButton
+      to="/search"
+      :class="cn(data?.data.live_event ? 'mt-10' : '')"
+    />
     <SharedLoadingArea :loading="status === 'pending'" :error="error">
       <div
-        class="flex flex-col md:flex-row justify-between gap-6 mt-10"
+        class="grid grid-cols-1 md:grid-cols-[1fr_400px] justify-between gap-6 mt-10"
         v-if="host"
       >
-        <div class="">
+        <div>
           <div class="grid lg:grid-cols-[auto_1fr] items-start gap-4">
             <Avatar
               class="!size-[120px] md:!size-[180px] xl:!size-[200px] !rounded-3xl !text-4xl"
@@ -65,11 +81,10 @@
                 </Button>
                 <NuxtLink
                   v-if="data?.data.live_event"
-                  :to="`/${route.params.host}/make-a-request`"
+                  :to="`/${route.params.host}/${data?.data?.live_event?.id}/make-a-request`"
+                  class="w-full md:w-auto"
                 >
-                  <Button class="w-full md:w-auto" :size="'lg'">
-                    Make a request
-                  </Button>
+                  <Button :size="'lg'" class="w-full"> Make a request </Button>
                 </NuxtLink>
 
                 <Button class="w-full md:w-auto" :size="'lg'" v-else>
@@ -78,7 +93,7 @@
               </div>
             </div>
           </div>
-          <div class="mt-10 space-y-4 text-muted-foreground hidden md:block">
+          <div class="mt-10 space-y-2 text-muted-foreground hidden md:block">
             <div>ABOUT ME</div>
             <div class="max-w-[550px]">
               {{ host.bio }}
@@ -97,12 +112,12 @@
             </div>
           </div>
         </div>
-        <div class="max-w-full min-w-[400px]">
-          <RequestQueueCard
-            :event="data?.data.live_event"
-            v-if="data?.data.live_event"
-          />
-        </div>
+
+        <RequestQueueCard
+          :event="data?.data.live_event"
+          v-if="data?.data.live_event"
+        />
+
         <div class="mt-4 space-y-4 text-muted-foreground md:hidden">
           <div>ABOUT ME</div>
           <div class="max-w-[550px]">

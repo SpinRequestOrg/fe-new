@@ -15,12 +15,14 @@
     </div>
     <div class="relative px-6 py-8 bg-white/5 rounded-b-[inherit]">
       <div
-        class="bg-sp-purple/50 blur-[200px] size-56 absolute left-1/2 -translate-x-1/2 z-[1]"
+        class="bg-sp-purple/50 blur-[200px] size-56 absolute left-1/2 -translate-x-1/2"
       ></div>
-      <div class="mx-auto space-y-1 grid justify-center text-center mb-8">
+      <div
+        class="space-y-1 grid justify-center text-center mb-8 relative z-[3]"
+      >
         <NuxtImg
           src="/images/disco.png"
-          :class="cn('size-[120px]', activeRequest && 'animate-spin')"
+          :class="cn('size-[120px] mx-auto', activeRequest && 'animate-spin')"
         />
         <Summary
           class="font-semibold text-base"
@@ -32,10 +34,29 @@
           "
         />
         <div class="text-sm text-muted-foreground" v-if="activeRequest">
-          Now {{ activeRequest.type === "song" ? "playing" : "hyping" }}...
+          Now
+          {{ activeRequest.type === "song" ? "playing" : "performing hype" }}...
         </div>
       </div>
-      <div class="text-muted-foreground mb-4">PREVIOUS REQUESTS</div>
+      <div
+        class="p-1 absolute -translate-y-4 left-0 right-0 text-center text-background font-medium text-sm bg-gradient-to-r from-[#844AFF] from-[1.28%] via-[#E991DD] via-[58.26%] to-[#FCF0AF] to-[100%]"
+        v-if="activeRequest && authEmail === activeRequest.audience.email"
+      >
+        {{ activeRequest.type === "hype" ? "Performing" : "Playing" }} your
+        {{ activeRequest?.type }} request
+      </div>
+      <div
+        :class="
+          cn(
+            'text-muted-foreground mb-4',
+            activeRequest &&
+              authEmail === activeRequest.audience.email &&
+              'mt-16'
+          )
+        "
+      >
+        PREVIOUS REQUESTS
+      </div>
       <div class="space-y-6" v-if="event.requests.length">
         <RequestItem
           v-for="item in event.requests"
@@ -54,8 +75,8 @@
 import type { HostProfile } from "~/types/user";
 import Summary from "./shared/summary.vue";
 const props = defineProps<{ event: HostProfile["live_event"] }>();
-import Summary from "./shared/summary.vue";
 
+const { authEmail } = useAuth();
 const activeRequest = computed(() =>
   props.event.requests.find((item) => item.status === "now-playing")
 );

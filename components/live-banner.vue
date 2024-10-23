@@ -1,6 +1,6 @@
 <template>
   <div class="fixed left-0 right-0 bg-[#FFEE99] py-2 z-[20]">
-    <!-- <AutoScrollCarousel class="absolute inset-0">
+    <AutoScrollCarousel class="absolute inset-0" v-if="animate && false">
       <div
         v-for="i in 40"
         :key="i"
@@ -9,7 +9,7 @@
         <Dot />
         <span>LIVE</span>
       </div>
-    </AutoScrollCarousel> -->
+    </AutoScrollCarousel>
     <div class="container flex justify-between items-center relative z-10">
       <Button :variant="'outline'" class="min-w-[100px]">{{
         timePassed
@@ -17,9 +17,11 @@
       <ConfirmDialog
         :onConfirm="onEndEvent"
         message="Are you sure you want to end this event?"
+        v-if="user === 'host'"
       >
         <Button :variant="'destructive'" :ending="ending">END EVENT</Button>
       </ConfirmDialog>
+      <slot v-else />
     </div>
   </div>
 </template>
@@ -29,11 +31,16 @@ import Button from "./ui/button.vue";
 import ConfirmDialog from "./modals/confirm-dialog.vue";
 import AutoScrollCarousel from "./shared/auto-scroll-carousel.vue";
 import { Dot } from "lucide-vue-next";
-const props = defineProps<{
-  startDate?: Date | string;
-  onEndEvent?: () => void;
-  ending?: boolean;
-}>();
+const props = withDefaults(
+  defineProps<{
+    startDate?: Date | string;
+    onEndEvent?: () => void;
+    ending?: boolean;
+    user?: "host" | "audience";
+    animate?: boolean;
+  }>(),
+  { user: "host", animate: false }
+);
 
 const timePassed = computed(() => {
   const now = useNow();

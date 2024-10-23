@@ -12,5 +12,6 @@ const AutoScrollPlugin = AutoScroll({
   stopOnFocusIn: false,
   stopOnMouseEnter: false,
   startDelay: 10,
+  speed: 1,
 });
 </script>

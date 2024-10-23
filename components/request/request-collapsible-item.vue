@@ -80,7 +80,7 @@
           class="py-1 px-6 bg-foreground text-background text-center text-sm mt-8 rounded-3xl animate-pulse"
           v-else-if="request.status === 'now-playing'"
         >
-          Now {{ request.type === "hype" ? "hyping" : "playing" }}
+          Now {{ request.type === "hype" ? "performing hype" : "playing" }}
         </div>
       </div>
     </CollapsibleContent>

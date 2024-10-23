@@ -1,5 +1,5 @@
 <template>
-  <div class="space">
+  <div class="space max-w-full w-full">
     <div
       class="max-h-12 overflow-hidden text-ellipsis line-clamp-2"
       ref="content_ref"
