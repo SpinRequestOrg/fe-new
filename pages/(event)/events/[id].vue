@@ -4,6 +4,7 @@
       :ending="ending"
       :onEndEvent="endLiveEvent"
       :start-date="data?.data.start_date"
+      animate
     />
 
     <div class="container py-20">

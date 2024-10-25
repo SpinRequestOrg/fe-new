@@ -3,17 +3,19 @@ import type {
   HypeRequestPayload,
   SongRequestPayload,
 } from "~/schemas/request-schema";
-import type { EventRequest } from "~/types/event";
+import type { EventRequest, RequestPaymentPayload } from "~/types/event";
 
 export const useLiveEvent = () => {
   const {
     $repo: { event },
+    $config: {
+      public: { APP_BASE_URL },
+    },
   } = useNuxtApp();
   const ending = ref(false);
   const update_status = ref<EventRequest["status"] | null>(null);
   const updating = ref(false);
   const creating = ref(false);
-
   const fetchEventRequests = async (event_id: number | string) => {
     return await event.getEventRequests(event_id);
   };
@@ -59,16 +61,33 @@ export const useLiveEvent = () => {
   };
 
   const createEventRequest = async (
-    request: SongRequestPayload | HypeRequestPayload
+    request: SongRequestPayload | HypeRequestPayload,
+    host_slug: string
   ) => {
     try {
       creating.value = true;
       const response = await event.createRequest(request);
-      showToast({
-        title: response.message ?? "Request created and added to host list",
-      });
+
+      const PAYSTACK_PAYMENT: RequestPaymentPayload = {
+        redirect_url: `${APP_BASE_URL}/${host_slug}/${request.event_id}/${response.data.id}/request-receipt`,
+        type: "gateway",
+        gateway: "paystack",
+      };
+
+      if (!Number(response.data.price)) {
+        creating.value = false;
+        return navigateTo(`/${response.data?.host?.slug}`);
+      }
+      const payment_response = await event.payForRequest(
+        PAYSTACK_PAYMENT,
+        response.data.id
+      );
       creating.value = false;
-      console.log({ response });
+      if (payment_response.data.redirect_url) {
+        await navigateTo(payment_response.data.redirect_url, {
+          external: true,
+        });
+      }
     } catch (e) {
       creating.value = false;
       showToast({

@@ -32,9 +32,13 @@
           <div class="tabular-nums">₦{{ formatMoney(request.price) }}</div>
         </div>
       </div>
-      <div class="flex gap-x-1 md:justify-end items-center">
+      <div class="flex gap-x-1 md:justify-end items-center text-sm">
         <div class="capitalize">{{ request.status }}</div>
-        <Tooltip message="Return to request list" :delay="200">
+        <Tooltip
+          message="Return to request list"
+          :delay="200"
+          v-if="['ignored', 'declined'].includes(request.status)"
+        >
           <UiButton
             :size="'icon'"
             :variant="'ghost'"

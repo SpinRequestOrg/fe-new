@@ -2,7 +2,12 @@ import type { ApiResponse } from "~/types";
 import type { $Fetch, NitroFetchOptions } from "nitropack";
 import type { Host } from "~/types/user";
 import type { EventPayload } from "~/schemas/event-schema";
-import type { EventRequest, LiveEvent } from "~/types/event";
+import type {
+  EventRequest,
+  LiveEvent,
+  RequestPaymentPayload,
+  RequestPaymentResponse,
+} from "~/types/event";
 import type {
   HypeRequestPayload,
   SongRequestPayload,
@@ -77,5 +82,16 @@ export default class Auth {
 
   async createRequest(request: HypeRequestPayload | SongRequestPayload) {
     return await this.call<EventRequest>("POST", this.CREATE_REQUEST, request);
+  }
+
+  async payForRequest(
+    payload: RequestPaymentPayload,
+    request_id: string | number
+  ) {
+    return await this.call<RequestPaymentResponse>(
+      "POST",
+      `payment/requests/${request_id}/payment/create`,
+      payload
+    );
   }
 }

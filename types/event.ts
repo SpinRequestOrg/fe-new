@@ -1,5 +1,5 @@
 export interface EventRequest {
-  id: number;
+  id: number | string;
   user_id: number;
   event_id: number;
   host: {
@@ -77,4 +77,16 @@ export interface LiveEvent {
   earnings: number;
   types: EventType[];
   requests: EventRequest[];
+}
+
+export interface RequestPaymentPayload {
+  redirect_url: string;
+  type: "wallet" | "gateway" | "split";
+  gateway?: "paystack";
+}
+
+export interface RequestPaymentResponse {
+  status: string;
+  message: string;
+  redirect_url: string;
 }

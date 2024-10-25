@@ -1,17 +1,23 @@
 <template>
-  <Carousel :options="{ loop: true }" :plugins="[AutoScrollPlugin]">
-    <slot />
-  </Carousel>
+  <div class="overflow-hidden" ref="emblaRef">
+    <slot name="container">
+      <div class="flex flex-row [&_>_*]:shrink-0 h-full items-center">
+        <slot />
+      </div>
+    </slot>
+  </div>
 </template>
 
 <script lang="ts" setup>
 import AutoScroll from "embla-carousel-auto-scroll";
-import Carousel from "./carousel.vue";
-const AutoScrollPlugin = AutoScroll({
-  stopOnInteraction: false,
-  stopOnFocusIn: false,
-  stopOnMouseEnter: false,
-  startDelay: 10,
-  speed: 1,
-});
+import emblaCarouselVue from "embla-carousel-vue";
+const [emblaRef] = emblaCarouselVue({ loop: true }, [
+  AutoScroll({
+    stopOnInteraction: false,
+    stopOnFocusIn: false,
+    stopOnMouseEnter: false,
+    startDelay: 10,
+    speed: 1.2,
+  }),
+]);
 </script>
