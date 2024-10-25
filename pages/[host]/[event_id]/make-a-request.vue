@@ -41,11 +41,13 @@
           <HypeRequestForm
             :request="selectedRequestType"
             :event_id="event_id"
+            :host_slug="host_slug"
             v-if="selectedRequestType.name === 'hype'"
           />
           <SongRequestForm
             :request="selectedRequestType"
             :event_id="event_id"
+            :host_slug="host_slug"
             v-if="selectedRequestType.name === 'song'"
           />
         </template>

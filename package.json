@@ -15,9 +15,11 @@
     "@pinia/nuxt": "^0.5.5",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
+    "dom-to-image": "^2.6.0",
     "embla-carousel-auto-scroll": "^8.3.0",
     "embla-carousel-autoplay": "^8.3.0",
     "embla-carousel-vue": "^8.3.0",
+    "file-saver": "^2.0.5",
     "lodash-es": "^4.17.21",
     "lucide-vue-next": "^0.447.0",
     "nuxt": "^3.13.0",
@@ -34,6 +36,8 @@
     "yup": "^1.4.0"
   },
   "devDependencies": {
+    "@types/dom-to-image": "^2.6.7",
+    "@types/file-saver": "^2.0.7",
     "@types/lodash-es": "^4.17.12",
     "@vueuse/core": "^11.1.0",
     "@vueuse/nuxt": "^11.1.0",

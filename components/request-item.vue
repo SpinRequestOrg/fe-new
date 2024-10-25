@@ -32,7 +32,7 @@
           class="text-primary text-sm"
           v-if="authEmail === request.audience.email"
         >
-          Your {{ request.type }} request
+          Your request
         </div>
         <div class="text-muted-foreground text-sm" v-else>
           From {{ request.nickname ?? request.audience.name }}

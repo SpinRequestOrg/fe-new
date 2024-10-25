@@ -24,7 +24,10 @@
       class="max-w-full w-[400px] mx-auto !flex uppercase"
       :loading="creating"
     >
-      Request Hype For ₦{{ formatMoney(request.price) }}
+      Request Hype For
+      {{
+        Number(request?.price) > 0 ? `₦${formatMoney(request.price)}` : "FREE"
+      }}
     </Button>
   </Form>
 </template>
@@ -40,7 +43,11 @@ import {
   type HypeRequestPayload,
   HypeRequestSchema,
 } from "~/schemas/request-schema";
-const props = defineProps<{ request: EventType; event_id: string }>();
+const props = defineProps<{
+  request: EventType;
+  event_id: string;
+  host_slug: string;
+}>();
 
 const formInitialValue = computed(() => ({
   type: props.request.name,
@@ -50,6 +57,6 @@ const formInitialValue = computed(() => ({
 const { createEventRequest, creating } = useLiveEvent();
 
 const handleSubmit = (data: HypeRequestPayload) => {
-  createEventRequest(data);
+  createEventRequest(data, props.host_slug);
 };
 </script>

@@ -10,7 +10,9 @@
       <NuxtLink
         :to="`/${route.params.host}/${data?.data?.live_event?.id}/make-a-request`"
       >
-        <Button> Make a request </Button>
+        <Button>
+          Make {{ hasPendingRequest ? "another" : "a" }} request
+        </Button>
       </NuxtLink>
     </LiveBanner>
     <SharedBackButton
@@ -84,7 +86,9 @@
                   :to="`/${route.params.host}/${data?.data?.live_event?.id}/make-a-request`"
                   class="w-full md:w-auto"
                 >
-                  <Button :size="'lg'" class="w-full"> Make a request </Button>
+                  <Button :size="'lg'" class="w-full">
+                    Make {{ hasPendingRequest ? "another" : "a" }} request
+                  </Button>
                 </NuxtLink>
 
                 <Button class="w-full md:w-auto" :size="'lg'" v-else>
@@ -152,7 +156,53 @@ const { data, error, status } = useCustomFetch<ApiResponse<HostProfile>>(
 );
 const host = computed(() => data?.value?.data?.user);
 
+const { authEmail } = useAuth();
+
+const liveEventRequests = computed(
+  () => data.value?.data?.live_event?.requests
+);
+
+const hasPendingRequest = computed(() => {
+  return liveEventRequests.value?.some(
+    (item) => item.audience.email === authEmail.value
+  );
+});
+
+const {
+  $config: {
+    public: { APP_BASE_URL },
+  },
+} = useNuxtApp();
+
 useSeoMeta({
   title: () => `${host.value?.stage_name}`,
+  ogTitle: () =>
+    `${data.value?.data.live_event.title ?? ""} | ${
+      host.value?.stage_name ?? ""
+    }`,
+  ogDescription: () => "Make your requests and take spotlight of this event",
+  ogImage: () =>
+    `${
+      host.value?.profile_picture ??
+      "https://cdn.pixabay.com/photo/2018/05/10/11/34/concert-3387324_1280.jpg"
+    }`,
+  ogImageAlt: () => "Live Event",
+  ogImageSecureUrl: () =>
+    `${
+      host.value?.profile_picture ??
+      "https://cdn.pixabay.com/photo/2018/05/10/11/34/concert-3387324_1280.jpg"
+    }`,
+  twitterImage: () =>
+    `${
+      host.value?.profile_picture ??
+      "https://cdn.pixabay.com/photo/2018/05/10/11/34/concert-3387324_1280.jpg"
+    }`,
+  twitterTitle: () =>
+    `${data.value?.data.live_event.title ?? ""} | ${
+      host.value?.stage_name ?? ""
+    }`,
+  ogType: "article",
+  ogUrl: () => `${APP_BASE_URL}/${host.value?.slug ?? ""}`,
+  ogSiteName: "SpinRequest",
 });
 </script>

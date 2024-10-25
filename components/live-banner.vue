@@ -11,9 +11,14 @@
       </div>
     </AutoScrollCarousel>
     <div class="container flex justify-between items-center relative z-10">
-      <Button :variant="'outline'" class="min-w-[100px]">{{
-        timePassed
-      }}</Button>
+      <ClientOnly>
+        <Button :variant="'outline'" class="min-w-[100px]">{{
+          timePassed
+        }}</Button>
+        <template #fallback>
+          <Button :variant="'outline'" class="min-w-[100px]">00:00:00</Button>
+        </template>
+      </ClientOnly>
       <ConfirmDialog
         :onConfirm="onEndEvent"
         message="Are you sure you want to end this event?"
