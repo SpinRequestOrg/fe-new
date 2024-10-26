@@ -57,9 +57,9 @@
       >
         PREVIOUS REQUESTS
       </div>
-      <div class="space-y-6" v-if="event.requests.length">
+      <div class="space-y-6" v-if="eventRequests.length">
         <RequestItem
-          v-for="item in event.requests"
+          v-for="item in eventRequests"
           :key="item.id"
           :request="item"
           :type="item.type"
@@ -77,6 +77,16 @@ import Summary from "./shared/summary.vue";
 const props = defineProps<{ event: HostProfile["live_event"] }>();
 
 const { authEmail } = useAuth();
+
+const eventRequests = computed(() => {
+  return props.event.requests
+    .sort((req) => {
+      if (req.audience.email === authEmail.value) return -1;
+      return 0;
+    })
+    .slice(0, 3);
+});
+
 const activeRequest = computed(() =>
   props.event.requests.find((item) => item.status === "now-playing")
 );

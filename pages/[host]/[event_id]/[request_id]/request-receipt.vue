@@ -48,21 +48,14 @@ const { data, status, error } = useCustomFetch<ApiResponse<LiveEvent>>(
   `events/${route.params.event_id}`
 );
 
-const reference = route?.query?.reference ?? ("" as string);
+const reference = route?.query?.trxref ?? ("" as string);
 
-// const {
-//   data: verification,
-//   status: verification_status,
-//   error: verification_error,
-//   refresh,
-// } = useCustomFetch<ApiResponse<LiveEvent>>(`transactions/${reference}/verify`);
-
-const verification = ref(null);
-const verification_status = ref("idle");
-const verification_error = ref(null);
-const refresh = async () => {
-  console.log("mocked refresh");
-};
+const {
+  data: verification,
+  status: verification_status,
+  error: verification_error,
+  refresh,
+} = useCustomFetch<ApiResponse<LiveEvent>>(`transactions/${reference}/verify`);
 
 const loading = computed(
   () => status.value === "pending" || verification_status.value === "pending"
