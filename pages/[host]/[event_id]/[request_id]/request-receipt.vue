@@ -22,7 +22,7 @@
               :request="request"
               :event="data?.data"
               print
-              id="RECEIPT-PRINT"
+              id="RECEIPT_PRINT"
             />
           </div>
           <div class="flex justify-center my-4">
@@ -48,7 +48,7 @@ const { data, status, error } = useCustomFetch<ApiResponse<LiveEvent>>(
   `events/${route.params.event_id}`
 );
 
-const reference = route?.query?.trxref ?? ("" as string);
+const reference = route?.query?.reference ?? ("" as string);
 
 const {
   data: verification,

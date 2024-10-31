@@ -181,7 +181,7 @@ const downloadReceipt = (blob: Blob) => {
 };
 
 const { converting, convertNodeToImage } = useNodeToImage(
-  "#RECEIPT-PRINT",
+  "#RECEIPT_PRINT",
   downloadReceipt
 );
 

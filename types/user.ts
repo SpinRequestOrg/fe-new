@@ -37,5 +37,5 @@ export interface HostProfile {
     is_live: boolean;
     bank_account: null;
   };
-  live_event: LiveEvent;
+  live_event?: LiveEvent;
 }
