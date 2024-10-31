@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-if="events?.length">
     <Carousel :options="{ slidesToScroll: 'auto' }" :onReady="setEmblaApi">
       <template #container>
         <div class="flex flex-row items-stretch gap-x-2">
@@ -29,6 +29,7 @@
       ></div>
     </div>
   </div>
+  <CreateEventCard v-else />
 </template>
 
 <script lang="ts" setup>

@@ -79,6 +79,46 @@ export interface LiveEvent {
   requests: EventRequest[];
 }
 
+export interface PriceHistory {
+  old_price: string | number;
+  new_price: string | number;
+  created_at: string;
+  type: "hype" | "song";
+}
+
+export interface EventSummary {
+  event: {
+    id: number | string;
+    title: string;
+    address: string;
+    country: string;
+    state: string;
+    status: "live" | "new" | "ended";
+    start_date: string;
+    end_date: string | null;
+    earnings: number;
+    types: {
+      hype: {
+        count: number;
+        total_price: number | string;
+      };
+      song: {
+        count: number;
+        total_price: number | string;
+      };
+    };
+  };
+  total_earnings: number;
+  top_spenders: {
+    total: string | number;
+    user_id: number | string;
+    email: string;
+    name: string | null;
+  }[];
+
+  price_histories: PriceHistory[];
+}
+
 export interface RequestPaymentPayload {
   redirect_url: string;
   type: "wallet" | "gateway" | "split";

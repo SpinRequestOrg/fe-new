@@ -26,7 +26,7 @@ export const useLiveEvent = () => {
       const response = await event.endEvent(event_id);
       ending.value = false;
       if (response.data) {
-        navigateTo("/events/summary");
+        navigateTo(`/events/${event_id}/event-earnings`);
       }
     } catch (e) {
       ending.value = false;

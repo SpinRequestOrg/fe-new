@@ -40,7 +40,7 @@
                 class="w-full mt-6"
                 :variant="'destructive'"
                 :size="'lg'"
-                :ending="ending"
+                :loading="ending"
               >
                 END EVENT
               </Button>

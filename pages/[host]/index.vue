@@ -177,7 +177,7 @@ const {
 useSeoMeta({
   title: () => `${host.value?.stage_name}`,
   ogTitle: () =>
-    `${data.value?.data.live_event.title ?? ""} | ${
+    `${data.value?.data?.live_event?.title ?? ""} | ${
       host.value?.stage_name ?? ""
     }`,
   ogDescription: () => "Make your requests and take spotlight of this event",
@@ -198,7 +198,7 @@ useSeoMeta({
       "https://cdn.pixabay.com/photo/2018/05/10/11/34/concert-3387324_1280.jpg"
     }`,
   twitterTitle: () =>
-    `${data.value?.data.live_event.title ?? ""} | ${
+    `${data.value?.data?.live_event?.title ?? ""} | ${
       host.value?.stage_name ?? ""
     }`,
   ogType: "article",

@@ -42,6 +42,38 @@ export const timeDifference = (
   const minutes = Math.floor(diffInSeconds / 60);
   const seconds = diffInSeconds % 60;
 
+  return {
+    hours,
+    minutes,
+    seconds,
+  };
+};
+
+export const readableTimeDifference = (
+  startDate: Date | string,
+  endDate: Date | string
+) => {
+  const { hours, minutes, seconds } = timeDifference(startDate, endDate);
+  const total_hours = hours ? `${hours} hours ` : "";
+  const total_minutes = minutes ? `${minutes} min ` : "";
+  const total_seconds = seconds ? `${seconds} sec` : "";
+  return `${total_hours}${total_minutes}${total_seconds}`;
+};
+
+export const formattedTimeDifference = (
+  startDate: Date | string,
+  endDate: Date | string
+) => {
+  const start = new Date(startDate).getTime();
+  const end = new Date(endDate).getTime();
+  let diffInSeconds = Math.floor((end - start) / 1000);
+
+  const hours = Math.floor(diffInSeconds / 3600);
+  diffInSeconds %= 3600;
+
+  const minutes = Math.floor(diffInSeconds / 60);
+  const seconds = diffInSeconds % 60;
+
   return `${String(hours).padStart(2, "0")}:${String(minutes).padStart(
     2,
     "0"
