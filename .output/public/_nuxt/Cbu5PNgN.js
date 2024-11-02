@@ -1,0 +1,1 @@
+import{aZ as s,f as o,i as u,x as n}from"./nPKPItbM.js";const p=s(a=>{var t;const e=o();if(e.isHydrating&&e.payload.serverRendered)return;const{auth_user:r}=u();if(((t=r.value)==null?void 0:t.role)!=="host"&&a.path!=="/")return n("/")});export{p as default};
