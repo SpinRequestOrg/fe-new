@@ -1,4 +1,11 @@
 export default defineNuxtRouteMiddleware((to) => {
+  const nuxtApp = useNuxtApp();
+  if (
+    import.meta.client &&
+    nuxtApp.isHydrating &&
+    nuxtApp.payload.serverRendered
+  )
+    return;
   const AUTH_PAGES = [
     "login",
     "signup",
