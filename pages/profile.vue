@@ -161,8 +161,8 @@
           <QrCard
             :name="hostName"
             :link="hostLink"
-            :id="data?.data.id"
-            v-else-if="data?.data.id"
+            :id="data?.data?.id"
+            v-else-if="data?.data?.id"
           />
         </div>
       </div>
