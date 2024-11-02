@@ -89,7 +89,7 @@ const hostNewEvents = computed(() =>
 );
 
 const hostLiveEvent = computed(() =>
-  data.value?.data.find((item) => item.status === "live")
+  data.value?.data?.find((item) => item.status === "live")
 );
 
 const allEvents = computed(() =>
