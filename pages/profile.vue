@@ -20,8 +20,8 @@
                 >
                 </Avatar>
                 <div class="space-y-2">
-                  <div>{{ data?.data.stage_name }}</div>
-                  <div>{{ data?.data.email }}</div>
+                  <div>{{ data?.data?.stage_name }}</div>
+                  <div>{{ data?.data?.email }}</div>
                 </div>
               </div>
               <div class="lg:hidden">
