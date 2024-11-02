@@ -39,5 +39,25 @@ export const ResetPasswordSchema = object({
   return payload.password === payload.password_confirmation ? true : error;
 });
 
+export const ChangePasswordSchema = object({
+  old_password: string().required("Old password required"),
+  password: passwordSchema,
+  password_confirmation: string().required("Confirm password"),
+})
+  .test("new-password-test", "", (payload, context) => {
+    const error = context.createError({
+      path: "password",
+      message: "New password should not be same as old password",
+    });
+    return payload.old_password === payload.password ? error : true;
+  })
+  .test("confirmation-test", "", (payload, context) => {
+    const error = context.createError({
+      path: "password_confirmation",
+      message: "Password don't match",
+    });
+    return payload.password === payload.password_confirmation ? true : error;
+  });
+
 export type Audience = yup.InferType<typeof AudienceSchema>;
 export type Host = yup.InferType<typeof HostSchema>;

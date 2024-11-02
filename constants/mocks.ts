@@ -1,4 +1,4 @@
-import type { EventRequest } from "~/types/event";
+import type { EventRequest, EventSpender } from "~/types/event";
 
 export const eventRequests: EventRequest[] = [
   {
@@ -20,7 +20,7 @@ export const eventRequests: EventRequest[] = [
       created_at: "2023-10-01T10:00:00Z",
       updated_at: "2023-10-10T12:00:00Z",
     },
-    name: "Summer Beats",
+    nickname: "Summer Beats",
     audience: {
       id: 201,
       name: "John Smith",
@@ -40,7 +40,7 @@ export const eventRequests: EventRequest[] = [
     },
     type: "song",
     status: "new",
-    hype_message: "Get ready for some amazing tunes!",
+    description: "Get ready for some amazing tunes!",
     artist: null,
     song: null,
     amount: "50.00",
@@ -410,3 +410,61 @@ export const eventRequests: EventRequest[] = [
 
 export const LONG_ARTICLE =
   "Lorem ipsum dolor sit amet consectetur adipisicing elit. Esse quod asperiores error cum, iusto, suscipit praesentium voluptate quae voluptatum magnam officia incidunt quas distinctio illum dignissimos quibusdam eaque veritatis! Fugiat.";
+
+export const mockEventSpenders: EventSpender[] = [
+  {
+    total: 5100,
+    user_id: "5",
+    email: "lily.evans@example.com",
+    name: "Lily Evans",
+  },
+  {
+    total: 4250,
+    user_id: "1",
+    email: "amelia.earhart@example.com",
+    name: "Amelia Earhart",
+  },
+  {
+    total: 3500,
+    user_id: "3",
+    email: "sara.lane@example.com",
+    name: "Sara Lane",
+  },
+  {
+    total: 1800,
+    user_id: "2",
+    email: "sophia.wilson@example.com",
+    name: "Sophia Wilson",
+  },
+  {
+    total: "1450.75",
+    user_id: "6",
+    email: "michael.wolfe@example.com",
+    name: "Michael Wolfe",
+  },
+  {
+    total: 1200,
+    user_id: "10",
+    email: "emily.bronte@example.com",
+    name: "Emily Bronte",
+  },
+  { total: 890, user_id: "8", email: "john.doe@example.com", name: "John Doe" },
+  {
+    total: "640.75",
+    user_id: "7",
+    email: "audience@spinrequest.com",
+    name: "Test Audience",
+  },
+  {
+    total: "500",
+    user_id: "9",
+    email: "brad.pitt@example.com",
+    name: "Brad Pitt",
+  },
+  {
+    total: "275",
+    user_id: "4",
+    email: "derek.smith@example.com",
+    name: "Derek Smith",
+  },
+];
