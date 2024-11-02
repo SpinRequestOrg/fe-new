@@ -130,3 +130,10 @@ export interface RequestPaymentResponse {
   message: string;
   redirect_url: string;
 }
+
+export interface EventSpender {
+  total: string | number;
+  user_id: string | number;
+  email: string;
+  name: string;
+}

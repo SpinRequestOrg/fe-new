@@ -1,6 +1,9 @@
 <template>
   <div :class="cn(loading || error ? 'min-h-[60vh]' : '')">
-    <div v-if="loading" class="inset-0 absolute bg-black/40 z-[50]">
+    <div
+      v-if="loading"
+      :class="cn('inset-0 bg-black/40 z-[50]', fixed ? 'fixed' : 'absolute')"
+    >
       <div class="place-center">
         <Loader class="size-5 animate-spin" />
       </div>
@@ -22,7 +25,8 @@ withDefaults(
     loading?: boolean;
     error?: unknown;
     fallback_error_message?: string;
+    fixed?: boolean;
   }>(),
-  { fallback_error_message: "Failed" }
+  { fallback_error_message: "Failed", fixed: true }
 );
 </script>

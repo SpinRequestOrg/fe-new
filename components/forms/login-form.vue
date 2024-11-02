@@ -29,6 +29,7 @@ import { Form } from "vee-validate";
 import FormInput from "./form-input.vue";
 import Button from "../ui/button.vue";
 import { Loader } from "lucide-vue-next";
+import type { ApiError } from "~/types";
 
 const { $repo } = useNuxtApp();
 const { saveAuthUser } = useAuth();
@@ -58,10 +59,10 @@ const onSubmit = async ({
     loading.value = false;
     showToast({
       title: "Failed",
-      description: e?.data?.message ?? "Invalid credentials",
+      description: (e as ApiError)?.data?.message ?? "Invalid credentials",
       variant: "warning",
     });
-    console.error("ERROR LOGGING IN", e?.data?.message);
+    console.error("ERROR LOGGING IN", (e as ApiError)?.data?.message);
   }
 };
 

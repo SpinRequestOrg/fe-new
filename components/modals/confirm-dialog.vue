@@ -6,8 +6,8 @@
       </slot>
     </template>
     <template v-slot="{ toggle }">
-      <div>
-        <div class="py-10 text-2xl font-medium text-center font-display">
+      <div class="p-[25px]">
+        <div class="py-6 text-2xl font-medium text-center font-display">
           {{ message }}
         </div>
         <div class="flex items-center gap-4">

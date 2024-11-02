@@ -1,5 +1,5 @@
 <template>
-  <DialogRoot v-model:open="modal_open" @update:open="model = $event">
+  <DialogRoot :open="controlled ? model : modal_open" @update:open="updateOpen">
     <DialogTrigger as-child>
       <slot name="trigger">
         <Button :variant="'outline'">Open</Button>
@@ -14,16 +14,17 @@
       >
         <div :class="modal_variants({ size })">
           <div
-            class="absolute left-0 right-0 h-[0.5px] bg-slate-300/20 top-[46px]"
-            v-if="showClose"
-          ></div>
-          <DialogClose
-            class="text-foreground/60 hover:bg-foreground/10 focus:shadow-foreground/50 absolute top-[10px] right-[10px] inline-flex h-[25px] w-[25px] appearance-none items-center justify-center rounded-full focus:shadow-[0_0_0_2px] focus:outline-none"
-            aria-label="Close"
-            v-if="showClose"
+            class="px-6 py-4 flex justify-between relative border-b border-input"
           >
-            <X />
-          </DialogClose>
+            <slot name="heading"></slot>
+            <DialogClose
+              class="text-foreground/60 hover:bg-foreground/10 focus:shadow-foreground/50 ml-auto inline-flex h-[25px] w-[25px] appearance-none items-center justify-center rounded-full focus:shadow-[0_0_0_2px] focus:outline-none"
+              aria-label="Close"
+              v-if="showClose"
+            >
+              <X />
+            </DialogClose>
+          </div>
           <div>
             <DialogTitle>
               <slot name="title">
@@ -51,7 +52,7 @@ import Button from "./ui/button.vue";
 import { cva, type VariantProps } from "class-variance-authority";
 
 const modal_variants = cva(
-  "content fixed bg-gray-900 top-[50%] left-[50%] w-[90vw] translate-x-[-50%] translate-y-[-50%] rounded-xl bg-background p-[25px] shadow-[hsl(206_22%_7%_/_35%)_0px_10px_38px_-10px,_hsl(206_22%_7%_/_20%)_0px_10px_20px_-15px] focus:outline-none z-[100]",
+  "content fixed bg-gray-900 top-[50%] left-[50%] w-[90vw] translate-x-[-50%] translate-y-[-50%] rounded-xl bg-background shadow-[hsl(206_22%_7%_/_35%)_0px_10px_38px_-10px,_hsl(206_22%_7%_/_20%)_0px_10px_20px_-15px] focus:outline-none z-[100]",
   {
     variants: {
       size: {
@@ -69,16 +70,27 @@ const modal_variants = cva(
 
 type ModalVariant = VariantProps<typeof modal_variants>;
 
-withDefaults(
-  defineProps<{
-    showClose?: boolean;
-    size?: ModalVariant["size"];
-  }>(),
-  { showClose: true, size: "md" }
-);
+const {
+  showClose = true,
+  size = "md",
+  controlled = false,
+} = defineProps<{
+  showClose?: boolean;
+  size?: ModalVariant["size"];
+  controlled?: boolean;
+}>();
 
 const model = defineModel<boolean>();
-const modal_open = ref(model.value);
+const modal_open = ref(false);
+
+const updateOpen = (open: boolean) => {
+  if (controlled) {
+    model.value = open;
+    return;
+  }
+  modal_open.value = open;
+};
+
 const toggle = () => {
   modal_open.value = !modal_open.value;
 };

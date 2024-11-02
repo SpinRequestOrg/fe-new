@@ -1,4 +1,11 @@
 import type { ApiResponse } from ".";
+
+export interface BankDetails {
+  bank_name: string;
+  account_name: string;
+  account_number: string;
+  country: string;
+}
 export interface AuthUser {
   id: number;
   email: string;
@@ -13,7 +20,18 @@ export interface AuthUser {
   profession?: string;
   stage_name?: string;
   is_live?: false;
-  bank_account?: string | null;
+  bank_account?: BankDetails | null;
+}
+
+export interface ProfileUpdate {
+  user: {
+    name: string;
+    bio: string;
+    dob: string;
+    gender: string;
+    country: string;
+  };
+  bank_account: BankDetails;
 }
 
 export const PROFESSIONAL_TYPES = [
@@ -60,4 +78,10 @@ export interface ResetPasswordForm {
   password: string;
   password_confirmation: string;
   token: string;
+}
+
+export interface ChangePasswordForm {
+  old_password: string;
+  password: string;
+  password_confirmation: string;
 }

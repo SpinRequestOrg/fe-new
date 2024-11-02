@@ -1,7 +1,7 @@
 <template>
   <SelectRoot
-    v-model="selected_option"
-    @update:model-value="model = $event"
+    :model-value="selected_option"
+    @update:model-value="selected_option = $event"
     :disabled="disabled"
     :name="name"
   >
@@ -66,10 +66,8 @@
 </template>
 
 <script setup lang="ts">
-import { ChevronDown, Check } from "lucide-vue-next";
-
-const model = defineModel<string>();
-const selected_option = ref(model.value);
+import { ChevronDown } from "lucide-vue-next";
+const selected_option = defineModel<string>();
 
 withDefaults(
   defineProps<{

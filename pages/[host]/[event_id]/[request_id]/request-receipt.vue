@@ -14,7 +14,9 @@
           </UiButton>
         </div>
       </template>
-      <div class="grid grid-cols-1 lg:grid-cols-[1fr_400px] gap-6 mt-20">
+      <div
+        class="grid grid-cols-1 lg:grid-cols-[1fr_400px] gap-x-20 gap-y-6 mt-20"
+      >
         <div>
           <RequestReceiptItem :request="request" :event="data?.data" />
           <div class="absolute w-[450px] h-0 overflow-hidden">
@@ -34,6 +36,9 @@
             </NuxtLink>
           </div>
         </div>
+        <div>
+          <EventTopSpenders :loading="top_spenders_status === 'pending'" />
+        </div>
       </div>
     </SharedLoadingArea>
   </div>
@@ -42,7 +47,8 @@
 <script lang="ts" setup>
 import RequestReceiptItem from "~/components/request-receipt-item.vue";
 import type { ApiResponse } from "~/types";
-import type { LiveEvent } from "~/types/event";
+import type { EventSpender, LiveEvent } from "~/types/event";
+import EventTopSpenders from "~/components/event-top-spenders.vue";
 const route = useRoute();
 const { data, status, error } = useCustomFetch<ApiResponse<LiveEvent>>(
   `events/${route.params.event_id}`
@@ -56,6 +62,14 @@ const {
   error: verification_error,
   refresh,
 } = useCustomFetch<ApiResponse<LiveEvent>>(`transactions/${reference}/verify`);
+
+const {
+  data: top_spenders,
+  status: top_spenders_status,
+  error: top_spenders_error,
+} = useCustomFetch<ApiResponse<EventSpender[]>>(
+  `/events/top/spenders/${route.params.event_id}`
+);
 
 const loading = computed(
   () => status.value === "pending" || verification_status.value === "pending"

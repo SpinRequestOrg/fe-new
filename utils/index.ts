@@ -79,3 +79,22 @@ export const formattedTimeDifference = (
     "0"
   )}:${String(seconds).padStart(2, "0")}`;
 };
+
+export const getHexColor = (letter: string) => {
+  const colorGroups = {
+    group1: "#FF99F1", // A-I
+    group2: "#FFEE99", // J-R
+    group3: "#A799FF", // S-Z
+  };
+  const upperLetter = letter.toUpperCase();
+  if ("ABCDEFGHI".includes(upperLetter)) {
+    return colorGroups.group1;
+  }
+  if ("JKLMNOPQR".includes(upperLetter)) {
+    return colorGroups.group2;
+  }
+  if ("STUVWXYZ".includes(upperLetter)) {
+    return colorGroups.group3;
+  }
+  return colorGroups.group1;
+};
