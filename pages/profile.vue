@@ -20,8 +20,10 @@
                 >
                 </Avatar>
                 <div class="space-y-2">
-                  <div>{{ data?.data?.stage_name }}</div>
-                  <div>{{ data?.data?.email }}</div>
+                  <div class="font-semibold">{{ data?.data?.email }}</div>
+                  <div class="text-foreground/80">
+                    {{ data?.data?.stage_name ?? "Add a username" }}
+                  </div>
                 </div>
               </div>
               <div class="lg:hidden">
@@ -29,10 +31,17 @@
               </div>
 
               <UiTextarea
+                v-if="isHost"
                 label="Bio"
                 placeholder="Tell your audience about yourself"
                 class="min-h-[80px]"
                 v-model="profile.user.bio"
+              />
+              <UiInputField
+                v-else
+                label="Username"
+                placeholder="Enter your username"
+                v-model="audience_profile.user.name"
               />
             </div>
             <div class="hidden lg:block">
@@ -41,7 +50,27 @@
           </div>
 
           <div
+            class="border bg-white/5 p-6 rounded-2xl grid grid-cols-[56px_1fr_auto_40px] gap-x-4 items-center"
+          >
+            <div
+              class="aspect-square border bg-white/10 rounded-full grid place-items-center"
+            >
+              <SvgIcon name="wallet" />
+            </div>
+            <div class="space-y-px">
+              <div class="font-medium">Spin credits</div>
+              <div class="text-muted-foreground max-w-[350px]">
+                Your refunds from failed request are kept here so that you can
+                use it to request again
+              </div>
+            </div>
+            <div class="text-3xl font-semibold">₦{{ formatMoney(565.5) }}</div>
+            <SvgIcon name="right-caret" />
+          </div>
+
+          <div
             class="border bg-white/5 p-6 rounded-2xl grid lg:grid-cols-[150px_1fr_126px] xl:grid-cols-[200px_1fr_126px] gap-4"
+            v-if="isHost"
           >
             <div class="font-semibold">Stats</div>
             <div class="flex flex-wrap gap-4 items-center">
@@ -85,22 +114,45 @@
                 class="grid grid-cols-[repeat(auto-fit,_minmax(266px,_1fr))] gap-4"
               >
                 <UiInputField
+                  v-if="isHost"
                   type="date"
                   label="Date of birth"
                   v-model="profile.user.dob"
                 />
+                <UiInputField
+                  v-else
+                  type="date"
+                  label="Date of birth"
+                  v-model="audience_profile.user.dob"
+                />
                 <UiSelectField
+                  v-if="isHost"
                   :options="['male', 'female']"
                   placeholder="Select your gender"
                   label="Gender"
                   v-model="profile.user.gender"
                 />
+                <UiSelectField
+                  v-else
+                  :options="['male', 'female']"
+                  placeholder="Select your gender"
+                  label="Gender"
+                  v-model="audience_profile.user.gender"
+                />
               </div>
               <UiSelectField
+                v-if="isHost"
                 :options="['Nigeria']"
                 placeholder="Select your country of residence"
                 label="Country"
                 v-model="profile.user.country"
+              />
+              <UiSelectField
+                v-else
+                :options="['Nigeria']"
+                placeholder="Select your country of residence"
+                label="Country"
+                v-model="audience_profile.user.country"
               />
             </div>
           </div>
@@ -118,6 +170,7 @@
           </div>
           <div
             class="border bg-white/5 p-6 rounded-2xl grid lg:grid-cols-[150px_1fr_126px] xl:grid-cols-[200px_1fr_126px] gap-4"
+            v-if="isHost"
           >
             <div class="space-y-2">
               <div class="font-semibold">Bank Account</div>
@@ -151,7 +204,8 @@
             </UiButton>
           </div>
         </div>
-        <div>
+
+        <div v-if="isHost">
           <div
             class="w-full aspect-square rounded-3xl grid place-items-center border bg-white/5"
             v-if="status === 'pending'"
@@ -176,14 +230,19 @@ import UploadPhoto from "~/components/modals/upload-photo.vue";
 import QrCard from "~/components/cards/qr-card.vue";
 import { Loader } from "lucide-vue-next";
 import type { ApiError, ApiResponse } from "~/types";
-import type { AuthUser } from "~/types/auth";
-import type { ProfileUpdate } from "~/types/auth";
+import type { AudienceProfileUpdate, AuthUser } from "~/types/auth";
+import type { HostProfileUpdate } from "~/types/auth";
+import SvgIcon from "~/components/svg-icon.vue";
 const {
   $config: {
     public: { APP_BASE_URL },
   },
   $repo: { auth },
 } = useNuxtApp();
+
+const { auth_user } = useAuth();
+
+const isHost = computed(() => auth_user.value?.role === "host");
 
 const { data, status, error, refresh } =
   useCustomFetch<ApiResponse<AuthUser>>("/user");
@@ -198,7 +257,7 @@ const hostLink = computed(
   () => `${APP_BASE_URL}/${data.value?.data?.slug ?? ""}`
 );
 
-const profile = useState<ProfileUpdate>("USER-PROFILE", () => {
+const profile = useState<HostProfileUpdate>("HOST-PROFILE", () => {
   return {
     user: {
       name: data.value?.data?.stage_name ?? "",
@@ -216,14 +275,32 @@ const profile = useState<ProfileUpdate>("USER-PROFILE", () => {
   };
 });
 
+const audience_profile = useState<AudienceProfileUpdate>(
+  "AUDEINCE-PROFILE",
+  () => {
+    return {
+      user: {
+        name: data.value?.data?.stage_name ?? "",
+        dob: data.value?.data?.dob ?? "",
+        gender: data.value?.data?.gender ?? "",
+        country: data.value?.data?.country ?? "",
+      },
+    };
+  }
+);
+
 watchEffect(() => {
   const user = data.value?.data;
   if (user) {
     profile_picture.value = user?.profile_picture ?? "";
     profile.value.user.bio = user?.bio ?? "";
     profile.value.user.country = user.country ?? "";
+    audience_profile.value.user.country = user.country ?? "";
     profile.value.user.dob = user.dob ?? "";
+    audience_profile.value.user.dob = user.dob ?? "";
     profile.value.user.gender = user.gender ?? "";
+    audience_profile.value.user.gender = user.gender ?? "";
+    audience_profile.value.user.name = user.stage_name ?? "";
     profile.value.user.name = user.stage_name ?? "";
     profile.value.bank_account.account_name =
       user.bank_account?.account_name ?? "Rilwan";
@@ -264,12 +341,13 @@ const customBankVerification = () => {
 
 const updateProfile = async () => {
   try {
-    const verified = customBankVerification();
+    const verified = isHost.value ? customBankVerification() : true;
     if (!verified) return;
     updating.value = true;
-    const response = await auth.updateProfile(profile.value);
+    const response = await auth.updateProfile(
+      isHost.value ? profile.value : audience_profile.value
+    );
     updating.value = false;
-    console.log({ response });
     if (response.data) {
       showToast({
         title: "Updated",

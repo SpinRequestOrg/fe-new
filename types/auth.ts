@@ -23,7 +23,7 @@ export interface AuthUser {
   bank_account?: BankDetails | null;
 }
 
-export interface ProfileUpdate {
+export interface HostProfileUpdate {
   user: {
     name: string;
     bio: string;
@@ -32,6 +32,15 @@ export interface ProfileUpdate {
     country: string;
   };
   bank_account: BankDetails;
+}
+
+export interface AudienceProfileUpdate {
+  user: {
+    name: string;
+    dob: string;
+    gender: string;
+    country: string;
+  };
 }
 
 export const PROFESSIONAL_TYPES = [

@@ -1,8 +1,7 @@
 export default defineNuxtRouteMiddleware((to) => {
-  return;
-  // const { auth_user } = useAuth();
-  // const role = auth_user.value?.role;
-  // if (role !== "host" && to.path !== "/") {
-  //   return navigateTo("/");
-  // }
+  const { auth_user } = useAuth();
+  const role = auth_user.value?.role;
+  if (role !== "host" && to.path !== "/") {
+    return navigateTo("/");
+  }
 });

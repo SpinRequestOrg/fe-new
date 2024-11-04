@@ -43,6 +43,7 @@ import FormSelect from "./form-select.vue";
 import { PROFESSIONAL_TYPES } from "~~/types/auth";
 import { HostSchema, type Host } from "~~/schemas/user-schema";
 import { Loader } from "lucide-vue-next";
+import type { ApiError } from "~/types";
 
 const {
   $repo: { auth },
@@ -74,9 +75,10 @@ const handleSubmit = async (data: Host) => {
     loading.value = false;
     saveAuthUser(response.data.token, response.data.user);
     const destination =
-      response?.data?.role === "host" ? "/profile" : "/search";
+      response?.data?.role === "host" ? "/dashboard" : "/search";
     useRouter().push(destination);
-  } catch (e) {
+  } catch (error) {
+    const e = error as ApiError;
     loading.value = false;
     showToast({
       title: "Failed",
