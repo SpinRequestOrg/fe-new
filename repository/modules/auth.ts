@@ -6,7 +6,8 @@ import type {
   AuthUser,
   ResetPasswordForm,
   ChangePasswordForm,
-  ProfileUpdate,
+  HostProfileUpdate,
+  AudienceProfileUpdate,
 } from "~/types/auth";
 import type { ApiResponse } from "~/types";
 import type { $Fetch, NitroFetchOptions } from "nitropack";
@@ -95,7 +96,11 @@ export default class Auth {
     return await this.call<string>("POST", this.UPLOAD_FILE, payload);
   }
 
-  async updateProfile(payload: ProfileUpdate) {
-    return await this.call<ProfileUpdate>("POST", this.UPDATE_PROFILE, payload);
+  async updateProfile(payload: HostProfileUpdate | AudienceProfileUpdate) {
+    return await this.call<HostProfileUpdate | AudienceProfileUpdate>(
+      "POST",
+      this.UPDATE_PROFILE,
+      payload
+    );
   }
 }
