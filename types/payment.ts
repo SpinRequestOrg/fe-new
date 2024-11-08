@@ -14,3 +14,22 @@ export interface PaymentVerificationResponse {
   updated_at: string;
   deleted_at: string | null;
 }
+
+export interface Bank {
+  id: number | string;
+  name: string;
+  code: string;
+}
+
+export interface BankVerificationPayload {
+  code: string;
+  account_number: string;
+  bank_name: string;
+  country: string;
+}
+
+export interface BankVerificationResponse {
+  account_name: string;
+  account_number: string;
+  bank_id: string;
+}

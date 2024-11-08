@@ -4,6 +4,7 @@ export interface BankDetails {
   bank_name: string;
   account_name: string;
   account_number: string;
+  code: string;
   country: string;
 }
 export interface AuthUser {
@@ -22,6 +23,12 @@ export interface AuthUser {
   user_name?: string;
   is_live?: false;
   bank_account?: BankDetails | null;
+  stats?: {
+    events: number;
+    followers: number;
+    fulfilled: number;
+    requests: number;
+  };
 }
 
 export interface HostProfileUpdate {

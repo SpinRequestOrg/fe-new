@@ -92,28 +92,36 @@
               <div class="flex items-center gap-2">
                 <SvgIcon name="account_circle" />
                 <div class="flex items-center gap-1">
-                  <span class="font-semibold">{{ 0 }}</span>
+                  <span class="font-semibold">{{
+                    data?.data?.stats?.followers ?? 0
+                  }}</span>
                   <span class="text-muted-foreground">FOLLOWERS</span>
                 </div>
               </div>
               <div class="flex items-center gap-2">
                 <SvgIcon name="celebration" />
                 <div class="flex items-center gap-1">
-                  <span class="font-semibold">{{ 12 }}</span>
+                  <span class="font-semibold">{{
+                    data?.data?.stats?.events ?? 0
+                  }}</span>
                   <span class="text-muted-foreground">EVENTS</span>
                 </div>
               </div>
               <div class="flex items-center gap-2">
                 <SvgIcon name="genres" />
                 <div class="flex items-center gap-1">
-                  <span class="font-semibold">{{ 4 }}</span>
+                  <span class="font-semibold">{{
+                    data?.data?.stats?.requests ?? 0
+                  }}</span>
                   <span class="text-muted-foreground">REQUESTS</span>
                 </div>
               </div>
               <div class="flex items-center gap-2">
                 <SvgIcon name="genres" />
                 <div class="flex items-center gap-1">
-                  <span class="font-semibold">{{ 2 }}</span>
+                  <span class="font-semibold">{{
+                    data?.data?.stats?.fulfilled ?? 0
+                  }}</span>
                   <span class="text-muted-foreground">FUFILLED</span>
                 </div>
               </div>
@@ -198,8 +206,9 @@
               <UiSelectField
                 placeholder="Select your bank"
                 label="Bank"
-                :options="['GT Bank', 'Access PLC']"
+                :options="bankNames"
                 v-model="profile.bank_account.bank_name"
+                :loading="bank_status === 'pending'"
               />
               <UiInputField
                 placeholder="Enter your bank account"
@@ -210,7 +219,19 @@
                 label="Account Name"
                 disabled
                 v-model="profile.bank_account.account_name"
-              />
+              >
+                <div
+                  class="absolute right-3 top-1/2 -translate-y-1/2"
+                  v-if="verifying"
+                >
+                  <div
+                    class="flex gap-x-1 items-center text-sm text-muted-foreground"
+                  >
+                    <Loader class="size-4 animate-spin" />
+                    <div>Verifying..</div>
+                  </div>
+                </div>
+              </UiInputField>
             </div>
           </div>
           <div class="flex justify-end">
@@ -249,11 +270,12 @@ import type { AudienceProfileUpdate, AuthUser } from "~/types/auth";
 import type { HostProfileUpdate } from "~/types/auth";
 import SvgIcon from "~/components/svg-icon.vue";
 import { UsernameSchema } from "~/schemas/user-schema";
+import type { Bank, BankVerificationPayload } from "~/types/payment";
 const {
   $config: {
     public: { APP_BASE_URL },
   },
-  $repo: { auth },
+  $repo: { auth, bank: bankModule },
 } = useNuxtApp();
 
 const { auth_user, auth_token, saveAuthUser } = useAuth();
@@ -262,6 +284,23 @@ const isHost = computed(() => auth_user.value?.role === "host");
 
 const { data, status, error, refresh } =
   useCustomFetch<ApiResponse<AuthUser>>("/user?stat=true");
+
+const { data: bank, status: bank_status } =
+  useCustomFetch<ApiResponse<Bank[]>>("/bankaccount/list");
+
+const NigerianBankList = computed(() => {
+  return bank?.value?.data ?? [];
+});
+
+const selectedBank = computed(() =>
+  NigerianBankList.value.find(
+    (item) => item.name === profile.value.bank_account.bank_name
+  )
+);
+
+const bankNames = computed(() =>
+  NigerianBankList.value.map((item) => item.name)
+);
 
 const name = computed(
   () => data.value?.data?.stage_name ?? data.value?.data?.email
@@ -286,6 +325,7 @@ const profile = useState<HostProfileUpdate>("HOST-PROFILE", () => {
       bank_name: data.value?.data?.bank_account?.bank_name ?? "",
       account_name: data.value?.data?.bank_account?.account_name ?? "",
       account_number: data?.value?.data?.bank_account?.account_number ?? "",
+      code: data.value?.data.bank_account?.code ?? "",
       country: data?.value?.data?.bank_account?.country ?? "",
     },
   };
@@ -333,7 +373,7 @@ watchEffect(() => {
     // audience_profile.value.user.name = user.stage_name ?? "";
     profile.value.user.name = user.stage_name ?? "";
     profile.value.bank_account.account_name =
-      user.bank_account?.account_name ?? "Rilwan";
+      user.bank_account?.account_name ?? "";
     profile.value.bank_account.account_number =
       user.bank_account?.account_number ?? "";
     profile.value.bank_account.bank_name = user.bank_account?.bank_name ?? "";
@@ -342,9 +382,49 @@ watchEffect(() => {
   }
 });
 
+const verifying = ref(false);
+const verifyAccount = async (payload: BankVerificationPayload) => {
+  try {
+    profile.value.bank_account.account_name = "";
+    verifying.value = true;
+    const response = await bankModule.verifyBankAccount(payload);
+    verifying.value = false;
+    const account_name = response?.data?.account_name;
+    if (account_name) {
+      profile.value.bank_account.account_name = account_name;
+    } else
+      showToast({
+        title: response.message ?? "Invalid account",
+        variant: "warning",
+      });
+  } catch (e) {
+    verifying.value = false;
+    const error = e as ApiError;
+    showToast({
+      title: error.data?.message ?? "Invalid account",
+      variant: "warning",
+    });
+    console.error("FAILED TO VERIFY ACCOUNT", payload);
+    profile.value.bank_account.account_name = "";
+  }
+};
+
+watchEffect(() => {
+  const payload: BankVerificationPayload = {
+    bank_name: selectedBank.value?.name ?? "",
+    account_number: profile.value.bank_account.account_number,
+    code: selectedBank.value?.code ?? "",
+    country: "Nigeria",
+  };
+  if (payload.bank_name && payload.code) {
+    verifyAccount(payload);
+  }
+});
+
 const updating = ref(false);
 
 const customBankVerification = () => {
+  profile.value.bank_account.code = selectedBank.value?.code ?? "";
   const fields = [
     {
       field: "bank_name",

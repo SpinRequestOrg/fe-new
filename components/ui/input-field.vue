@@ -16,6 +16,7 @@
       <Eye v-if="type === 'password'" class="size-5 text-muted-foreground" />
       <EyeOff v-else class="size-5 text-muted-foreground" />
     </div>
+    <slot />
   </div>
 </template>
 
