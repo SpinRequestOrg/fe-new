@@ -21,7 +21,7 @@
     </div>
 
     <div class="sticky mac:hidden w-scree -trnslate-x-[var(--cp)] mb-6 z-20">
-      <EventCarousel :events="allEvents" />
+      <EventCarousel :events="allEvents" @done="refresh" />
     </div>
 
     <div class="grid mac:grid-cols-[1fr_auto] items-start gap-4">
@@ -48,7 +48,11 @@
       >
         <div class="sticky top-[80px] left-0 right-0 z-10 space-y-6">
           <CreateEventCard />
-          <EventCard :event="hostLiveEvent" v-if="hostLiveEvent" />
+          <EventCard
+            :event="hostLiveEvent"
+            v-if="hostLiveEvent"
+            @done="refresh"
+          />
         </div>
 
         <div class="my-6 grid place-items-center" v-if="status === 'pending'">
@@ -60,6 +64,7 @@
             v-for="event in hostNewEvents"
             :key="event.id"
             :event="event"
+            @done="refresh"
           />
         </template>
       </div>
@@ -79,7 +84,7 @@ definePageMeta({
   middleware: ["host"],
 });
 const { auth_user } = useAuth();
-const { data, status, error } =
+const { data, status, error, refresh } =
   useCustomFetch<ApiResponse<LiveEvent[]>>("/events");
 
 const hostNewEvents = computed(() =>

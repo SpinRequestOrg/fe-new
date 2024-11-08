@@ -3,10 +3,29 @@
     class="rounded-2xl bg-background border border-ring/30 px-4 sm:px-6 py-4 relative overflow-hidden w-full grid"
   >
     <div
-      class="bg-[#FFEE99] opacity-20 rounded-[1000px] blur-[100px] translate-x-1/2 -translate-y-1/2 size-56 absolute right-0 top-0 z-[2]"
+      class="bg-[#FFEE99] opacity-20 rounded-[1000px] blur-[100px] translate-x-1/2 -translate-y-1/2 size-56 absolute right-0 top-0"
     ></div>
-    <div class="mb-1 font-semibold text-2xl">
-      {{ event.title }}
+    <div
+      class="grid grid-cols-[1fr_auto_auto] gap-x-2 items-center relative z-10"
+    >
+      <div class="mb-1 font-semibold text-2xl">
+        {{ event.title }}
+      </div>
+      <template v-if="event.status === 'new'">
+        <EditEvent
+          v-bind="eventFormDetails"
+          :id="event.id"
+          @done="emit('done')"
+        />
+        <ConfirmDialog
+          message="Are you sure you want to delete this event"
+          :on-confirm="deleteEvent"
+        >
+          <Button :size="'icon'" :variant="'ghost'" :loading="deleting">
+            <Trash2 class="size-5 text-muted-foreground cursor-pointer" />
+          </Button>
+        </ConfirmDialog>
+      </template>
     </div>
     <div class="flex text-sm text-muted-foreground gap-1 items-center">
       <SvgIcon name="location" />
@@ -60,11 +79,30 @@
 
 <script lang="ts" setup>
 import { cva } from "class-variance-authority";
-import type { LiveEvent } from "~/types/event";
+import type { LiveEvent, EventFormDetails } from "~/types/event";
 import Button from "../ui/button.vue";
-import { Dot } from "lucide-vue-next";
+import { Dot, Trash2 } from "lucide-vue-next";
+import EditEvent from "../modals/edit-event.vue";
+import type { ApiError } from "~/types";
+import ConfirmDialog from "../modals/confirm-dialog.vue";
 
 const props = defineProps<{ event: LiveEvent }>();
+const emit = defineEmits(["done"]);
+
+const eventFormDetails = computed<EventFormDetails>(() => {
+  const [main_type, other_type] = props.event.types.map((item) => item.name);
+  return {
+    title: props?.event?.title ?? "",
+    address: props?.event?.address ?? "",
+    country: props?.event?.country,
+    state: props?.event?.state,
+    hype_price:
+      props.event.types.find((item) => item.name === "hype")?.price ?? 0,
+    song_price:
+      props.event.types.find((item) => item.name === "song")?.price ?? 0,
+    type: other_type ? "both" : main_type,
+  };
+});
 
 const avatar_variant = cva(
   "aspect-square rounded-full grid place-items-center",
@@ -96,12 +134,33 @@ const goLive = async () => {
       navigateTo(`/events/${response.data.id}`);
     }
     loading.value = false;
-  } catch (e) {
+  } catch (error) {
+    const e = error as ApiError;
     loading.value = false;
     console.error("FAILED TO GO LIVE", e);
     showToast({
       title: "Failed",
       description: e?.data?.message ?? "Failed to go live",
+      variant: "warning",
+    });
+  }
+};
+
+const deleting = ref(false);
+const deleteEvent = async () => {
+  try {
+    deleting.value = true;
+    const response = await eventModule.deleteEvent(props.event.id);
+    deleting.value = false;
+    showToast({ title: response.message });
+    emit("done");
+  } catch (error) {
+    const e = error as ApiError;
+    deleting.value = false;
+    console.error("FAILED TO DELETE EVENT", e);
+    showToast({
+      title: "Failed",
+      description: e?.data?.message ?? "Failed to delete event",
       variant: "warning",
     });
   }

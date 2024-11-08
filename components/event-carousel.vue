@@ -9,6 +9,7 @@
             v-for="event in events"
             :key="event.id"
             :event="event"
+            @done="emit('done')"
           />
         </div>
       </template>
@@ -44,6 +45,7 @@ const embla = ref<EmblaCarouselType>();
 const setEmblaApi = (api: EmblaCarouselType) => {
   embla.value = api;
 };
+const emit = defineEmits(["done"]);
 
 const { control_list, selected_index, goTo } = useCarouselPagination(embla);
 </script>

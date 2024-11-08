@@ -54,9 +54,12 @@ const props = defineProps<{
   host_slug: string;
 }>();
 
+const { auth_user } = useAuth();
+
 const formInitialValue = computed(() => ({
   type: props.request.name,
   event_id: Number(props.event_id),
+  nickname: auth_user.value?.user_name,
 }));
 
 const { createEventRequest, creating } = useLiveEvent();

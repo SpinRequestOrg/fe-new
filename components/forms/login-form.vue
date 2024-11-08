@@ -53,8 +53,8 @@ const onSubmit = async ({
     saveAuthUser(response.data.token, response.data.user);
     loading.value = false;
     const destination =
-      response?.data?.role === "host" ? "/dashboard" : "/search";
-    useRouter().push(destination);
+      response?.data?.role === "host" ? "/dashboard" : "/audience";
+    return navigateTo(destination);
   } catch (e) {
     loading.value = false;
     showToast({

@@ -58,7 +58,7 @@ export default class Auth {
   }
 
   async fetchProfile() {
-    return await this.call<AuthUser>("GET", this.USER_PROFILE);
+    return await this.call<AuthUser>("GET", `${this.USER_PROFILE}?stat=true`);
   }
 
   async verifyEmail(user_id: string, signature: string) {

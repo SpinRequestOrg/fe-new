@@ -16,7 +16,7 @@
       </NuxtLink>
     </LiveBanner>
     <SharedBackButton
-      to="/search"
+      to="/audience"
       :class="cn(data?.data.live_event ? 'mt-10' : '')"
     />
     <SharedLoadingArea :loading="status === 'pending'" :error="error">

@@ -52,7 +52,7 @@ import Button from "./ui/button.vue";
 import { cva, type VariantProps } from "class-variance-authority";
 
 const modal_variants = cva(
-  "content fixed bg-gray-900 top-[50%] left-[50%] w-[90vw] translate-x-[-50%] translate-y-[-50%] rounded-xl bg-background shadow-[hsl(206_22%_7%_/_35%)_0px_10px_38px_-10px,_hsl(206_22%_7%_/_20%)_0px_10px_20px_-15px] focus:outline-none z-[100]",
+  "content fixed bg-gray-900 overflow-auto top-[50%] left-[50%] w-[90vw] translate-x-[-50%] translate-y-[-50%] rounded-xl bg-background shadow-[hsl(206_22%_7%_/_35%)_0px_10px_38px_-10px,_hsl(206_22%_7%_/_20%)_0px_10px_20px_-15px] focus:outline-none z-[100]",
   {
     variants: {
       size: {

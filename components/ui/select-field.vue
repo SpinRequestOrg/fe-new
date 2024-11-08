@@ -2,13 +2,13 @@
   <SelectRoot
     :model-value="selected_option"
     @update:model-value="selected_option = $event"
-    :disabled="disabled"
+    :disabled="disabled || loading"
     :name="name"
   >
     <SelectTrigger
       :class="
         cn(
-          `inline-flex relative border [&[data-state='open']_.trigger-icon]:rotate-180 w-full rounded-lg min-w-[160px] items-center justify-between px-3 text-[14px] leading-none h-[58px] gap-[5px] bg-white/5 shadow-[0_2px_10px] shadow-black/10 focus:shadow-[0_0_0_2px] focus:shadow-primary outline-none`,
+          `inline-flex relative border data-[disabled]:cursor-not-allowed data-[disabled]:opacity-50 [&[data-state='open']_.trigger-icon]:rotate-180 w-full rounded-lg min-w-[160px] items-center justify-between px-3 text-[14px] leading-none h-[58px] gap-[5px] bg-white/5 shadow-[0_2px_10px] shadow-black/10 focus:shadow-[0_0_0_2px] focus:shadow-primary outline-none`,
           state === 'error' ? `border-destructive` : `border-border`
         )
       "
@@ -23,7 +23,11 @@
           )
         "
       />
-      <ChevronDown class="trigger-icon size-4 relative transition-transform" />
+      <Loader class="size-4 animate-spin" v-if="loading" />
+      <ChevronDown
+        class="trigger-icon size-4 relative transition-transform"
+        v-else
+      />
       <span
         v-if="selected_option && label"
         :class="
@@ -66,7 +70,7 @@
 </template>
 
 <script setup lang="ts">
-import { ChevronDown } from "lucide-vue-next";
+import { ChevronDown, Loader } from "lucide-vue-next";
 const selected_option = defineModel<string>();
 
 withDefaults(
@@ -77,12 +81,14 @@ withDefaults(
     name?: string;
     disabled?: boolean;
     state?: "normal" | "error";
+    loading?: boolean;
   }>(),
   {
     options: () => [],
     disabled: false,
     state: "normal",
     label: "",
+    loading: false,
   }
 );
 </script>
