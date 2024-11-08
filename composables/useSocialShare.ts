@@ -14,7 +14,7 @@ export const useSocialShare = (
 
   const twitterShareLink = `https://x.com/intent/post?url=${url}&feature=shared&text=${
     title ?? ""
-  }&via=XCreators`;
+  }&via=spinrequest`;
   const whatsappShareLink = `https://api.whatsapp.com/send?text=${title}%20${url}&feature=shared&type=custom_url&app_absent=0`;
 
   const emailShareLink = `mailto:?subject=${title}&body=${url}`;
