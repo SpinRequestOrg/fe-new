@@ -5,8 +5,17 @@
       <div class="text-2xl font-medium font-display">My Profile</div>
     </div>
     <SharedLoadingArea :loading="status === 'pending'" :error="error">
-      <div class="grid md:grid-cols-[1fr_348px] gap-6 mt-20">
-        <div class="space-y-4">
+      <div
+        :class="
+          cn(
+            'grid gap-6 mt-20',
+            isHost
+              ? 'md:grid-cols-[1fr_348px]'
+              : 'md:grid-cols-[1fr_250px] lg:grid-cols-[1fr_348px]'
+          )
+        "
+      >
+        <div :class="cn('space-y-4')">
           <div
             class="border bg-white/5 p-6 rounded-2xl grid lg:grid-cols-[150px_1fr_126px] xl:grid-cols-[200px_1fr_126px] gap-6"
           >
@@ -41,7 +50,7 @@
                 v-else
                 label="Username"
                 placeholder="Enter your username"
-                v-model="audience_profile.user.name"
+                v-model="audience_profile.user.user_name"
               />
             </div>
             <div class="hidden lg:block">
@@ -50,7 +59,8 @@
           </div>
 
           <div
-            class="border bg-white/5 p-6 rounded-2xl grid grid-cols-[56px_1fr_auto_40px] gap-x-4 items-center"
+            class="border bg-white/5 p-6 rounded-2xl grid grid-cols-[56px_1fr_40px] lg:grid-cols-[56px_1fr_auto_40px] gap-x-4 items-center"
+            v-if="!isHost"
           >
             <div
               class="aspect-square border bg-white/10 rounded-full grid place-items-center"
@@ -63,8 +73,13 @@
                 Your refunds from failed request are kept here so that you can
                 use it to request again
               </div>
+              <div class="text-xl lg:hidden font-semibold">
+                ₦{{ formatMoney(565.5) }}
+              </div>
             </div>
-            <div class="text-3xl font-semibold">₦{{ formatMoney(565.5) }}</div>
+            <div class="text-3xl font-semibold hidden lg:block">
+              ₦{{ formatMoney(565.5) }}
+            </div>
             <SvgIcon name="right-caret" />
           </div>
 
@@ -233,6 +248,7 @@ import type { ApiError, ApiResponse } from "~/types";
 import type { AudienceProfileUpdate, AuthUser } from "~/types/auth";
 import type { HostProfileUpdate } from "~/types/auth";
 import SvgIcon from "~/components/svg-icon.vue";
+import { UsernameSchema } from "~/schemas/user-schema";
 const {
   $config: {
     public: { APP_BASE_URL },
@@ -240,12 +256,12 @@ const {
   $repo: { auth },
 } = useNuxtApp();
 
-const { auth_user } = useAuth();
+const { auth_user, auth_token, saveAuthUser } = useAuth();
 
 const isHost = computed(() => auth_user.value?.role === "host");
 
 const { data, status, error, refresh } =
-  useCustomFetch<ApiResponse<AuthUser>>("/user");
+  useCustomFetch<ApiResponse<AuthUser>>("/user?stat=true");
 
 const name = computed(
   () => data.value?.data?.stage_name ?? data.value?.data?.email
@@ -280,7 +296,7 @@ const audience_profile = useState<AudienceProfileUpdate>(
   () => {
     return {
       user: {
-        name: data.value?.data?.stage_name ?? "",
+        user_name: data.value?.data?.user_name ?? "",
         dob: data.value?.data?.dob ?? "",
         gender: data.value?.data?.gender ?? "",
         country: data.value?.data?.country ?? "",
@@ -292,6 +308,20 @@ const audience_profile = useState<AudienceProfileUpdate>(
 watchEffect(() => {
   const user = data.value?.data;
   if (user) {
+    if (auth_user.value && auth_token.value) {
+      const updated_user: AuthUser = {
+        ...auth_user.value,
+        bio: user.bio,
+        country: user.country,
+        dob: user.dob,
+        gender: user.gender,
+        profession: user.profession,
+        stage_name: user.stage_name,
+        user_name: user.user_name,
+        profile_picture: user.profile_picture,
+      };
+      saveAuthUser(auth_token.value, updated_user);
+    }
     profile_picture.value = user?.profile_picture ?? "";
     profile.value.user.bio = user?.bio ?? "";
     profile.value.user.country = user.country ?? "";
@@ -300,7 +330,7 @@ watchEffect(() => {
     audience_profile.value.user.dob = user.dob ?? "";
     profile.value.user.gender = user.gender ?? "";
     audience_profile.value.user.gender = user.gender ?? "";
-    audience_profile.value.user.name = user.stage_name ?? "";
+    // audience_profile.value.user.name = user.stage_name ?? "";
     profile.value.user.name = user.stage_name ?? "";
     profile.value.bank_account.account_name =
       user.bank_account?.account_name ?? "Rilwan";
@@ -341,6 +371,16 @@ const customBankVerification = () => {
 
 const updateProfile = async () => {
   try {
+    if (!isHost.value) {
+      const valid = await UsernameSchema.isValid(
+        audience_profile.value.user.user_name
+      );
+      if (!valid) {
+        showToast({ title: "Username not valid", variant: "warning" });
+        return;
+      }
+    }
+
     const verified = isHost.value ? customBankVerification() : true;
     if (!verified) return;
     updating.value = true;

@@ -7,7 +7,7 @@ export interface BankDetails {
   country: string;
 }
 export interface AuthUser {
-  id: number;
+  id: number | string;
   email: string;
   profile_picture: string;
   bio: string;
@@ -19,6 +19,7 @@ export interface AuthUser {
   slug?: string;
   profession?: string;
   stage_name?: string;
+  user_name?: string;
   is_live?: false;
   bank_account?: BankDetails | null;
 }
@@ -36,10 +37,11 @@ export interface HostProfileUpdate {
 
 export interface AudienceProfileUpdate {
   user: {
-    name: string;
+    name?: string;
     dob: string;
     gender: string;
     country: string;
+    user_name: string;
   };
 }
 

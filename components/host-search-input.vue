@@ -13,16 +13,18 @@
       class="absolute left-4 top-1/2 -translate-y-[52%] size-5 text-muted-foreground"
     />
     <div class="absolute right-4 top-1/2 -translate-y-[52%] z-[4]">
-      <Button
-        :size="'icon'"
-        :variant="'outline'"
-        class="animate-in slide-in-from-left-1 fade-out-0"
-        v-if="search || searching"
-        :loading="searching"
-        @click="handleSearch"
-      >
-        <ArrowRight />
-      </Button>
+      <NuxtLink :to="`/search?search=${search}`">
+        <Button
+          :size="'icon'"
+          :variant="'outline'"
+          class="animate-in slide-in-from-left-1 fade-out-0"
+          v-if="search || searching"
+          :loading="searching"
+          :disabled="!searched_hosts?.length"
+        >
+          <ArrowRight />
+        </Button>
+      </NuxtLink>
     </div>
     <div class="absolute left-0 translate-y-[35px] z-[5] w-full">
       <HostSearchList
@@ -79,7 +81,8 @@ watch(search, (data) => {
 
 const handleKeyEvent = (e: KeyboardEvent) => {
   if (e.key === "Enter" && search.value) {
-    handleSearch();
+    return navigateTo(`/search?search=${search.value}`);
+    // handleSearch();
   }
 };
 </script>

@@ -8,7 +8,14 @@
           <AvatarFallback
             class="leading-1 flex h-full w-full items-center justify-center text-[15px] font-medium uppercase"
           >
-            {{ getInitials(auth_user?.stage_name ?? auth_user?.email ?? "") }}
+            {{
+              getInitials(
+                auth_user?.stage_name ??
+                  auth_user?.user_name ??
+                  auth_user?.email ??
+                  ""
+              )
+            }}
           </AvatarFallback>
         </AvatarRoot>
       </Button>

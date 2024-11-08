@@ -1,6 +1,11 @@
 import type yup from "yup";
 import { object, string } from "yup";
 
+export const UsernameSchema = string()
+  .required("Username is required")
+  .max(24, "Username too long")
+  .matches(/^\S*$/, "Username should not have space");
+
 export const passwordSchema = string()
   .required("Enter your password")
   .min(8, "Password should be at least 8 characters long")
@@ -15,6 +20,7 @@ export const passwordSchema = string()
 export const AudienceSchema = object({
   name: string().optional().min(3, "Name should be at least 3 characters long"),
   email: string().required("Email is required").email("Enter a valid email"),
+  user_name: UsernameSchema,
   password: passwordSchema,
 });
 

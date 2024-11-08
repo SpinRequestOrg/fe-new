@@ -24,6 +24,7 @@ export default class Auth {
   UPDATE_EVENT_REQUEST = "requests/status";
   EVENT_REQUESTS = "requests";
   CREATE_REQUEST = "requests";
+  DELETE_EVENT = "events";
 
   constructor(fetcher: $Fetch) {
     this.$fetch = fetcher;
@@ -44,6 +45,21 @@ export default class Auth {
 
   async createEvent(event: EventPayload) {
     return await this.call<LiveEvent>("POST", this.CREATE_EVENT, event);
+  }
+
+  async editEvent(event: EventPayload, event_id: string | number) {
+    return await this.call<LiveEvent>(
+      "PUT",
+      `${this.CREATE_EVENT}/${event_id}`,
+      event
+    );
+  }
+
+  async deleteEvent(event_id: string | number) {
+    return await this.call<boolean>(
+      "DELETE",
+      `${this.DELETE_EVENT}/${event_id}`
+    );
   }
 
   async goLive(event_id: string | number) {

@@ -79,6 +79,16 @@ export interface LiveEvent {
   requests: EventRequest[];
 }
 
+export interface EventFormDetails {
+  title?: string;
+  address?: string;
+  country?: string;
+  state?: string;
+  type?: "song" | "hype" | "both";
+  song_price?: number;
+  hype_price?: number;
+}
+
 export interface PriceHistory {
   old_price: string | number;
   new_price: string | number;
