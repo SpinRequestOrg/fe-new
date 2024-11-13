@@ -43,16 +43,22 @@
                     }}</span>
                     <div class="flex justify-between items-center">
                       <div>
-                        <span class="font-semibold">{{ 4 }}</span>
+                        <span class="font-semibold">{{
+                          host?.stats?.followers ?? 0
+                        }}</span>
                         followers
                       </div>
                       <div>
-                        <span class="font-semibold">234</span>
+                        <span class="font-semibold">{{
+                          host?.stats?.events ?? 0
+                        }}</span>
                         events
                       </div>
                       <div>
-                        <span class="font-semibold">234</span>
-                        request
+                        <span class="font-semibold">{{
+                          host?.stats?.requests ?? 0
+                        }}</span>
+                        requests
                       </div>
                     </div>
                   </div>
@@ -94,21 +100,24 @@
 
                   <div class="flex justify-between items-center">
                     <div class="space-y-px">
-                      <div class="font-semibold">244</div>
+                      <div class="font-semibold">
+                        {{ host.stats?.followers ?? 0 }}
+                      </div>
                       <div>followers</div>
                     </div>
                     <div class="space-y-px">
-                      <div class="font-semibold">244</div>
-                      <div>followers</div>
+                      <div class="font-semibold">
+                        {{ host.stats?.events ?? 0 }}
+                      </div>
+                      <div>events</div>
                     </div>
                     <div class="space-y-px">
-                      <div class="font-semibold">244</div>
-                      <div>followers</div>
+                      <div class="font-semibold">
+                        {{ host.stats?.requests ?? 0 }}
+                      </div>
+                      <div>requests</div>
                     </div>
-                    <div class="space-y-px">
-                      <div class="font-semibold">244</div>
-                      <div>followers</div>
-                    </div>
+
                     <div
                       :class="
                         cn(
@@ -129,7 +138,7 @@
                 </NuxtLink>
               </ListboxItem>
             </template>
-            <template v-else>
+            <template v-if="!hosts.length && status !== 'pending'">
               <div class="p-4 text-center text-base text-muted-foreground">
                 No match found
               </div>

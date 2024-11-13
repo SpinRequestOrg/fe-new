@@ -57,7 +57,7 @@ const { data, status, error } = useCustomFetch<ApiResponse<LiveEvent>>(
 const reference = route?.query?.reference ?? ("" as string);
 
 const {
-  data: verification,
+  data: verificatio,
   status: verification_status,
   error: verification_error,
   refresh,

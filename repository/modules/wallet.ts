@@ -1,10 +1,5 @@
 import type { ApiResponse } from "~/types";
 import type { $Fetch, NitroFetchOptions } from "nitropack";
-import type {
-  Bank,
-  BankVerificationPayload,
-  BankVerificationResponse,
-} from "~/types/payment";
 type FetchOptions = NitroFetchOptions<"json">;
 type FetchMethods = FetchOptions["method"];
 
@@ -28,15 +23,10 @@ export default class Auth {
     });
   }
 
-  async fetchBankList() {
-    return await this.call<Bank[]>("GET", "/bankaccount/list");
-  }
-
-  async verifyBankAccount(payload: BankVerificationPayload) {
-    return await this.call<BankVerificationResponse>(
-      "POST",
-      "/bankaccount/verification",
-      payload
+  async getWallet() {
+    return await this.$fetch<{ balance: number }>(
+      "/wallets?page=1&per_page=10",
+      { method: "GET" }
     );
   }
 }

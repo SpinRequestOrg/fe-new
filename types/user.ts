@@ -14,6 +14,12 @@ export interface Host {
   country: string;
   email_verified: boolean;
   role: "host";
+  stats?: {
+    events: number;
+    followers: number;
+    fulfilled: number;
+    requests: number;
+  };
 }
 
 export interface HostProfile {

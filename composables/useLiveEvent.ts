@@ -3,11 +3,12 @@ import type {
   HypeRequestPayload,
   SongRequestPayload,
 } from "~/schemas/request-schema";
+import type { ApiError } from "~/types";
 import type { EventRequest, RequestPaymentPayload } from "~/types/event";
 
 export const useLiveEvent = () => {
   const {
-    $repo: { event },
+    $repo: { event, wallet },
     $config: {
       public: { APP_BASE_URL },
     },
@@ -28,7 +29,8 @@ export const useLiveEvent = () => {
       if (response.data) {
         navigateTo(`/events/${event_id}/event-earnings`);
       }
-    } catch (e) {
+    } catch (error) {
+      const e = error as ApiError;
       ending.value = false;
       showToast({
         title: e?.data?.message ?? "Failed to end event",
@@ -50,7 +52,8 @@ export const useLiveEvent = () => {
       updating.value = false;
       update_status.value = null;
       response.data && onUpdate?.();
-    } catch (e) {
+    } catch (error) {
+      const e = error as ApiError;
       update_status.value = null;
       updating.value = false;
       showToast({
@@ -67,14 +70,22 @@ export const useLiveEvent = () => {
     try {
       creating.value = true;
       const response = await event.createRequest(request);
-
+      const balance = (await wallet.getWallet()).balance;
+      let type: "wallet" | "split" | "gateway" = "gateway";
+      const price = Number(response.data.price);
+      if (balance) {
+        type = balance >= price ? "wallet" : "split";
+      }
+      const url = new URL(
+        `${APP_BASE_URL}/${host_slug}/${request.event_id}/${response.data.id}/request-receipt`
+      );
       const PAYSTACK_PAYMENT: RequestPaymentPayload = {
-        redirect_url: `${APP_BASE_URL}/${host_slug}/${request.event_id}/${response.data.id}/request-receipt`,
-        type: "gateway",
+        redirect_url: url.href,
+        type,
         gateway: "paystack",
       };
 
-      if (!Number(response.data.price)) {
+      if (!price) {
         creating.value = false;
         return navigateTo(`/${response.data?.host?.slug}`);
       }
@@ -88,7 +99,8 @@ export const useLiveEvent = () => {
           external: true,
         });
       }
-    } catch (e) {
+    } catch (error) {
+      const e = error as ApiError;
       creating.value = false;
       showToast({
         title: e?.data?.message ?? "Failed to create request",
