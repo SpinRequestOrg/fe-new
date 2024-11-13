@@ -269,7 +269,7 @@ import type { ApiError, ApiResponse } from "~/types";
 import type { AudienceProfileUpdate, AuthUser } from "~/types/auth";
 import type { HostProfileUpdate } from "~/types/auth";
 import SvgIcon from "~/components/svg-icon.vue";
-import { UsernameSchema } from "~/schemas/user-schema";
+import { UsernameSchema, BioSchema } from "~/schemas/user-schema";
 import type { Bank, BankVerificationPayload } from "~/types/payment";
 const {
   $config: {
@@ -416,14 +416,26 @@ watchEffect(() => {
     code: selectedBank.value?.code ?? "",
     country: "Nigeria",
   };
-  if (payload.bank_name && payload.code) {
+  if (
+    payload.bank_name &&
+    payload.code &&
+    payload?.account_number?.length > 9
+  ) {
     verifyAccount(payload);
   }
 });
 
 const updating = ref(false);
 
-const customBankVerification = () => {
+const customVerification = async () => {
+  const valid_bio = await BioSchema.isValid(profile.value.user.bio);
+  if (!valid_bio) {
+    showToast({
+      title: "Limit bio to just 350 characters",
+      variant: "warning",
+    });
+    return false;
+  }
   profile.value.bank_account.code = selectedBank.value?.code ?? "";
   const fields = [
     {
@@ -461,7 +473,7 @@ const updateProfile = async () => {
       }
     }
 
-    const verified = isHost.value ? customBankVerification() : true;
+    const verified = isHost.value ? await customVerification() : true;
     if (!verified) return;
     updating.value = true;
     const response = await auth.updateProfile(
