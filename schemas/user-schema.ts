@@ -6,6 +6,10 @@ export const UsernameSchema = string()
   .max(24, "Username too long")
   .matches(/^\S*$/, "Username should not have space");
 
+export const BioSchema = string()
+  .required("Bio is required")
+  .max(350, "Limit bio to just 350 characters");
+
 export const passwordSchema = string()
   .required("Enter your password")
   .min(8, "Password should be at least 8 characters long")

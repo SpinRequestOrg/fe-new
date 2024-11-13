@@ -5,7 +5,8 @@
       :value="model"
       @input="handleInput"
       @blur="emit('blur', $event)"
-      class="flex rounded-[inherit] [&:focus_~_span.label-text]:!top-3 [&:placeholder-shown_~_span.label-text]:top-1/2 px-3 leading-6 w-full h-[56px] text-base pt-6 bg-transparent text-foreground transition-colors placeholder:text-transparent focus-visible:placeholder:text-muted-foreground focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50 autofill:bg-transparent relative z-10"
+      :rows="rows ?? 2"
+      class="flex rounded-[inherit] [&:focus_~_span.label-text]:!top-3 [&:placeholder-shown_~_span.label-text]:top-1/2 px-3 leading-6 w-full text-base pt-6 bg-transparent text-foreground transition-colors placeholder:text-transparent focus-visible:placeholder:text-muted-foreground focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50 autofill:bg-transparent relative z-10"
     />
     <span :class="labelVariant({ state: state })">{{ label }}</span>
   </div>
@@ -21,6 +22,7 @@ interface InputAttributes {
   id?: string;
   placeholder?: string;
   disabled?: boolean;
+  rows?: number;
 }
 
 const inputVariant = cva(
