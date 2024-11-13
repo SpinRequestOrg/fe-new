@@ -8,7 +8,7 @@
     </NuxtLink>
 
     <nav class="flex items-center gap-x-2">
-      <NuxtLink to="/search" v-if="auth_user?.role === 'audience'">
+      <NuxtLink to="/audience" v-if="auth_user?.role === 'audience'">
         <UiTooltip message="Search host" :delay="50">
           <Button :size="'icon'" class="!size-[40px]" :variant="'ghost'">
             <Search class="size-5" />

@@ -59,7 +59,7 @@
           </div>
 
           <div
-            class="border bg-white/5 p-6 rounded-2xl grid grid-cols-[56px_1fr_40px] lg:grid-cols-[56px_1fr_auto_40px] gap-x-4 items-center"
+            class="border bg-white/5 p-6 rounded-2xl grid grid-cols-[56px_1fr_40px] lg:grid-cols-[56px_1fr_auto_40px] gap-x-4 items-center relative"
             v-if="!isHost"
           >
             <div
@@ -73,12 +73,20 @@
                 Your refunds from failed request are kept here so that you can
                 use it to request again
               </div>
-              <div class="text-xl lg:hidden font-semibold">
-                ₦{{ formatMoney(565.5) }}
+              <Loader
+                class="size-6 animate-spin"
+                v-if="walletStatus === 'pending'"
+              />
+              <div class="text-xl lg:hidden font-semibold" v-else>
+                ₦{{ formatMoney(wallet?.balance ?? 0) }}
               </div>
             </div>
-            <div class="text-3xl font-semibold hidden lg:block">
-              ₦{{ formatMoney(565.5) }}
+            <Loader
+              class="size-6 animate-spin"
+              v-if="walletStatus === 'pending'"
+            />
+            <div class="text-3xl font-semibold hidden lg:block" v-else>
+              ₦{{ formatMoney(wallet?.balance ?? 0) }}
             </div>
             <SvgIcon name="right-caret" />
           </div>
@@ -282,8 +290,15 @@ const { auth_user, auth_token, saveAuthUser } = useAuth();
 
 const isHost = computed(() => auth_user.value?.role === "host");
 
-const { data, status, error, refresh } =
-  useCustomFetch<ApiResponse<AuthUser>>("/user?stat=true");
+const { data, status, error, refresh } = useCustomFetch<ApiResponse<AuthUser>>(
+  isHost.value ? "/user?stat=true" : "/user"
+);
+
+const { data: wallet, status: walletStatus } = useCustomFetch<{
+  balance: number;
+}>("/wallets", {
+  immediate: !isHost.value,
+});
 
 const { data: bank, status: bank_status } =
   useCustomFetch<ApiResponse<Bank[]>>("/bankaccount/list");
