@@ -10,9 +10,7 @@
       <NuxtLink
         :to="`/${route.params.host}/${data?.data?.live_event?.id}/make-a-request`"
       >
-        <Button>
-          Make {{ hasPendingRequest ? "another" : "a" }} request
-        </Button>
+        <Button>Make {{ hasPendingRequest ? "another" : "a" }} request</Button>
       </NuxtLink>
     </LiveBanner>
     <SharedBackButton
@@ -146,7 +144,8 @@
 </template>
 
 <script lang="ts" setup>
-import Button from "~/components/ui/button.vue";
+import Button from "../../components/ui/button.vue";
+import Avatar from "~/components/avatar.vue";
 import type { ApiResponse } from "~/types";
 import type { HostProfile } from "~/types/user";
 

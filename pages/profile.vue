@@ -58,38 +58,7 @@
             </div>
           </div>
 
-          <div
-            class="border bg-white/5 p-6 rounded-2xl grid grid-cols-[56px_1fr_40px] lg:grid-cols-[56px_1fr_auto_40px] gap-x-4 items-center relative"
-            v-if="!isHost"
-          >
-            <div
-              class="aspect-square border bg-white/10 rounded-full grid place-items-center"
-            >
-              <SvgIcon name="wallet" />
-            </div>
-            <div class="space-y-px">
-              <div class="font-medium">Spin credits</div>
-              <div class="text-muted-foreground max-w-[350px]">
-                Your refunds from failed request are kept here so that you can
-                use it to request again
-              </div>
-              <Loader
-                class="size-6 animate-spin"
-                v-if="walletStatus === 'pending'"
-              />
-              <div class="text-xl lg:hidden font-semibold" v-else>
-                ₦{{ formatMoney(wallet?.balance ?? 0) }}
-              </div>
-            </div>
-            <Loader
-              class="size-6 animate-spin"
-              v-if="walletStatus === 'pending'"
-            />
-            <div class="text-3xl font-semibold hidden lg:block" v-else>
-              ₦{{ formatMoney(wallet?.balance ?? 0) }}
-            </div>
-            <SvgIcon name="right-caret" />
-          </div>
+          <Wallet v-if="!isHost" />
 
           <div
             class="border bg-white/5 p-6 rounded-2xl grid lg:grid-cols-[150px_1fr_126px] xl:grid-cols-[200px_1fr_126px] gap-4"
@@ -279,6 +248,7 @@ import type { HostProfileUpdate } from "~/types/auth";
 import SvgIcon from "~/components/svg-icon.vue";
 import { UsernameSchema, BioSchema } from "~/schemas/user-schema";
 import type { Bank, BankVerificationPayload } from "~/types/payment";
+import Wallet from "~/components/cards/wallet.vue";
 const {
   $config: {
     public: { APP_BASE_URL },
@@ -293,12 +263,6 @@ const isHost = computed(() => auth_user.value?.role === "host");
 const { data, status, error, refresh } = useCustomFetch<ApiResponse<AuthUser>>(
   isHost.value ? "/user?stat=true" : "/user"
 );
-
-const { data: wallet, status: walletStatus } = useCustomFetch<{
-  balance: number;
-}>("/wallets", {
-  immediate: !isHost.value,
-});
 
 const { data: bank, status: bank_status } =
   useCustomFetch<ApiResponse<Bank[]>>("/bankaccount/list");
@@ -381,7 +345,7 @@ watchEffect(() => {
     profile.value.user.bio = user?.bio ?? "";
     profile.value.user.country = user.country ?? "";
     audience_profile.value.user.country = user.country ?? "";
-    profile.value.user.dob = user.dob ?? "";
+    profile.value.user.dob = user.dob ?? null;
     audience_profile.value.user.dob = user.dob ?? "";
     profile.value.user.gender = user.gender ?? "";
     audience_profile.value.user.gender = user.gender ?? "";

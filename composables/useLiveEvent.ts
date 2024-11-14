@@ -17,6 +17,7 @@ export const useLiveEvent = () => {
   const update_status = ref<EventRequest["status"] | null>(null);
   const updating = ref(false);
   const creating = ref(false);
+  const paying = ref(false);
   const fetchEventRequests = async (event_id: number | string) => {
     return await event.getEventRequests(event_id);
   };
@@ -68,27 +69,42 @@ export const useLiveEvent = () => {
     host_slug: string
   ) => {
     try {
+      const spin_route = true;
       creating.value = true;
       const response = await event.createRequest(request);
+      const price = Number(response.data.price);
+
+      if (!price) {
+        creating.value = false;
+        return navigateTo(`/${response.data?.host?.slug}`);
+      }
+
+      if (spin_route) {
+        creating.value = false;
+        return navigateTo(
+          `/${host_slug}/${request.event_id}/${response.data.id}/make-payment`
+        );
+      }
       const balance = (await wallet.getWallet()).balance;
       let type: "wallet" | "split" | "gateway" = "gateway";
-      const price = Number(response.data.price);
+
       if (balance) {
         type = balance >= price ? "wallet" : "split";
       }
       const url = new URL(
         `${APP_BASE_URL}/${host_slug}/${request.event_id}/${response.data.id}/request-receipt`
       );
-      const PAYSTACK_PAYMENT: RequestPaymentPayload = {
-        redirect_url: url.href,
-        type,
-        gateway: "paystack",
-      };
-
-      if (!price) {
-        creating.value = false;
-        return navigateTo(`/${response.data?.host?.slug}`);
-      }
+      const PAYSTACK_PAYMENT: RequestPaymentPayload =
+        type === "wallet"
+          ? {
+              redirect_url: url.href,
+              type,
+            }
+          : {
+              redirect_url: url.href,
+              type,
+              gateway: "paystack",
+            };
       const payment_response = await event.payForRequest(
         PAYSTACK_PAYMENT,
         response.data.id
@@ -109,6 +125,52 @@ export const useLiveEvent = () => {
     }
   };
 
+  const payForRequest = async (
+    request: EventRequest,
+    host_slug: string,
+    balance: number
+  ) => {
+    try {
+      let type: "wallet" | "split" | "gateway" = "gateway";
+      const price = Number(request.price);
+      if (balance) {
+        type = balance >= price ? "wallet" : "split";
+      }
+      const url = new URL(
+        `${APP_BASE_URL}/${host_slug}/${request.event_id}/${request.id}/request-receipt`
+      );
+      const PAYSTACK_PAYMENT: RequestPaymentPayload =
+        type === "wallet"
+          ? {
+              redirect_url: url.href,
+              type,
+            }
+          : {
+              redirect_url: url.href,
+              type,
+              gateway: "paystack",
+            };
+      paying.value = true;
+      const payment_response = await event.payForRequest(
+        PAYSTACK_PAYMENT,
+        request.id
+      );
+      paying.value = false;
+      if (payment_response.data.redirect_url) {
+        await navigateTo(payment_response.data.redirect_url, {
+          external: true,
+        });
+      }
+    } catch (error) {
+      const e = error as ApiError;
+      paying.value = false;
+      showToast({
+        title: e?.data?.message ?? "Failed to pay for request",
+        variant: "warning",
+      });
+    }
+  };
+
   return {
     fetchEventRequests,
     endEvent,
@@ -118,5 +180,7 @@ export const useLiveEvent = () => {
     updating,
     createEventRequest,
     creating,
+    payForRequest,
+    paying,
   };
 };
