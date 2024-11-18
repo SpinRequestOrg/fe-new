@@ -42,6 +42,15 @@
             <span>Profile</span>
           </NuxtLink>
         </DropdownMenuItem>
+        <DropdownMenuItem asChild v-if="auth_user?.role === 'audience'">
+          <NuxtLink
+            to="/order-history"
+            class="relative flex cursor-pointer select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none transition-colors focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50"
+          >
+            <Wallet2 class="mr-2 size-4" />
+            <span>Order History</span>
+          </NuxtLink>
+        </DropdownMenuItem>
         <DropdownMenuItem
           class="relative flex cursor-pointer select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none transition-colors focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50"
           @select="(_e) => logUserOut(gotoLogin)"
@@ -56,7 +65,7 @@
 
 <script lang="ts" setup>
 import Button from "./ui/button.vue";
-import { LogOut, UserCircle2 } from "lucide-vue-next";
+import { LogOut, UserCircle2, Wallet2 } from "lucide-vue-next";
 const { logOut: logUserOut, auth_user } = useAuth();
 const gotoLogin = () => {
   useRouter().push("/login");

@@ -2,7 +2,7 @@
   <div class="container py-10">
     <SharedBackButton
       class="fixed top-20"
-      :to="`/${route.params.host}/${route.params.event_id}`"
+      :to="`/${route.params.host}/${route.params.event_id}/make-a-request`"
     />
     <SharedLoadingArea
       :loading="status === 'pending' || walletStatus === 'pending'"
@@ -81,7 +81,7 @@
               <div
                 :class="cn(sufficient ? 'text-[#38F08D]' : 'text-[#E66840]')"
               >
-                ₦{{ formatMoney(wallet?.data.balance ?? 0) }}
+                ₦{{ formatMoney(wallet?.balance ?? 0) }}
               </div>
             </div>
           </div>
@@ -114,7 +114,7 @@ const {
   status: walletStatus,
   data: wallet,
   error: walletError,
-} = useCustomFetch<ApiResponse<{ balance: number }>>("/wallets");
+} = useCustomFetch<{ balance: number }>("/wallets");
 
 const request = computed(() => {
   return data.value?.data;
@@ -122,7 +122,7 @@ const request = computed(() => {
 
 const sufficient = computed(() => {
   return (
-    Number(wallet.value?.data.balance ?? 0) >= Number(request.value?.price ?? 0)
+    Number(wallet.value?.balance ?? 0) >= Number(request.value?.price ?? 0)
   );
 });
 
@@ -133,7 +133,7 @@ const makePayment = () => {
     payForRequest(
       request.value,
       route.params.host as string,
-      wallet.value?.data.balance ?? 0
+      wallet.value?.balance ?? 0
     );
   }
 };

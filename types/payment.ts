@@ -33,3 +33,19 @@ export interface BankVerificationResponse {
   account_number: string;
   bank_id: string;
 }
+
+export interface Order {
+  amount: string | number;
+  date: string;
+  dj: string;
+  id: number;
+  parent_id: number;
+  parent_type: string;
+  payment_gateway: "paystack" | "wallet" | string;
+  reference: string;
+  response_code: string | null;
+  response_description: string;
+  status: string;
+  time: string;
+  type: "hype" | "song";
+}
