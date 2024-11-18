@@ -28,7 +28,7 @@
     <div class="text-3xl font-semibold hidden lg:block" v-else>
       ₦{{ formatMoney(wallet?.balance ?? 0) }}
     </div>
-    <SvgIcon name="right-caret" />
+    <SvgIcon name="right-caret" v-if="!hideCaret" />
   </div>
 </template>
 
@@ -37,4 +37,6 @@ import { Loader } from "lucide-vue-next";
 const { data: wallet, status: walletStatus } = useCustomFetch<{
   balance: number;
 }>("/wallets");
+
+const { hideCaret = false } = defineProps<{ hideCaret?: boolean }>();
 </script>

@@ -58,7 +58,9 @@
             </div>
           </div>
 
-          <Wallet v-if="!isHost" />
+          <NuxtLink v-if="!isHost" to="/order-history" class="block">
+            <Wallet />
+          </NuxtLink>
 
           <div
             class="border bg-white/5 p-6 rounded-2xl grid lg:grid-cols-[150px_1fr_126px] xl:grid-cols-[200px_1fr_126px] gap-4"
