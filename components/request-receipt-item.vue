@@ -147,10 +147,10 @@
 import { Copy, CopyCheck } from "lucide-vue-next";
 import { saveAs } from "file-saver";
 import { useNodeToImage } from "~/composables/useNodeToImage";
-import type { EventRequest, LiveEvent } from "~/types/event";
+import type { EventRequest, OrderEvent } from "~/types/event";
 const props = defineProps<{
   request?: EventRequest;
-  event?: LiveEvent | null;
+  event?: OrderEvent | null;
   print?: boolean;
 }>();
 

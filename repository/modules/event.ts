@@ -85,6 +85,10 @@ export default class Auth {
     );
   }
 
+  async fetchRequestDetails(request_id: string | number) {
+    return await this.call<EventRequest>("GET", `/requests/${request_id}`);
+  }
+
   async updateEventRequest(
     request_id: string | number,
     status: EventRequest["status"]

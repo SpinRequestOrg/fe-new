@@ -4,13 +4,13 @@
     <SharedLoadingArea :loading="loading" :error="pageError">
       <template #error v-if="verification_error">
         <div class="place-center text-center grid place-items-center gap-4">
-          <div class="text-destructive">
+          <div class="text-destructive text-clip">
             {{
               verification_error?.data?.message ?? "Payment verification failed"
             }}
           </div>
           <UiButton :variant="'outline'" @click="refresh" :loading="loading">
-            Confirm again
+            Confirm agai
           </UiButton>
         </div>
       </template>
@@ -37,7 +37,10 @@
           </div>
         </div>
         <div>
-          <EventTopSpenders :loading="top_spenders_status === 'pending'" />
+          <EventTopSpenders
+            :loading="top_spenders_status === 'pending'"
+            :spenders="top_spenders?.data ?? []"
+          />
         </div>
       </div>
     </SharedLoadingArea>
@@ -63,13 +66,9 @@ const {
   refresh,
 } = useCustomFetch<ApiResponse<LiveEvent>>(`transactions/${reference}/verify`);
 
-const {
-  data: top_spenders,
-  status: top_spenders_status,
-  error: top_spenders_error,
-} = useCustomFetch<ApiResponse<EventSpender[]>>(
-  `/events/top/spenders/${route.params.event_id}`
-);
+const { data: top_spenders, status: top_spenders_status } = useCustomFetch<
+  ApiResponse<EventSpender[]>
+>(`/events/top/spenders/${route.params.event_id}?includeLiveEvent=1`);
 
 const loading = computed(
   () => status.value === "pending" || verification_status.value === "pending"

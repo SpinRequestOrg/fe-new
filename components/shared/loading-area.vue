@@ -19,11 +19,12 @@
 
 <script lang="ts" setup>
 import { Loader } from "lucide-vue-next";
+import type { ApiError } from "~/types";
 
 withDefaults(
   defineProps<{
     loading?: boolean;
-    error?: unknown;
+    error?: ApiError | unknown;
     fallback_error_message?: string;
     fixed?: boolean;
   }>(),

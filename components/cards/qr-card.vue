@@ -15,13 +15,21 @@
         class="border rounded-full bg-white/5 relative px-4 py-2 flex justify-between items-center cursor-pointer hover:bg-white/10"
         @click="copyLink"
       >
-        <UiButton
-          :variant="'outline'"
-          class="absolute left-1/2 -translate-x-1/2 -traslate-y-1/2 animate-in animate-out fade-in-0 fade-out-0"
-          v-show="copied"
-        >
-          Copied
-        </UiButton>
+        <div class="place-center">
+          <div
+            :class="
+              cn(
+                'bg-background border py-2 px-4 rounded-3xl text-sm text-center text-foreground',
+                copied
+                  ? 'animate-in slide-in-from-bottom-2'
+                  : 'animate-out slide-out-to-top-2'
+              )
+            "
+            v-if="copied"
+          >
+            Copied
+          </div>
+        </div>
         <div class="overflow-hidden text-ellipsis line-clamp-1">
           {{ link }}
         </div>

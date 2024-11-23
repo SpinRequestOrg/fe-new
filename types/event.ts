@@ -65,18 +65,46 @@ export interface EventType {
   name: "song" | "hype";
   price: number;
 }
+
+export type EventStatus = "new" | "live" | "ended";
+
 export interface LiveEvent {
   id: number;
   title: string;
   address: string;
   country: string;
   state: string;
-  status: "live" | "new" | "ended";
+  status: EventStatus;
   start_date: string;
   end_date: null;
   earnings: number;
   types: EventType[];
   requests: EventRequest[];
+}
+
+export type OrderEvent = Pick<LiveEvent, "address" | "title" | "start_date">;
+export interface EventHistory {
+  previous_event_count: number;
+  song_requests_count: number;
+  hype_requests_count: number;
+  event_details: {
+    id: number;
+    title: string;
+    address: string;
+    country: string;
+    state: string;
+    status: EventStatus;
+    start_date: string;
+    end_date: string;
+    earnings: 9600;
+  }[];
+}
+
+export interface HostAudience {
+  audience_name: string;
+  hype_earnings: number;
+  song_earnings: number;
+  total_earnings: number;
 }
 
 export interface EventFormDetails {
@@ -103,7 +131,7 @@ export interface EventSummary {
     address: string;
     country: string;
     state: string;
-    status: "live" | "new" | "ended";
+    status: EventStatus;
     start_date: string;
     end_date: string | null;
     earnings: number;
