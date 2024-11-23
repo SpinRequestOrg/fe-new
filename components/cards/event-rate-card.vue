@@ -73,10 +73,26 @@ import Button from "../ui/button.vue";
 import NumberInput from "../ui/number-input.vue";
 import { Loader } from "lucide-vue-next";
 
-const props = defineProps<{
-  services: LiveEvent["types"];
-  onUpdate?: () => void;
-}>();
+const props = withDefaults(
+  defineProps<{
+    services: LiveEvent["types"];
+    onUpdate?: () => void;
+  }>(),
+  {
+    services: () => [
+      {
+        id: 1,
+        name: "song",
+        price: 0,
+      },
+      {
+        id: 2,
+        name: "hype",
+        price: 0,
+      },
+    ],
+  }
+);
 
 const updating = ref(false);
 const host_services = ref<LiveEvent["types"]>([]);

@@ -1,9 +1,7 @@
 <template>
   <ListboxRoot>
-    <ListboxContent class="space-y-2 relative">
-      <div
-        class="font-display text-3xl font-bold pb-4 border-b border-input mb-4"
-      >
+    <ListboxContent class="relative">
+      <div class="font-display text-3xl font-bold pb-4 border-b border-input">
         Top Spenders
       </div>
       <ListboxItem
@@ -12,19 +10,7 @@
         :value="spender.user_id + spender.email"
         @select="handleSelection"
       >
-        <div class="grid grid-cols-[40px,_1fr,_150px] gap-4 items-center my-8">
-          <Avatar
-            :initials="getInitials(spender.name)"
-            class="font-bold text-lg"
-            :style="{
-              backgroundColor: getHexColor(spender?.name?.charAt(0) ?? 'A'),
-              color: 'black',
-            }"
-          />
-          <div class="space-y-px">
-            <div>{{ spender.name }}</div>
-            <div class="text-[#FFEE99]" v-if="spender.active">You</div>
-          </div>
+        <div class="grid grid-cols-[auto,_1fr,_auto] gap-4 items-center my-8">
           <div class="flex gap-x-4 items-center">
             <div class="relative bg-foreground size-[30px] rounded-full">
               <!-- <SvgIcon name="trophy" class="place-center" /> -->
@@ -32,9 +18,22 @@
                 {{ spender.position }}
               </div>
             </div>
-            <div class="font-semibold">
-              ₦{{ formatMoney(spender?.total ?? 0) }}
-            </div>
+            <Avatar
+              :initials="getInitials(spender.name)"
+              class="font-bold text-lg"
+              :style="{
+                backgroundColor: getHexColor(spender?.name?.charAt(0) ?? 'A'),
+                color: 'black',
+              }"
+            />
+          </div>
+
+          <div class="space-y-px">
+            <div>{{ spender.name }}</div>
+            <div class="text-[#FFEE99]" v-if="spender.active">You</div>
+          </div>
+          <div class="font-semibold">
+            ₦{{ formatMoney(spender?.total ?? 0) }}
           </div>
         </div>
       </ListboxItem>
@@ -77,6 +76,7 @@ const sortedSpenders = computed(() => {
     ...spender,
     position: index + 1,
     active: spender.email === authEmail.value,
+    name: spender?.name ?? spender?.email ?? "",
   }));
   const me = spenders.find((spender) => spender.email === authEmail.value);
   const topSixSpenders = spenders.slice(0, 6);

@@ -4,94 +4,11 @@
     :data="mergedOrders"
     :loading="status === 'pending'"
   >
-    <tr
-      class="!h-20 text-muted-foreground"
+    <OrderHistoryTableRow
       v-for="order in mergedOrders"
-      :key="order.id"
-    >
-      <td>
-        <div
-          :class="
-            cn(
-              ' size-10 rounded-full grid place-items-center',
-              order.status === 'refunded'
-                ? 'bg-[#38F08D]/15'
-                : 'bg-[#F04438]/15'
-            )
-          "
-        >
-          <SvgIcon
-            :name="
-              order.status === 'refunded'
-                ? 'dotted-arrow-down'
-                : 'dotted-arrow-up'
-            "
-          />
-        </div>
-      </td>
-      <td>
-        <div class="space-y-p">
-          <div class="text-foreground font-semibold">
-            {{ order.status === "refunded" ? "-" : "" }} ₦{{
-              formatMoney(order.amount ?? 0)
-            }}
-          </div>
-          <div
-            :class="
-              cn(
-                'flex items-center gap-x-px  text-xs',
-                order.type === 'hype' ? 'text-[#FF99F1]' : 'text-[#FFEE99]'
-              )
-            "
-          >
-            <SvgIcon
-              :name="order.type === 'hype' ? 'mic' : 'music'"
-              class="scale-50 -ml-1.5"
-            />
-            <div>{{ order.type === "hype" ? "Hype" : "Song" }} request</div>
-          </div>
-        </div>
-      </td>
-      <td>{{ order.dj }}</td>
-      <td>{{ order.payment_gateway }}</td>
-      <td>{{ order.date }}</td>
-      <td>
-        <div
-          class="flex items-center gap-x-2 relative"
-          @click="copyText(order.reference)"
-        >
-          <div
-            :class="
-              cn(
-                'bg-background/30 border py-2 px-4 opacity-0 transition-all -z-10 rounded-3xl text-sm text-center absolute place-center text-foreground',
-                copied[order.reference] &&
-                  'top-0 -translate-y-full z-10 opacity-100'
-              )
-            "
-          >
-            Copied
-          </div>
-          <div class="w-[220px] overflow-hidden text-ellipsis">
-            {{ order.reference }}
-          </div>
-          <Copy class="size-4" />
-        </div>
-      </td>
-      <td
-        :class="{
-          'text-[#38F08D]': order.status === 'success',
-          'text-[#6DC9FC]': order.status === 'refunded',
-          'text-[#E66840]': order.status === 'failed',
-        }"
-      >
-        {{ order.status }}
-      </td>
-      <td class="w-[50px]">
-        <UiButton :size="'icon'" :variant="'outline'">
-          <Download class="size-4" />
-        </UiButton>
-      </td>
-    </tr>
+      :key="order.id + order.parent_id + order.date"
+      :order="order"
+    />
     <template #empty>
       <div class="min-h-[297px] grid place-items-center">
         <div class="space-y-4">
@@ -111,11 +28,12 @@
 
 <script lang="ts" setup>
 import TableContainer from "~/components/table/container.vue";
-import { XCircle, Copy, Download } from "lucide-vue-next";
+import { XCircle } from "lucide-vue-next";
 import { groupBy } from "lodash-es";
 import type { ApiResponse } from "~/types";
 import type { Order } from "~/types/payment";
-import { promiseTimeout } from "@vueuse/core";
+import OrderHistoryTableRow from "./order-history-table-row.vue";
+
 const heading = ref([
   "",
   "TRANSACTION",
@@ -127,17 +45,7 @@ const heading = ref([
   "",
 ]);
 
-const { data, status, error } =
-  useCustomFetch<ApiResponse<Order[]>>("/transactions");
-
-const copied = ref<Record<string, boolean>>({});
-
-const copyText = async (text: string) => {
-  await navigator.clipboard.writeText(text);
-  copied.value[text] = true;
-  await promiseTimeout(1200);
-  copied.value[text] = false;
-};
+const { data, status } = useCustomFetch<ApiResponse<Order[]>>("/transactions");
 
 const groupedOrders = computed(() => {
   const orders = data.value?.data ?? [];

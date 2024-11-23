@@ -18,7 +18,7 @@
       <SharedLoadingArea :error="error" class="mt-8">
         <div class="grid xl:grid-cols-[1fr_auto] items-start gap-4">
           <div class="xl:max-w-[900px]">
-            <RequestsTab :event_id="route.params.id as string" />
+            <RequestsTab :event_id="eventID" />
           </div>
 
           <div class="max-w-[700px] mx-auto w-full xl:w-[380px] relative">
@@ -76,6 +76,8 @@ const endLiveEvent = () => {
 const active_tab = computed(
   () => route?.query?.request_tab as "song" | "hype" | "history"
 );
+
+const eventID = computed(() => route.params.id as string);
 
 useSeoMeta({
   title: () =>

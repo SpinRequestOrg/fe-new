@@ -109,7 +109,7 @@
                 :key="spender.user_id"
               >
                 <div class="text-foreground/80">{{ index + 1 }}.</div>
-                <div>{{ spender.name }}</div>
+                <div>{{ spender?.name ?? spender.email }}</div>
                 <div>₦{{ formatMoney(spender.total) }}</div>
               </div>
               <div

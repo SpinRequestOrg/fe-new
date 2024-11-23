@@ -25,7 +25,7 @@
     </div>
 
     <div class="grid mac:grid-cols-[1fr_auto] items-start gap-4">
-      <div class="order-2 mac:order-1">
+      <div class="order-2 mac:order-1 space-y-6">
         <div
           class="relative bg-white/5 rounded-2xl p-6 border flex items-center justify-between overflow-hidden"
         >
@@ -40,6 +40,44 @@
             </div>
           </div>
           <Button>MY WALLET</Button>
+        </div>
+
+        <div class="bg-white/5 p-6 rounded-2xl border">
+          <div class="flex justify-between items-center mb-10">
+            <div class="font-semibold text-2xl">Previous events</div>
+            <NuxtLink
+              :to="!has_events ? '/dashboard' : '/events'"
+              class="hidden md:block"
+            >
+              <UiButton
+                :variant="'secondary'"
+                class="gap-x-1"
+                :disabled="!has_events"
+              >
+                <span>SEE ALL</span>
+                <SvgIcon name="arrow_right_alt" />
+              </UiButton>
+            </NuxtLink>
+          </div>
+          <EventHistoryTable :onDone="updateEventState" />
+          <NuxtLink
+            :to="!has_events ? '/dashboard' : '/events'"
+            class="w-full md:hidden"
+          >
+            <UiButton
+              :variant="'secondary'"
+              class="gap-x-1 w-full mt-6"
+              :disabled="!has_events"
+            >
+              <span>SEE ALL</span>
+              <SvgIcon name="arrow_right_alt" />
+            </UiButton>
+          </NuxtLink>
+        </div>
+
+        <div class="bg-white/5 p-6 rounded-2xl border">
+          <div class="font-semibold text-2xl mb-10">Top Audience</div>
+          <HostTopSpendersTable />
         </div>
       </div>
 
@@ -79,6 +117,8 @@ import type { LiveEvent } from "~/types/event";
 import { Loader } from "lucide-vue-next";
 import EventCard from "~/components/cards/event-card.vue";
 import CreateEventCard from "~/components/cards/create-event-card.vue";
+import EventHistoryTable from "~/components/table/event-history-table.vue";
+import HostTopSpendersTable from "~/components/table/host-top-spenders-table.vue";
 
 definePageMeta({
   middleware: ["host"],
@@ -92,6 +132,11 @@ const hostNewEvents = computed(() =>
     ? data.value?.data.filter((event) => event.status === "new")
     : []
 );
+
+const has_events = ref(false);
+const updateEventState = (state: boolean) => {
+  has_events.value = state;
+};
 
 const hostLiveEvent = computed(() =>
   data.value?.data?.find((item) => item.status === "live")

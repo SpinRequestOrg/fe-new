@@ -2,7 +2,7 @@
   <div class="overflow-auto">
     <div v-if="loading || data.length">
       <table class="w-full text-base">
-        <thead class="border-b border-t bg-muted/30">
+        <thead class="border-b border- b-muted/10">
           <tr>
             <th
               v-for="(head, index) in heading"

@@ -48,4 +48,7 @@ export interface Order {
   status: string;
   time: string;
   type: "hype" | "song";
+  title: string;
+  start_date: string;
+  address: string;
 }
