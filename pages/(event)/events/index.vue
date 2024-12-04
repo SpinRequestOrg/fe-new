@@ -28,7 +28,11 @@
       </div>
 
       <div class="bg-white/5 p-6 rounded-2xl border mt-10">
-        <EventHistoryTable />
+        <EventHistoryTable
+          :event_history="data?.data"
+          :loading="status === 'pending'"
+          disabled
+        />
       </div>
     </SharedLoadingArea>
   </div>

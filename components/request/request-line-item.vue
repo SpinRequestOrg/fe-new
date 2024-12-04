@@ -39,7 +39,8 @@
         :disabled="updating"
         :loading="updating && update_status === 'now-playing'"
       >
-        Accept
+        {{ request.type === "hype" ? "Perform" : "Play" }}
+
         <Check class="size-3 ml-2" />
       </Button>
       <ConfirmDialog

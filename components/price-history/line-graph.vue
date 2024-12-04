@@ -1,9 +1,7 @@
 <template>
-  <div>
-    <ClientOnly>
-      <Line :data="data" :options="chartOptions" />
-    </ClientOnly>
-  </div>
+  <ClientOnly>
+    <Line :data="data" :options="chartOptions" />
+  </ClientOnly>
 </template>
 
 <script lang="ts" setup>

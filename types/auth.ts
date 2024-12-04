@@ -21,6 +21,7 @@ export interface AuthUser {
   profession?: string;
   stage_name?: string;
   user_name?: string;
+  name?: string;
   is_live?: false;
   bank_account?: BankDetails | null;
   stats?: {
@@ -38,6 +39,8 @@ export interface HostProfileUpdate {
     dob: string;
     gender: string;
     country: string;
+    stage_name: string;
+    profession: string;
   };
   bank_account: BankDetails;
 }

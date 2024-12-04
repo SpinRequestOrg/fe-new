@@ -174,7 +174,7 @@ const {
 } = useNuxtApp();
 
 useSeoMeta({
-  title: () => `${host.value?.stage_name}`,
+  title: () => `${host?.value?.stage_name ?? ""}`,
   ogTitle: () =>
     `${data.value?.data?.live_event?.title ?? ""} | ${
       host.value?.stage_name ?? ""

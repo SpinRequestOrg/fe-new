@@ -52,3 +52,38 @@ export interface Order {
   start_date: string;
   address: string;
 }
+
+export interface WalletHistory {
+  amount: string;
+  created_at: string;
+  description: string;
+  reference: string;
+  type: "credit" | "debit";
+}
+
+export interface Wallet {
+  wallet_balance: number;
+  wallet_earnings: number;
+  wallet_expenses: number;
+  total_earnings: number;
+  song_earnings: number;
+  hype_earnings: number;
+  account: string;
+  current_page: number;
+  data: WalletHistory[];
+  first_page_url: string;
+  from: number | null;
+  last_page: number;
+  last_page_url: string;
+  links: {
+    url: string | null;
+    label: string;
+    active: boolean;
+  }[];
+  next_page_url: string | null;
+  path: string;
+  per_page: number;
+  prev_page_url: string | null;
+  to: number | null;
+  total: number;
+}

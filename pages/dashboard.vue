@@ -35,39 +35,47 @@
           <div class="space-y-2">
             <div class="text-muted-foreground">Withdrawable balance</div>
             <div class="flex gap-2">
-              <div class="text-3xl md:text-4xl font-semibold">$35,243</div>
-              <div></div>
+              <div v-if="wallet_status === 'pending'">
+                <Loader class="size-5 animate-spin" />
+              </div>
+              <div v-else class="text-3xl md:text-4xl font-semibold">
+                ₦{{ formatMoney(wallet?.wallet_balance ?? 0) }}
+              </div>
             </div>
           </div>
-          <Button>MY WALLET</Button>
+          <NuxtLink to="/wallet">
+            <Button>MY WALLET</Button>
+          </NuxtLink>
         </div>
 
         <div class="bg-white/5 p-6 rounded-2xl border">
           <div class="flex justify-between items-center mb-10">
             <div class="font-semibold text-2xl">Previous events</div>
             <NuxtLink
-              :to="!has_events ? '/dashboard' : '/events'"
+              :to="
+                !past_events?.event_details.length ? '/dashboard' : '/events'
+              "
               class="hidden md:block"
             >
               <UiButton
                 :variant="'secondary'"
                 class="gap-x-1"
-                :disabled="!has_events"
+                :disabled="!past_events?.event_details.length"
               >
                 <span>SEE ALL</span>
                 <SvgIcon name="arrow_right_alt" />
               </UiButton>
             </NuxtLink>
           </div>
-          <EventHistoryTable :onDone="updateEventState" />
+          <EventHistoryTable :onDone="updatePastEvents" />
           <NuxtLink
-            :to="!has_events ? '/dashboard' : '/events'"
+            :to="!past_events?.event_details.length ? '/dashboard' : '/events'"
             class="w-full md:hidden"
           >
             <UiButton
               :variant="'secondary'"
               class="gap-x-1 w-full mt-6"
-              :disabled="!has_events"
+              :disabled="!past_events?.event_details.length"
             >
               <span>SEE ALL</span>
               <SvgIcon name="arrow_right_alt" />
@@ -113,12 +121,13 @@
 <script lang="ts" setup>
 import Button from "~/components/ui/button.vue";
 import type { ApiResponse } from "~/types";
-import type { LiveEvent } from "~/types/event";
+import type { EventHistory, LiveEvent } from "~/types/event";
 import { Loader } from "lucide-vue-next";
 import EventCard from "~/components/cards/event-card.vue";
 import CreateEventCard from "~/components/cards/create-event-card.vue";
 import EventHistoryTable from "~/components/table/event-history-table.vue";
 import HostTopSpendersTable from "~/components/table/host-top-spenders-table.vue";
+import type { Wallet } from "~/types/payment";
 
 definePageMeta({
   middleware: ["host"],
@@ -127,15 +136,18 @@ const { auth_user } = useAuth();
 const { data, status, error, refresh } =
   useCustomFetch<ApiResponse<LiveEvent[]>>("/events");
 
+const { data: wallet, status: wallet_status } =
+  useCustomFetch<Wallet>("/wallets");
+
 const hostNewEvents = computed(() =>
   data.value?.data?.length
     ? data.value?.data.filter((event) => event.status === "new")
     : []
 );
 
-const has_events = ref(false);
-const updateEventState = (state: boolean) => {
-  has_events.value = state;
+const past_events = ref<EventHistory>();
+const updatePastEvents = (state?: EventHistory) => {
+  past_events.value = state;
 };
 
 const hostLiveEvent = computed(() =>

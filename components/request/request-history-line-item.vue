@@ -37,7 +37,7 @@
         <Tooltip
           message="Return to request list"
           :delay="200"
-          v-if="['ignored', 'declined'].includes(request.status)"
+          v-if="['ignored', 'declined'].includes(request.status) && false"
         >
           <UiButton
             :size="'icon'"

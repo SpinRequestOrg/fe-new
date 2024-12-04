@@ -52,6 +52,7 @@ import RequestReceiptItem from "~/components/request-receipt-item.vue";
 import type { ApiResponse } from "~/types";
 import type { EventSpender, LiveEvent } from "~/types/event";
 import EventTopSpenders from "~/components/event-top-spenders.vue";
+import { promiseTimeout } from "@vueuse/core";
 const route = useRoute();
 const { data, status, error } = useCustomFetch<ApiResponse<LiveEvent>>(
   `events/${route.params.event_id}`
@@ -60,15 +61,30 @@ const { data, status, error } = useCustomFetch<ApiResponse<LiveEvent>>(
 const reference = route?.query?.reference ?? ("" as string);
 
 const {
-  data: verificatio,
+  data: verification,
   status: verification_status,
   error: verification_error,
   refresh,
 } = useCustomFetch<ApiResponse<LiveEvent>>(`transactions/${reference}/verify`);
 
-const { data: top_spenders, status: top_spenders_status } = useCustomFetch<
-  ApiResponse<EventSpender[]>
->(`/events/top/spenders/${route.params.event_id}?includeLiveEvent=1`);
+const {
+  data: top_spenders,
+  status: top_spenders_status,
+  refresh: refreshTopSpenders,
+} = useCustomFetch<ApiResponse<EventSpender[]>>(
+  `/events/top/spenders/${route.params.event_id}?includeLiveEvent=1`
+);
+
+watch(
+  () => verification_status.value,
+  async (data) => {
+    await promiseTimeout(300);
+    data === "success" && refreshTopSpenders();
+  },
+  {
+    immediate: true,
+  }
+);
 
 const loading = computed(
   () => status.value === "pending" || verification_status.value === "pending"

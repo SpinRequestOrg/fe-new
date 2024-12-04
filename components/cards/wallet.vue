@@ -18,7 +18,7 @@
         v-if="walletStatus === 'pending'"
       />
       <div class="text-xl lg:hidden font-semibold" v-else>
-        ₦{{ formatMoney(wallet?.balance ?? 0) }}
+        ₦{{ formatMoney(wallet?.wallet_balance ?? 0) }}
       </div>
     </div>
     <Loader
@@ -26,7 +26,7 @@
       v-if="walletStatus === 'pending'"
     />
     <div class="text-3xl font-semibold hidden lg:block" v-else>
-      ₦{{ formatMoney(wallet?.balance ?? 0) }}
+      ₦{{ formatMoney(wallet?.wallet_balance ?? 0) }}
     </div>
     <SvgIcon name="right-caret" v-if="!hideCaret" />
   </div>
@@ -34,9 +34,9 @@
 
 <script lang="ts" setup>
 import { Loader } from "lucide-vue-next";
-const { data: wallet, status: walletStatus } = useCustomFetch<{
-  balance: number;
-}>("/wallets");
+import type { Wallet } from "~/types/payment";
+const { data: wallet, status: walletStatus } =
+  useCustomFetch<Wallet>("/wallets");
 
 const { hideCaret = false } = defineProps<{ hideCaret?: boolean }>();
 </script>

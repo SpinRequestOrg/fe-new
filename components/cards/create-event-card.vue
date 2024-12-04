@@ -7,8 +7,8 @@
     ></div>
     <div class="mb-4 font-semibold text-2xl">Events</div>
     <div class="text-muted-foreground">
-      Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet,
-      consectetur, adipisci velit, sed qu
+      Create your event today, Go live, make all requests count, and keep the
+      audience hyped up all day.
     </div>
     <NuxtLink to="/create-event" class="mt-auto">
       <UiButton :size="'lg'" class="w-full mt-6 uppercase">

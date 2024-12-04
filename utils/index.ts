@@ -24,7 +24,7 @@ export const decodeBase64 = (data?: string | null, fallback = "") => {
 export const formatMoney = (_number: number | string) => {
   const number = Number(_number);
   return number.toLocaleString("en-US", {
-    minimumFractionDigits: 2,
+    minimumFractionDigits: 0,
   });
 };
 
