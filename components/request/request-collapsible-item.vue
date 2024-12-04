@@ -61,7 +61,7 @@
             :loading="updating && update_status === 'now-playing'"
             @click="updateRequest('now-playing')"
           >
-            Accept
+            {{ request.type === "hype" ? "Perform" : "Play" }}
             <Check class="size-4 ml-2" />
           </Button>
           <ConfirmDialog :onConfirm="() => updateRequest('declined')">

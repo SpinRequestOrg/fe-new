@@ -16,7 +16,7 @@
         <div class="text-3xl font-semibold mb-1">
           {{ data?.data.event.title }}
         </div>
-        <div class="text-muted-foreground">Event summary</div>
+        <div class="text-muted-foreground">Event sum</div>
         <div class="space-y-4 mt-6">
           <div
             class="p-2 sm:p-4 rounded-xl border bg-white/5 grid gap-y-4 md:grid-cols-[2fr_3fr]"
@@ -95,6 +95,7 @@
                 :variant="'ghost'"
                 class="gap-x-2 translate-x-4"
                 id="SHARE-BUTTON"
+                @click="refresh"
               >
                 <div>Share</div>
                 <SvgIcon name="share" />
@@ -182,9 +183,9 @@ import saveAs from "file-saver";
 import { promiseTimeout } from "@vueuse/core";
 
 const route = useRoute();
-const { data, error, status } = useCustomFetch<ApiResponse<EventSummary>>(
-  `/events/receipt/${route.params.id}`
-);
+const { data, error, status, refresh } = useCustomFetch<
+  ApiResponse<EventSummary>
+>(`/events/receipt/${route.params.id}`);
 
 const APP_BASE_URL = "https://dev.spinrequest.com";
 

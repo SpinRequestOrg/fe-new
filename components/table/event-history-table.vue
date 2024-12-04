@@ -2,7 +2,7 @@
   <TableContainer
     :heading="heading"
     :data="events"
-    :loading="status === 'pending'"
+    :loading="status === 'pending' || loading"
     class="hidden md:block"
   >
     <NuxtLink
@@ -16,7 +16,7 @@
         <td>{{ event.title }}</td>
         <td>{{ event.address }}</td>
         <td>{{ event.start_date }}</td>
-        <td>{{ event.id }}</td>
+        <td>{{ event.requests_count }}</td>
         <td>₦{{ formatMoney(event.earnings ?? 0) }}</td>
       </tr>
     </NuxtLink>
@@ -66,12 +66,18 @@
             </div>
             <div class="space-y-1">
               <div class="text-sm text-muted-foreground">REQUESTS</div>
-              <div class="">{{ event.id }}</div>
+              <div class="">{{ event.requests_count }}</div>
             </div>
             <div class="space-y-1">
               <div class="text-sm text-muted-foreground">EARNING</div>
               <div class="">₦{{ formatMoney(event.earnings ?? 0) }}</div>
             </div>
+            <NuxtLink
+              :to="`events/${event.id}/event-details`"
+              class="block w-full border"
+            >
+              <UiButton :variant="'secondary'" class="w-full"> Open </UiButton>
+            </NuxtLink>
           </div>
         </CollapsibleContent>
       </CollapsibleRoot>
@@ -98,16 +104,24 @@ import { XCircle } from "lucide-vue-next";
 import type { ApiResponse } from "~/types";
 import type { EventHistory } from "~/types/event";
 const heading = ref(["EVENT", "LOCATION", "DATE", "REQUESTS", "EARNING"]);
-const props = defineProps<{ onDone?: (state: boolean) => void }>();
+const props = defineProps<{
+  event_history?: EventHistory;
+  loading?: boolean;
+  disabled?: boolean;
+  onDone?: (event?: EventHistory) => void;
+}>();
 const { data, status } = useCustomFetch<ApiResponse<EventHistory>>(
   "/past/events",
   {
-    onResponse() {
-      if (data.value?.data?.event_details?.length) {
-        props?.onDone?.(true);
-      }
+    immediate: !props.disabled,
+    onResponse: (data) => {
+      props.onDone?.(data.response._data?.data);
     },
   }
 );
-const events = computed(() => data.value?.data?.event_details ?? []);
+
+const events = computed(
+  () =>
+    props.event_history?.event_details ?? data.value?.data?.event_details ?? []
+);
 </script>

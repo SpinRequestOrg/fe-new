@@ -1,5 +1,6 @@
 import type { ApiResponse } from "~/types";
 import type { $Fetch, NitroFetchOptions } from "nitropack";
+import type { Wallet } from "~/types/payment";
 type FetchOptions = NitroFetchOptions<"json">;
 type FetchMethods = FetchOptions["method"];
 
@@ -24,9 +25,8 @@ export default class Auth {
   }
 
   async getWallet() {
-    return await this.$fetch<{ balance: number }>(
-      "/wallets?page=1&per_page=10",
-      { method: "GET" }
-    );
+    return await this.$fetch<Wallet>("/wallets?page=1&per_page=10", {
+      method: "GET",
+    });
   }
 }

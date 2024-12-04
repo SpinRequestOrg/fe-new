@@ -39,6 +39,13 @@
                 <UploadPhoto @uploaded="profile_picture = $event" />
               </div>
 
+              <UiInputField
+                v-if="isHost"
+                label="Stage name"
+                placeholder="Enter your stage name"
+                v-model="profile.user.stage_name"
+              />
+
               <UiTextarea
                 v-if="isHost"
                 label="Bio"
@@ -296,11 +303,13 @@ const hostLink = computed(
 const profile = useState<HostProfileUpdate>("HOST-PROFILE", () => {
   return {
     user: {
-      name: data.value?.data?.stage_name ?? "",
+      stage_name: data.value?.data?.stage_name ?? "",
+      name: data.value?.data?.name ?? "",
       bio: data.value?.data?.bio ?? "",
       dob: data.value?.data?.dob ?? "",
       gender: data.value?.data?.gender ?? "",
       country: data.value?.data?.country ?? "",
+      profession: data.value?.data?.profession ?? "",
     },
     bank_account: {
       bank_name: data.value?.data?.bank_account?.bank_name ?? "",
@@ -351,8 +360,11 @@ watchEffect(() => {
     audience_profile.value.user.dob = user.dob ?? "";
     profile.value.user.gender = user.gender ?? "";
     audience_profile.value.user.gender = user.gender ?? "";
+    audience_profile.value.user.user_name = user.user_name ?? "";
     // audience_profile.value.user.name = user.stage_name ?? "";
-    profile.value.user.name = user.stage_name ?? "";
+    profile.value.user.name = user.name ?? "";
+    profile.value.user.stage_name = user.stage_name ?? "";
+    profile.value.user.profession = user.profession ?? "";
     profile.value.bank_account.account_name =
       user.bank_account?.account_name ?? "";
     profile.value.bank_account.account_number =

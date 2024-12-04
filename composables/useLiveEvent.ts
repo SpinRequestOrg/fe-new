@@ -85,7 +85,7 @@ export const useLiveEvent = () => {
           `/${host_slug}/${request.event_id}/${response.data.id}/make-payment`
         );
       }
-      const balance = (await wallet.getWallet()).balance;
+      const balance = (await wallet.getWallet())?.wallet_balance;
       let type: "wallet" | "split" | "gateway" = "gateway";
 
       if (balance) {
@@ -157,10 +157,11 @@ export const useLiveEvent = () => {
       );
       paying.value = false;
       if (payment_response.data.redirect_url) {
-        await navigateTo(payment_response.data.redirect_url, {
+        return await navigateTo(payment_response.data.redirect_url, {
           external: true,
         });
       }
+      return navigateTo(`/${host_slug}`);
     } catch (error) {
       const e = error as ApiError;
       paying.value = false;

@@ -78,6 +78,8 @@ export interface LiveEvent {
   start_date: string;
   end_date: null;
   earnings: number;
+  hype_earnings: number;
+  song_earnings: number;
   types: EventType[];
   requests: EventRequest[];
 }
@@ -96,7 +98,8 @@ export interface EventHistory {
     status: EventStatus;
     start_date: string;
     end_date: string;
-    earnings: 9600;
+    earnings: number;
+    requests_count: number;
   }[];
 }
 
@@ -174,4 +177,16 @@ export interface EventSpender {
   user_id: string | number;
   email: string;
   name: string;
+}
+
+export interface EventTransactionDetails {
+  earning: number;
+  title: string;
+  reference: string;
+  "amount earned": number;
+  commission_percent: string;
+  commission: number;
+  date: string;
+  status: "success";
+  history: EventRequest[];
 }

@@ -81,7 +81,7 @@
               <div
                 :class="cn(sufficient ? 'text-[#38F08D]' : 'text-[#E66840]')"
               >
-                ₦{{ formatMoney(wallet?.balance ?? 0) }}
+                ₦{{ formatMoney(wallet?.wallet_balance ?? 0) }}
               </div>
             </div>
           </div>
@@ -104,6 +104,7 @@
 import type { ApiResponse } from "~/types";
 import type { EventRequest } from "~/types/event";
 import SvgIcon from "~/components/svg-icon.vue";
+import type { Wallet } from "~/types/payment";
 
 const route = useRoute();
 const { status, data, error } = useCustomFetch<ApiResponse<EventRequest>>(
@@ -114,7 +115,7 @@ const {
   status: walletStatus,
   data: wallet,
   error: walletError,
-} = useCustomFetch<{ balance: number }>("/wallets");
+} = useCustomFetch<Wallet>("/wallets");
 
 const request = computed(() => {
   return data.value?.data;
@@ -122,7 +123,8 @@ const request = computed(() => {
 
 const sufficient = computed(() => {
   return (
-    Number(wallet.value?.balance ?? 0) >= Number(request.value?.price ?? 0)
+    Number(wallet.value?.wallet_balance ?? 0) >=
+    Number(request.value?.price ?? 0)
   );
 });
 
@@ -133,7 +135,7 @@ const makePayment = () => {
     payForRequest(
       request.value,
       route.params.host as string,
-      wallet.value?.balance ?? 0
+      wallet.value?.wallet_balance ?? 0
     );
   }
 };
