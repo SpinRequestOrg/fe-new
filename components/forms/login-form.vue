@@ -33,6 +33,7 @@ import type { ApiError } from "~/types";
 
 const { $repo } = useNuxtApp();
 const { saveAuthUser } = useAuth();
+const route = useRoute();
 const loading = ref(false);
 const onSubmit = async ({
   email,
@@ -52,8 +53,12 @@ const onSubmit = async ({
     showToast({ title: "Success", description: message, variant: "normal" });
     saveAuthUser(response.data.token, response.data.user);
     loading.value = false;
-    const destination =
-      response?.data?.role === "host" ? "/dashboard" : "/audience";
+    const redirect_path = route.redirectedFrom?.fullPath;
+    const destination = redirect_path
+      ? redirect_path
+      : response?.data?.role === "host"
+      ? "/dashboard"
+      : "/audience";
     return navigateTo(destination);
   } catch (e) {
     loading.value = false;

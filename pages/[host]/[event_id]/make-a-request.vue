@@ -2,18 +2,18 @@
   <div class="container pt-6 pb-20">
     <SharedBackButton :to="`/${host_slug}`" />
     <LoadingArea :loading="status === 'pending'" :error="error">
-      <div class="max-w-[640px] w-full mx-auto">
+      <div class="max-w-[700px] w-full mx-auto">
         <div class="text-primary text-center text-lg">Make a request</div>
         <div class="text-3xl font-semibold text-center font-display mt-2 mb-4">
           Tell me about your request
         </div>
         <RadioGroupRoot
-          class="grid grid-cols-[repeat(auto-fit,_minmax(305px,_1fr))] gap-6 my-6"
+          class="grid grid-cols-[repeat(auto-fit,_minmax(315px,_1fr))] gap-6 my-6"
           v-if="data?.data?.live_event?.types"
           v-model="type"
         >
           <RadioGroupItem
-            class="p-6 lg:p-8 mx-auto text-left ring ring-input bg-white/10 rounded-2xl transition-colors cursor-pointer data-[state='checked']:ring-primary hover:ring-primary/30"
+            class="p-6 w-full lg:p-8 mx-auto text-left ring ring-input bg-white/10 rounded-2xl transition-colors cursor-pointer data-[state='checked']:ring-primary hover:ring-primary/30"
             v-for="item in data?.data?.live_event?.types"
             :key="item.id"
             :value="item.name"

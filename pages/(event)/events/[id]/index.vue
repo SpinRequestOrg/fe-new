@@ -15,7 +15,7 @@
         </div>
       </div>
 
-      <SharedLoadingArea :error="error" class="mt-8">
+      <SharedLoadingArea :error="error" class="mt-8" :loading="ending">
         <div class="grid xl:grid-cols-[1fr_auto] items-start gap-4">
           <div class="xl:max-w-[900px]">
             <RequestsTab :event_id="eventID" />

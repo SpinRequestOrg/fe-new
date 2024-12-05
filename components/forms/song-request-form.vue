@@ -23,6 +23,7 @@
       name="nickname"
       placeholder="Enter your nickname"
       label="nickname (optional)"
+      :disabled="!!formInitialValue.nickname"
     />
     <Button
       type="submit"
