@@ -38,14 +38,9 @@ export default class Auth {
     data?: object,
     options?: FetchOptions
   ) {
-    const headers = {
-      Origin: "https://prod.d1yrrs2ihyi11j.amplifyapp.com",
-      "Content-Type": "application/json",
-    };
     return this.$fetch<ApiResponse<O>>(route, {
       method,
       body: data,
-      headers,
       ...options,
     });
   }

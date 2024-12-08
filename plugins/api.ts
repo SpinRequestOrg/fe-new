@@ -12,6 +12,8 @@ export default defineNuxtPlugin((nuxtApp) => {
       if (token.value) {
         options.headers.set("Authorization", `Bearer ${token.value}`);
       }
+
+      options.headers.set("Origin", window.location.origin);
     },
     async onResponseError({ response }) {
       if (response.status === 401) {
