@@ -7,13 +7,13 @@ const props = withDefaults(defineProps<{ name?: string }>(), {
   name: "spin-logo",
 });
 const FALLBACK_SVG = "empty";
-const icon = computed(() =>
-  defineAsyncComponent(() => {
-    try {
-      return import(`~/assets/svgs/${props.name}.svg`);
-    } catch {
-      return import(`~/assets/svgs/${FALLBACK_SVG}.svg`);
-    }
-  })
-);
+const icon = computed(() => {
+  try {
+    const comp = import(`../assets/svgs/${props.name}.svg`);
+    return defineAsyncComponent(() => comp);
+  } catch {
+    const comp = import(`../assets/svgs/${FALLBACK_SVG}.svg`);
+    return defineAsyncComponent(() => comp);
+  }
+});
 </script>

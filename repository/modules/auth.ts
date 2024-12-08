@@ -5,6 +5,9 @@ import type {
   LoginResponse,
   AuthUser,
   ResetPasswordForm,
+  ChangePasswordForm,
+  HostProfileUpdate,
+  AudienceProfileUpdate,
 } from "~/types/auth";
 import type { ApiResponse } from "~/types";
 import type { $Fetch, NitroFetchOptions } from "nitropack";
@@ -21,6 +24,9 @@ export default class Auth {
   RESEND_VERIFICATION_EMAIL = "/resendverification";
   FORGOT_PASSWORD = "/forgot-password";
   RESET_PASSWORD = "/reset-password";
+  CHANGE_PASSWORD = "/change-password";
+  UPLOAD_FILE = "/user/profile-picture";
+  UPDATE_PROFILE = "/user/profile";
 
   constructor(fetcher: $Fetch) {
     this.$fetch = fetcher;
@@ -52,7 +58,7 @@ export default class Auth {
   }
 
   async fetchProfile() {
-    return await this.call<AuthUser>("GET", this.USER_PROFILE);
+    return await this.call<AuthUser>("GET", `${this.USER_PROFILE}?stat=true`);
   }
 
   async verifyEmail(user_id: string, signature: string) {
@@ -75,5 +81,26 @@ export default class Auth {
 
   async resetPassword(payload: ResetPasswordForm) {
     return await this.call<boolean>("POST", this.RESET_PASSWORD, payload);
+  }
+
+  async changePassword(payload: ChangePasswordForm) {
+    return await this.call<{
+      id: number | string;
+      email: string;
+      name: string;
+      type: "host" | "audience";
+    }>("POST", this.CHANGE_PASSWORD, payload);
+  }
+
+  async uploadFile(payload: FormData) {
+    return await this.call<string>("POST", this.UPLOAD_FILE, payload);
+  }
+
+  async updateProfile(payload: HostProfileUpdate | AudienceProfileUpdate) {
+    return await this.call<HostProfileUpdate | AudienceProfileUpdate>(
+      "POST",
+      this.UPDATE_PROFILE,
+      payload
+    );
   }
 }

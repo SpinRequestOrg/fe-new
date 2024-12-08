@@ -5,17 +5,18 @@
       :value="model"
       @input="handleInput"
       @blur="emit('blur', $event)"
-      class="flex rounded-[inherit] [&:focus_~_span.label-text]:!top-3 [&:placeholder-shown_~_span.label-text]:top-1/2 px-3 leading-6 w-full h-[56px] text-base pt-4 bg-transparent text-foreground transition-colors placeholder:text-transparent focus-visible:placeholder:text-muted-foreground focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50 autofill:bg-transparent"
+      class="rounded-[inherit] [&:focus_~_span.label-text]:!top-3 [&:placeholder-shown_~_span.label-text]:top-1/2 px-3 leading-6 w-full h-[56px] text-base pt-4 bg-transparent text-foreground transition-colors placeholder:text-transparent focus-visible:placeholder:text-muted-foreground focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50 autofill:bg-transparent relative z-10"
     />
     <span :class="labelVariant({ state: state })">{{ label }}</span>
     <div
-      class="text-muted-foreground cursor-pointer absolute right-3 bottom-3"
+      class="text-muted-foreground cursor-pointer absolute right-3 bottom-3 z-10"
       @click="toggleInputType"
       v-if="props.type === 'password'"
     >
       <Eye v-if="type === 'password'" class="size-5 text-muted-foreground" />
       <EyeOff v-else class="size-5 text-muted-foreground" />
     </div>
+    <slot />
   </div>
 </template>
 
@@ -33,7 +34,7 @@ interface InputAttributes {
 }
 
 const inputVariant = cva(
-  "relative rounded-lg border shadow-sm transition-colors bg-white/5 text-sm file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground focus-within:outline-none focus-within:ring-1 ",
+  "relative rounded-lg border shadow-sm transition-colors bg-white/5 text-sm file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground focus-within:outline-none focus-within:ring-1",
   {
     variants: {
       state: {
@@ -49,7 +50,7 @@ const inputVariant = cva(
 );
 
 const labelVariant = cva(
-  "absolute text-sm font-medium top-3 left-3 -translate-y-1/2 label-text transition-all",
+  "absolute text-sm font-medium top-3 left-3 -translate-y-1/2 label-text transition-all ease-in-out",
   {
     variants: {
       state: {

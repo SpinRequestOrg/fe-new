@@ -1,0 +1,112 @@
+<template>
+  <div class="container py-20">
+    <SharedBackButton to="/dashboard" class="fixed top-20" />
+    <SharedLoadingArea
+      class="space-y-4"
+      :error="error"
+      :loading="status === 'pending'"
+    >
+      <div class="bg-white/5 border rounded-3xl">
+        <div class="p-6 grid md:grid-cols-[65px,_1fr,_auto] gap-6">
+          <div
+            class="aspect-square rounded-full bg-white/5 place-items-center hidden md:grid"
+          >
+            <SvgIcon name="wallet" class="text-muted-foreground" />
+          </div>
+          <div class="space-y-2">
+            <div class="flex gap-x-1 items-center text-muted-foreground">
+              <div>Wallet Balance</div>
+              <Info class="size-4" />
+            </div>
+            <div class="tabular-nums font-semibold text-4xl">
+              ₦{{ formatMoney(Number(data?.wallet_balance ?? 0)) }}
+            </div>
+          </div>
+          <div class="space-y-4">
+            <div class="flex items-center gap-x-4 flex-wrap justify-between">
+              <div class="flex items-center text-muted-foreground gap-x-2">
+                <div class="size-3 rounded-full bg-[#38F08D]"></div>
+                <div>Earnings</div>
+              </div>
+              <div
+                class="flex items-center text-muted-foreground gap-x-2 justify-self-end"
+              >
+                <div>₦{{ formatMoney(data?.total_earnings ?? 0) }}</div>
+                <Info class="size-4" />
+              </div>
+            </div>
+            <div class="flex items-center gap-x-4 flex-wrap justify-between">
+              <div class="flex items-center text-muted-foreground gap-x-2">
+                <div class="size-3 rounded-full bg-[#E66840]"></div>
+                <div>Commision</div>
+              </div>
+              <div
+                class="flex items-center text-muted-foreground gap-x-2 justify-self-end"
+              >
+                <div>-₦{{ formatMoney((data?.wallet_expenses ?? 0) * 1) }}</div>
+                <Info class="size-4" />
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="p-3 border rounded-b-[inherit] bg-white/10">
+          <div class="flex justify-center gap-x-2">
+            <SvgIcon name="bell" />
+            <div class="text-muted-foreground text-center">
+              Your wallet balance is automatically sent to your bank account ({{
+                data?.account ?? ""
+              }}) every Tuesday
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div
+        class="grid sm:grid-cols-[repeat(auto-fit,_minmax(400px,_1fr))] gap-6"
+      >
+        <div class="space-y-4 rounded-3xl p-6 border bg-white/5">
+          <div class="text-muted-foreground">Total earnings</div>
+          <div class="text-2xl font-semibold tabular-nums">
+            ₦{{ formatMoney(data?.total_earnings ?? 0) }}
+          </div>
+        </div>
+        <div class="space-y-4 rounded-3xl p-6 border bg-white/5">
+          <div class="text-muted-foreground">Total Song requests earnings</div>
+          <div class="text-2xl font-semibold tabular-nums">
+            ₦{{ formatMoney(data?.song_earnings ?? 0) }}
+          </div>
+        </div>
+
+        <div class="space-y-4 rounded-3xl p-6 border bg-white/5">
+          <div class="text-muted-foreground">Total Hype request Earnings</div>
+          <div class="text-2xl font-semibold tabular-nums">
+            ₦{{ formatMoney(data?.hype_earnings ?? 0) }}
+          </div>
+        </div>
+      </div>
+
+      <HostEarnings />
+
+      <div class="bg-white/5 border rounded-3xl p-6 mt-8">
+        <div class="text-2xl font-semibold mb-6">Transaction History</div>
+        <WalletHistoryTable
+          :loading="status === 'pending'"
+          :history="data?.data ?? []"
+        />
+      </div>
+    </SharedLoadingArea>
+  </div>
+</template>
+
+<script lang="ts" setup>
+import WalletHistoryTable from "~/components/table/wallet-history-table.vue";
+import HostEarnings from "~/components/cards/host-earnings.vue";
+import { Info } from "lucide-vue-next";
+import type { Wallet } from "~/types/payment";
+
+const { data, status, error } = useCustomFetch<Wallet>("/wallets");
+
+useSeoMeta({
+  title: "Wallet",
+});
+</script>

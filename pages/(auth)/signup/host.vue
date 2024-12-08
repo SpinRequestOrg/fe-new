@@ -13,7 +13,7 @@
         >
           Create your free host account
         </div>
-        <div class="w-[400px] max-w-full mx-auto">
+        <div class="max-w-[90%] mx-auto w-[400px]">
           <HostSignupForm />
           <div class="text-center mt-2">
             Already a user?
@@ -30,4 +30,8 @@
 <script lang="ts" setup>
 import BackButton from "~/components/shared/back-button.vue";
 import HostSignupForm from "~/components/forms/host-signup-form.vue";
+
+useSeoMeta({
+  title: "Sign Up As A host",
+});
 </script>

@@ -29,9 +29,11 @@ import { Form } from "vee-validate";
 import FormInput from "./form-input.vue";
 import Button from "../ui/button.vue";
 import { Loader } from "lucide-vue-next";
+import type { ApiError } from "~/types";
 
 const { $repo } = useNuxtApp();
 const { saveAuthUser } = useAuth();
+const route = useRoute();
 const loading = ref(false);
 const onSubmit = async ({
   email,
@@ -51,17 +53,21 @@ const onSubmit = async ({
     showToast({ title: "Success", description: message, variant: "normal" });
     saveAuthUser(response.data.token, response.data.user);
     loading.value = false;
-    const destination =
-      response?.data?.role === "host" ? "/profile" : "/search";
-    useRouter().push(destination);
+    const redirect_path = route.redirectedFrom?.fullPath;
+    const destination = redirect_path
+      ? redirect_path
+      : response?.data?.role === "host"
+      ? "/dashboard"
+      : "/audience";
+    return navigateTo(destination);
   } catch (e) {
     loading.value = false;
     showToast({
       title: "Failed",
-      description: e?.data?.message ?? "Invalid credentials",
+      description: (e as ApiError)?.data?.message ?? "Invalid credentials",
       variant: "warning",
     });
-    console.error("ERROR LOGGING IN", e?.data?.message);
+    console.error("ERROR LOGGING IN", (e as ApiError)?.data?.message);
   }
 };
 

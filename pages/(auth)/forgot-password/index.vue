@@ -10,7 +10,7 @@
       Enter your email and we will send you a reset link
     </div>
 
-    <div class="w-[400px] max-w-full mx-auto">
+    <div class="max-w-[90%] mx-auto w-[400px]">
       <Form :validation-schema="simpleEmailSchema" @submit="handleSubmit">
         <FormInput
           type="email"
@@ -72,4 +72,8 @@ const handleSubmit = async ({ email }: { email: string }) => {
     console.error("ERROR", e?.data?.message);
   }
 };
+
+useSeoMeta({
+  title: "Forget Password",
+});
 </script>

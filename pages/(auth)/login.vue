@@ -8,7 +8,7 @@
         >
           Welcome, Log in to your account
         </div>
-        <div class="w-[400px] max-w-full mx-auto">
+        <div class="max-w-[90%] mx-auto w-[400px]">
           <LoginForm />
           <div class="flex justify-center gap-x-4 mt-2">
             <NuxtLink
@@ -31,4 +31,7 @@
 
 <script lang="ts" setup>
 import LoginForm from "~/components/forms/login-form.vue";
+useSeoMeta({
+  title: "Login",
+});
 </script>

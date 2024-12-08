@@ -1,10 +1,20 @@
 <template>
-  <button :class="buttonVariants({ variant, size })">
-    <slot />
+  <button
+    :class="buttonVariants({ variant, size })"
+    :disabled="loading || disabled"
+  >
+    <slot name="loader" v-if="loading">
+      <div class="flex gap-x-2 items-center">
+        <Loader class="size-4 animate-spin" />
+        <span v-if="size != 'icon' && !hide_loading_text">Please wait...</span>
+      </div>
+    </slot>
+    <slot v-else />
   </button>
 </template>
 
 <script lang="ts" setup>
+import { Loader } from "lucide-vue-next";
 import { cva, type VariantProps } from "class-variance-authority";
 
 const buttonVariants = cva(
@@ -19,7 +29,7 @@ const buttonVariants = cva(
         destructive:
           "bg-destructive text-destructive-foreground shadow-sm hover:bg-destructive/90",
         outline:
-          "border border-input bg-background shadow-sm hover:bg-accent hover:text-accent-foreground",
+          "border border-input bg-[#38373A] shadow-sm hover:bg-accent hover:text-accent-foreground",
 
         ghost: "hover:bg-accent hover:text-accent-foreground",
         link: "text-primary underline-offset-4 hover:underline",
@@ -44,7 +54,16 @@ withDefaults(
   defineProps<{
     variant?: ButtonProps["variant"];
     size?: ButtonProps["size"];
+    loading?: boolean;
+    disabled?: boolean;
+    hide_loading_text?: boolean;
   }>(),
-  { variant: "primary", size: "md" }
+  {
+    variant: "primary",
+    size: "md",
+    loading: false,
+    disabled: false,
+    hide_loading_text: false,
+  }
 );
 </script>

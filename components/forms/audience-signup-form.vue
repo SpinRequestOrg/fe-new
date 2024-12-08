@@ -12,6 +12,13 @@
     />
 
     <FormInput
+      name="user_name"
+      placeholder="Enter your username"
+      label="Username"
+      type="text"
+    />
+
+    <FormInput
       name="password"
       placeholder="Enter your password"
       type="password"
@@ -41,7 +48,6 @@ const { saveAuthUser } = useAuth();
 const loading = ref(false);
 const handleSubmit = async (data: Audience) => {
   loading.value = true;
-
   const payload = {
     ...data,
     password_confirmation: data.password,
@@ -62,7 +68,7 @@ const handleSubmit = async (data: Audience) => {
     loading.value = false;
     saveAuthUser(response.data.token, response.data.user);
     const destination =
-      response?.data?.role === "host" ? "/profile" : "/search";
+      response?.data?.role === "host" ? "/dashboard" : "/audience";
     useRouter().push(destination);
   } catch (e) {
     loading.value = false;

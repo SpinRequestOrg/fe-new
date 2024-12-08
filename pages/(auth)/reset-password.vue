@@ -10,7 +10,7 @@
       Create a new password
     </div>
 
-    <div class="w-[400px] max-w-full mx-auto">
+    <div class="max-w-[90%] mx-auto w-[400px]">
       <Form
         :validation-schema="ResetPasswordSchema"
         @submit="handleSubmit"
@@ -87,4 +87,8 @@ const handleSubmit = async ({
     console.error("ERROR RESETTING PASSWORD", e?.data?.message);
   }
 };
+
+useSeoMeta({
+  title: "Input New Password",
+});
 </script>

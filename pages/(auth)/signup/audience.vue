@@ -1,7 +1,7 @@
 <template>
   <div class="h-full">
     <NuxtLayout :name="'auth'">
-      <div class="absolute top-12 left-0">
+      <div class="absolute top-12 left-[var(--cp)]">
         <BackButton to="/signup" />
       </div>
       <div class="w-full">
@@ -30,4 +30,8 @@
 <script lang="ts" setup>
 import BackButton from "~/components/shared/back-button.vue";
 import AudienceSignupForm from "~/components/forms/audience-signup-form.vue";
+
+useSeoMeta({
+  title: "Sign Up As An Audience",
+});
 </script>

@@ -1,6 +1,15 @@
 import type yup from "yup";
 import { object, string } from "yup";
 
+export const UsernameSchema = string()
+  .required("Username is required")
+  .max(24, "Username too long")
+  .matches(/^\S*$/, "Username should not have space");
+
+export const BioSchema = string()
+  .required("Bio is required")
+  .max(350, "Limit bio to just 350 characters");
+
 export const passwordSchema = string()
   .required("Enter your password")
   .min(8, "Password should be at least 8 characters long")
@@ -15,6 +24,7 @@ export const passwordSchema = string()
 export const AudienceSchema = object({
   name: string().optional().min(3, "Name should be at least 3 characters long"),
   email: string().required("Email is required").email("Enter a valid email"),
+  user_name: UsernameSchema,
   password: passwordSchema,
 });
 
@@ -38,6 +48,26 @@ export const ResetPasswordSchema = object({
   });
   return payload.password === payload.password_confirmation ? true : error;
 });
+
+export const ChangePasswordSchema = object({
+  old_password: string().required("Old password required"),
+  password: passwordSchema,
+  password_confirmation: string().required("Confirm password"),
+})
+  .test("new-password-test", "", (payload, context) => {
+    const error = context.createError({
+      path: "password",
+      message: "New password should not be same as old password",
+    });
+    return payload.old_password === payload.password ? error : true;
+  })
+  .test("confirmation-test", "", (payload, context) => {
+    const error = context.createError({
+      path: "password_confirmation",
+      message: "Password don't match",
+    });
+    return payload.password === payload.password_confirmation ? true : error;
+  });
 
 export type Audience = yup.InferType<typeof AudienceSchema>;
 export type Host = yup.InferType<typeof HostSchema>;

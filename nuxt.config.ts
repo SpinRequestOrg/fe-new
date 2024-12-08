@@ -1,9 +1,9 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   compatibilityDate: "2024-04-03",
+  ssr: true,
   app: {
     head: {
-      title: "SpinRequest",
       htmlAttrs: { lang: "en" },
       meta: [
         { charset: "utf-8" },
@@ -14,7 +14,7 @@ export default defineNuxtConfig({
     },
   },
   css: ["~/assets/css/font.css"],
-  devtools: { enabled: true },
+  devtools: { enabled: false },
   modules: [
     "@nuxtjs/tailwindcss",
     "@nuxt/image",
@@ -22,10 +22,19 @@ export default defineNuxtConfig({
     "radix-vue/nuxt",
     "@pinia/nuxt",
     "pinia-plugin-persistedstate/nuxt",
+    "@vueuse/nuxt",
+    "nuxt-jsonld",
   ],
   runtimeConfig: {
     public: {
       API_BASE_URL: process.env.API_BASE_URL,
+      APP_BASE_URL:
+        process.env.NODE_ENV === "development"
+          ? "http://localhost:3000"
+          : process.env.APP_BASE_URL,
     },
+  },
+  build: {
+    transpile: ["@vuepic/vue-datepicker"],
   },
 });

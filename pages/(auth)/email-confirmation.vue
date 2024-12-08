@@ -93,7 +93,7 @@ const { authEmail, auth_user, saveAuthUser } = useAuth();
 
 const successRoute = computed(() => {
   const role = auth_user.value?.role;
-  return role === "host" ? "/host/dashboard" : "/search";
+  return role === "host" ? "/dashboard" : "/audience";
 });
 
 const userID = computed(() => auth_user.value?.id);
@@ -121,4 +121,8 @@ watch(
     immediate: true,
   }
 );
+
+useSeoMeta({
+  title: "Confirm your email",
+});
 </script>
