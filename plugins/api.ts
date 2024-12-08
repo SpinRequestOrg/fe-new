@@ -13,7 +13,12 @@ export default defineNuxtPlugin((nuxtApp) => {
         options.headers.set("Authorization", `Bearer ${token.value}`);
       }
 
-      options.headers.set("Origin", window.location.origin);
+      if (process.client) {
+          options.headers.set("Origin", window.location.origin);
+      } else if (process.server) {
+         const serverOrigin = process.env.APP_BASE_URL || 'https://prod.d1yrrs2ihyi11j.amplifyapp.com';
+         options.headers.set("Origin", serverOrigin);
+      }
     },
     async onResponseError({ response }) {
       if (response.status === 401) {
