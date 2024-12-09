@@ -170,11 +170,11 @@
             class="border bg-white/5 p-6 rounded-2xl grid lg:grid-cols-[150px_1fr_126px] xl:grid-cols-[200px_1fr_126px] gap-6"
           >
             <div class="font-semibold">Password</div>
-            <UiInputField
+            <!-- <UiInputField
               placeholder="Your password"
               label="Password"
               type="password"
-            />
+            /> -->
             <PasswordChange />
           </div>
           <div
@@ -258,6 +258,7 @@ import SvgIcon from "~/components/svg-icon.vue";
 import { UsernameSchema, BioSchema } from "~/schemas/user-schema";
 import type { Bank, BankVerificationPayload } from "~/types/payment";
 import Wallet from "~/components/cards/wallet.vue";
+
 const {
   $config: {
     public: { APP_BASE_URL },
