@@ -78,7 +78,7 @@ const {
 watch(
   () => verification_status.value,
   async (data) => {
-    await promiseTimeout(300);
+    await promiseTimeout(500);
     data === "success" && refreshTopSpenders();
   },
   {
