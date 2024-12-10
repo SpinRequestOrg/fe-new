@@ -8,14 +8,17 @@
     </NuxtLink>
 
     <nav class="flex items-center gap-x-2">
-      <NuxtLink to="/audience" v-if="auth_user?.role === 'audience'">
-        <UiTooltip message="Search host" :delay="50">
-          <Button :size="'icon'" class="!size-[40px]" :variant="'ghost'">
-            <Search class="size-5" />
-          </Button>
-        </UiTooltip>
-      </NuxtLink>
-      <ProfileMenu v-if="isLoggedIn" />
+      <template v-if="isLoggedIn">
+        <NuxtLink to="/audience" v-if="auth_user?.role === 'audience'">
+          <UiTooltip message="Search host" :delay="50">
+            <Button :size="'icon'" class="!size-[40px]" :variant="'ghost'">
+              <Search class="size-5" />
+            </Button>
+          </UiTooltip>
+        </NuxtLink>
+        <ProfileMenu />
+      </template>
+
       <template v-else>
         <NuxtLink to="/login"> <Button> LOGIN </Button> </NuxtLink>
 
