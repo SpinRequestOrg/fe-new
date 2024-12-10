@@ -31,7 +31,7 @@
             />
             <div class="py-2">
               <div class="font-display text-3xl md:text-4xl font-semibold">
-                {{ host.stage_name }}
+                {{ host?.stage_name }}
               </div>
               <div class="flex flex-wrap gap-4 items-center my-4 mb-6">
                 <div class="flex items-center gap-2">
@@ -116,8 +116,8 @@
         </div>
 
         <RequestQueueCard
-          :event="data?.data.live_event"
-          v-if="data?.data.live_event"
+          :event="data?.data?.live_event"
+          v-if="data?.data?.live_event"
         />
 
         <div class="mt-4 space-y-4 text-muted-foreground md:hidden">
@@ -148,6 +148,7 @@ import Button from "../../components/ui/button.vue";
 import Avatar from "~/components/avatar.vue";
 import type { ApiResponse } from "~/types";
 import type { HostProfile } from "~/types/user";
+import RequestQueueCard from "~/components/request-queue.card.vue";
 
 const route = useRoute();
 const { data, error, status } = useCustomFetch<ApiResponse<HostProfile>>(
