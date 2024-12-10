@@ -145,7 +145,7 @@
 
 <script lang="ts" setup>
 import { Copy, CopyCheck } from "lucide-vue-next";
-import { saveAs } from "file-saver";
+import saveAs from "file-saver";
 import { useNodeToImage } from "~/composables/useNodeToImage";
 import type { EventRequest, OrderEvent } from "~/types/event";
 const props = defineProps<{
