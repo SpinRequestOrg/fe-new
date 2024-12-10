@@ -92,7 +92,7 @@
             @click="makePayment"
             :loading="paying"
           >
-            PAY ₦{{ formatMoney(request?.price ?? 0) }}
+            PAY ₦{{ formatMoney(balance ?? 0) }}
           </UiButton>
         </div>
       </div>
@@ -129,6 +129,14 @@ const sufficient = computed(() => {
 });
 
 const { payForRequest, paying } = useLiveEvent();
+
+const balance = computed(() => {
+  const remainder =
+    Number(request.value?.price ?? 0) -
+    Number(wallet.value?.wallet_balance ?? 0);
+
+  return remainder < 0 ? 0 : remainder;
+});
 
 const makePayment = () => {
   if (request.value) {
