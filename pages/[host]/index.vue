@@ -90,7 +90,7 @@
                 </NuxtLink>
 
                 <Button class="w-full md:w-auto" :size="'lg'" v-else>
-                  Notify me when DJ goes live
+                  Notify me when Host Goes Live.
                 </Button>
               </div>
             </div>
