@@ -149,6 +149,8 @@ import Avatar from "~/components/avatar.vue";
 import type { ApiResponse } from "~/types";
 import type { HostProfile } from "~/types/user";
 import RequestQueueCard from "~/components/request-queue.card.vue";
+import type { PresenceChannel } from "pusher-js";
+import Pusher from "pusher-js";
 
 const route = useRoute();
 const { data, error, status } = useCustomFetch<ApiResponse<HostProfile>>(
@@ -173,6 +175,40 @@ const {
     public: { APP_BASE_URL },
   },
 } = useNuxtApp();
+
+onMounted(() => {
+  const pusher = new Pusher("0259a0ebe407b648fd2f", {
+    cluster: "mt1",
+  });
+  pusher.connection.bind("error", (err) => {
+    console.log({ err });
+  });
+
+  pusher.connection.bind("connected", (data) => {
+    console.log({ data });
+  });
+
+  const channel = pusher.subscribe(
+    `SPREvents.${data.value?.data?.live_event?.id ?? "23"}`
+  );
+  console.log({ channel });
+
+  channel.bind("HostEndsEvent", (data) => {
+    console.log("HOST ENDED EVENT", data);
+  });
+
+  channel.bind("HostGoesLive", (data) => {
+    console.log("HOST GONE LIVE", data);
+  });
+
+  channel.bind_global((event, data) => {
+    console.log(`The event ${event} was triggered with data ${data}`);
+  });
+
+  // for (const c of channels) {
+  //   console.log({ c });
+  // }
+});
 
 useSeoMeta({
   title: () => `${host?.value?.stage_name ?? ""}`,
