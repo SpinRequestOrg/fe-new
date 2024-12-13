@@ -1,11 +1,11 @@
 <template>
   <div class="w-full rounded-xl relative" v-if="event">
-    <div class="border p-20 bg-white/5 grid place-items-center">
+    <!-- <div class="border p-20 bg-white/5 grid place-items-center">
       <div v-for="(item, index) in eventRequests" :key="item.id">
         {{ item.song_title ?? item.description }}
       </div>
-    </div>
-    <!-- <div class="py-4 px-6 bg-[#1C1B1F] rounded-t-[inherit]">
+    </div> -->
+    <div class="py-4 px-6 bg-[#1C1B1F] rounded-t-[inherit]">
       <div class="font-display font-semibold text-2xl mb-2">Request Queue</div>
       <div class="flex items-center gap-4 text-muted-foreground text-sm -ml-1">
         <div class="flex items-center gap-px">
@@ -25,12 +25,11 @@
       <div
         class="space-y-1 grid justify-center text-center mb-8 relative z-[3]"
       >
-        <div
-          class="size-32 grid place-items-center ring-2 mx-auto rounded-full animate-spin"
-        ></div>
         <NuxtImg
           src="/images/disco.png"
-          :class="cn('size-[120px] mx-auto', activeRequest && 'animate-spin')"
+          :class="
+            cn('size-[120px] mx-auto', activeRequest ? 'animate-spin' : null)
+          "
         />
         <Summary
           class="font-semibold text-base"
@@ -59,9 +58,9 @@
         :class="
           cn(
             'text-muted-foreground mb-4',
-            activeRequest &&
-              authEmail === activeRequest?.audience?.email &&
-              'mt-16'
+            activeRequest && authEmail === activeRequest?.audience?.email
+              ? 'mt-16'
+              : null
           )
         "
       >
@@ -78,7 +77,7 @@
       <div class="p-3 text-center grid place-items-center" v-else>
         No requests yet, hang tight
       </div>
-    </div> -->
+    </div>
   </div>
 </template>
 <script lang="ts" setup>
