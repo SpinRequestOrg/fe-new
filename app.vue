@@ -1,5 +1,6 @@
 <template>
   <ConfigProvider :use-id="useIdFunction">
+    <NuxtLoadingIndicator />
     <NuxtLayout>
       <Toast
         :open="store.open"
