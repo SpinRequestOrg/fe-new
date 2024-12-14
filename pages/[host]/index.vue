@@ -5,7 +5,7 @@
       :user="'audience'"
       :start-date="data?.data?.live_event?.start_date"
       animate
-      v-if="data?.data.live_event"
+      v-if="data?.data.live_event && !ended"
     >
       <NuxtLink
         :to="`/${route.params.host}/${data?.data?.live_event?.id}/make-a-request`"
@@ -28,6 +28,7 @@
               class="!size-[120px] md:!size-[180px] xl:!size-[200px] !rounded-3xl !text-4xl"
               :initials="getInitials(host?.stage_name)"
               :image="host.profile_picture"
+              @click="ended = true"
             />
             <div class="py-2">
               <div class="font-display text-3xl md:text-4xl font-semibold">
@@ -76,11 +77,12 @@
                   :variant="'secondary'"
                   class="w-full md:w-auto"
                   :size="'lg'"
+                  @click="request_rejected = true"
                 >
                   Follow
                 </Button>
                 <NuxtLink
-                  v-if="data?.data.live_event"
+                  v-if="data?.data.live_event && !ended"
                   :to="`/${route.params.host}/${data?.data?.live_event?.id}/make-a-request`"
                   class="w-full md:w-auto"
                 >
@@ -115,10 +117,25 @@
           </div>
         </div>
 
-        <RequestQueueCard
-          :event="data?.data?.live_event"
-          v-if="data?.data?.live_event"
-        />
+        <div>
+          <RequestQueueCard
+            :event="data?.data?.live_event"
+            v-if="data?.data?.live_event"
+          />
+          <div
+            class="flex justify-center gap-x-2 mt-4 items-center animate-in slide-in-from-top-4"
+            v-if="ended"
+          >
+            <div>Unfufilled requests?</div>
+            <ConfirmDialog message="Was your song or hype requests completed?">
+              <UiButton :variant="'ghost'" :size="'sm'">
+                <div class="text-red-500 underline hover:no-underline">
+                  REPORT
+                </div>
+              </UiButton>
+            </ConfirmDialog>
+          </div>
+        </div>
 
         <div class="mt-4 space-y-4 text-muted-foreground md:hidden">
           <div>ABOUT ME</div>
@@ -140,6 +157,7 @@
         </div>
       </div>
     </SharedLoadingArea>
+    <RejectedRequestModal v-model="request_rejected" />
   </div>
 </template>
 
@@ -150,7 +168,9 @@ import type { ApiResponse } from "~/types";
 import type { HostProfile } from "~/types/user";
 import RequestQueueCard from "~/components/request-queue.card.vue";
 import type { PresenceChannel } from "pusher-js";
+import RejectedRequestModal from "~/components/modals/rejected-request.vue";
 import Pusher from "pusher-js";
+import ConfirmDialog from "~/components/modals/confirm-dialog.vue";
 
 const route = useRoute();
 const { data, error, status } = useCustomFetch<ApiResponse<HostProfile>>(
@@ -164,6 +184,8 @@ const liveEventRequests = computed(
   () => data.value?.data?.live_event?.requests
 );
 
+const request_rejected = ref(false);
+
 const hasPendingRequest = computed(() => {
   return liveEventRequests.value?.some(
     (item) => item.audience.email === authEmail.value
@@ -175,6 +197,8 @@ const {
     public: { APP_BASE_URL },
   },
 } = useNuxtApp();
+
+const ended = ref(false);
 
 onMounted(() => {
   const pusher = new Pusher("0259a0ebe407b648fd2f", {
@@ -195,6 +219,7 @@ onMounted(() => {
 
   channel.bind("HostEndsEvent", (data) => {
     console.log("HOST ENDED EVENT", data);
+    ended.value = true;
   });
 
   channel.bind("HostGoesLive", (data) => {
