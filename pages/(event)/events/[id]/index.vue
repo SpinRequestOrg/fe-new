@@ -32,10 +32,7 @@
               :services="data?.data?.types ?? []"
               :onUpdate="refresh"
             />
-            <ConfirmDialog
-              :onConfirm="endLiveEvent"
-              message="Are you sure you want to end this event?"
-            >
+            <ConfirmDialog :onConfirm="endLiveEvent" :message="confirmMessage">
               <Button
                 class="w-full mt-6"
                 :variant="'destructive'"
@@ -78,6 +75,19 @@ const active_tab = computed(
 );
 
 const eventID = computed(() => route.params.id as string);
+
+const pendingRequests = computed(() =>
+  data.value?.data?.requests
+    ? data.value?.data?.requests?.filter((req) => req.status === "new")
+    : []
+);
+
+const confirmMessage = computed(() => {
+  const count = pendingRequests?.value?.length;
+  return count
+    ? `Ending the event will reject all pending ${count} requests. Are you sure you want to end event?`
+    : "Are you sure you want to end event?";
+});
 
 useSeoMeta({
   title: () =>
