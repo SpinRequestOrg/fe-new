@@ -1,6 +1,6 @@
 <template>
   <DialogRoot :open="controlled ? model : modal_open" @update:open="updateOpen">
-    <DialogTrigger as-child>
+    <DialogTrigger as-child v-if="!hideTrigger">
       <slot name="trigger">
         <Button :variant="'outline'">Open</Button>
       </slot>
@@ -74,10 +74,12 @@ const {
   showClose = true,
   size = "md",
   controlled = false,
+  hideTrigger = false,
 } = defineProps<{
   showClose?: boolean;
   size?: ModalVariant["size"];
   controlled?: boolean;
+  hideTrigger?: boolean;
 }>();
 
 const model = defineModel<boolean>();
