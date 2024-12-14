@@ -127,7 +127,7 @@
             v-if="ended"
           >
             <div>Unfufilled requests?</div>
-            <ConfirmDialog message="Was your somg or hype requests completed">
+            <ConfirmDialog message="Was your song or hype requests completed?">
               <UiButton :variant="'ghost'" :size="'sm'">
                 <div class="text-red-500 underline hover:no-underline">
                   REPORT
