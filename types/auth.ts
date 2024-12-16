@@ -36,11 +36,11 @@ export interface HostProfileUpdate {
   user: {
     name: string;
     bio: string;
-    dob: string;
-    gender: string;
+    dob: string | null;
+    gender: string | null;
     country: string;
     stage_name: string;
-    profession: string;
+    profession: string | null;
   };
   bank_account: BankDetails;
 }
@@ -48,7 +48,7 @@ export interface HostProfileUpdate {
 export interface AudienceProfileUpdate {
   user: {
     name?: string;
-    dob: string;
+    dob: string | null;
     gender: string;
     country: string;
     user_name: string;

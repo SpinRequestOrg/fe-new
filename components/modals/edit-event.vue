@@ -19,7 +19,7 @@
 <script lang="ts" setup>
 import { Edit2 } from "lucide-vue-next";
 import EditEventForm from "../forms/event-form.vue";
-import type { EventFormDetails } from "~/types/event";
+import type { EventFormDetails } from "../../types/event";
 interface EditProps extends EventFormDetails {
   id: string | number;
 }

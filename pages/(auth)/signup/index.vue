@@ -13,8 +13,11 @@
         >
           <NuxtLink
             to="/signup/host"
-            class="border py-10 px-8 relative z-10 rounded-2xl transition-colors hover:border-primary bg-background"
+            class="border py-10 px-8 relative z-10 rounded-2xl transition-colors hover:border-primary bg-background overflow-hidden"
           >
+            <div
+              class="bg-[#FF99F1] blur-[100px] size-[100px] absolute top-[-40px] right-[-40px] border z-[200]"
+            ></div>
             <div class="text-2xl font-semibold">As a show host</div>
             <div class="text-muted-foreground leading-5 mt-4">
               For DJs MCs, Artists, radio hosts or others
@@ -22,9 +25,12 @@
           </NuxtLink>
 
           <NuxtLink
-            class="border py-10 px-8 relative z-10 rounded-2xl transition-colors hover:border-primary bg-background"
+            class="border py-10 px-8 relative z-10 rounded-2xl transition-colors hover:border-primary bg-background overflow-hidden"
             to="/signup/audience"
           >
+            <div
+              class="bg-[#FFEE99] blur-[70px] size-[100px] absolute top-[-40px] right-[-40px] border z-[200]"
+            ></div>
             <div class="text-2xl font-semibold">To request songs</div>
             <div class="text-muted-foreground leading-5 mt-4">
               To request songs or hypes from a host

@@ -1,6 +1,6 @@
 <template>
   <SelectRoot
-    :model-value="selected_option"
+    :model-value="selected_option ?? ''"
     @update:model-value="selected_option = $event"
     :disabled="disabled || loading"
     :name="name"

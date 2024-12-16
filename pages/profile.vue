@@ -307,10 +307,10 @@ const profile = useState<HostProfileUpdate>("HOST-PROFILE", () => {
       stage_name: data.value?.data?.stage_name ?? "",
       name: data.value?.data?.name ?? "",
       bio: data.value?.data?.bio ?? "",
-      dob: data.value?.data?.dob ?? "",
-      gender: data.value?.data?.gender ?? "",
+      dob: data.value?.data?.dob ?? null,
+      gender: data.value?.data?.gender ?? null,
       country: data.value?.data?.country ?? "",
-      profession: data.value?.data?.profession ?? "",
+      profession: data.value?.data?.profession ?? null,
     },
     bank_account: {
       bank_name: data.value?.data?.bank_account?.bank_name ?? "",
@@ -328,7 +328,7 @@ const audience_profile = useState<AudienceProfileUpdate>(
     return {
       user: {
         user_name: data.value?.data?.user_name ?? "",
-        dob: data.value?.data?.dob ?? "",
+        dob: data.value?.data?.dob ?? null,
         gender: data.value?.data?.gender ?? "",
         country: data.value?.data?.country ?? "",
       },
@@ -358,14 +358,14 @@ watchEffect(() => {
     profile.value.user.country = user.country ?? "";
     audience_profile.value.user.country = user.country ?? "";
     profile.value.user.dob = user.dob ?? null;
-    audience_profile.value.user.dob = user.dob ?? "";
-    profile.value.user.gender = user.gender ?? "";
-    audience_profile.value.user.gender = user.gender ?? "";
+    audience_profile.value.user.dob = user.dob ?? null;
+    profile.value.user.gender = user.gender ?? null;
+    audience_profile.value.user.gender = user.gender ?? null;
     audience_profile.value.user.user_name = user.user_name ?? "";
     // audience_profile.value.user.name = user.stage_name ?? "";
     profile.value.user.name = user.name ?? "";
     profile.value.user.stage_name = user.stage_name ?? "";
-    profile.value.user.profession = user.profession ?? "";
+    profile.value.user.profession = user.profession ?? null;
     profile.value.bank_account.account_name =
       user.bank_account?.account_name ?? "";
     profile.value.bank_account.account_number =
