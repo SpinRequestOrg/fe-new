@@ -1,4 +1,6 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
+import { resolve } from "node:path";
+const r = (p: string) => resolve(__dirname, p);
 export default defineNuxtConfig({
   compatibilityDate: "2024-04-03",
   ssr: true,
@@ -36,5 +38,8 @@ export default defineNuxtConfig({
   },
   build: {
     transpile: ["@vuepic/vue-datepicker"],
+  },
+  alias: {
+    "@spinlander": r("./components/lander"),
   },
 });

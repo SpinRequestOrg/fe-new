@@ -16,12 +16,14 @@
             :class="
               cn(
                 ' size-10 rounded-full grid place-items-center',
-                item.reference ? 'bg-[#38F08D]/15' : 'bg-[#F04438]/15'
+                item.type === 'credit' ? 'bg-[#38F08D]/15' : 'bg-[#F04438]/15'
               )
             "
           >
             <SvgIcon
-              :name="item.reference ? 'dotted-arrow-down' : 'dotted-arrow-up'"
+              :name="
+                item.type === 'credit' ? 'dotted-arrow-down' : 'dotted-arrow-up'
+              "
             />
           </div>
         </td>

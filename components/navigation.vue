@@ -37,6 +37,6 @@ import { Search } from "lucide-vue-next";
 const { isLoggedIn, auth_user } = useAuth();
 const homeRoute = computed(() => {
   if (!isLoggedIn.value) return "/";
-  auth_user.value?.role === "audience" ? "/audience" : "/dashboard";
+  return auth_user.value?.role === "audience" ? "/audience" : "/dashboard";
 });
 </script>
