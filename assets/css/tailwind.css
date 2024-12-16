@@ -81,4 +81,17 @@
   .looped {
     animation: looped linear 20s infinite;
   }
+
+  .animated-progress {
+    animation: progress ease-in-out 0.5s;
+  }
+
+  @keyframes progress {
+    from {
+      stroke-dashoffset: var(--circumference);
+    }
+    to {
+      stroke-dashoffset: var(--arc-circumference);
+    }
+  }
 }

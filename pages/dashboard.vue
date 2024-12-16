@@ -26,6 +26,7 @@
 
     <div class="grid mac:grid-cols-[1fr_auto] items-start gap-4">
       <div class="order-2 mac:order-1 space-y-6">
+        <ProfileCompletion />
         <div
           class="relative bg-white/5 rounded-2xl p-6 border flex items-center justify-between overflow-hidden"
         >
@@ -127,6 +128,7 @@ import EventCard from "~/components/cards/event-card.vue";
 import CreateEventCard from "~/components/cards/create-event-card.vue";
 import EventHistoryTable from "~/components/table/event-history-table.vue";
 import HostTopSpendersTable from "~/components/table/host-top-spenders-table.vue";
+import ProfileCompletion from "~/components/cards/profile-completion.vue";
 import type { Wallet } from "~/types/payment";
 
 definePageMeta({

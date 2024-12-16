@@ -7,7 +7,7 @@ export const UsernameSchema = string()
   .matches(/^\S*$/, "Username should not have space");
 
 export const BioSchema = string()
-  .required("Bio is required")
+  .optional()
   .max(350, "Limit bio to just 350 characters");
 
 export const passwordSchema = string()
