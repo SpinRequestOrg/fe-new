@@ -5,6 +5,11 @@
     </div>
     <div class="pt-[72px] h-screen">
       <slot />
+      <Footer />
     </div>
   </main>
 </template>
+
+<script lang="ts" setup>
+import Footer from "~/components/lander/footer.vue";
+</script>
