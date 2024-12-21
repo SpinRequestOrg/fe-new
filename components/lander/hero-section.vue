@@ -1,6 +1,6 @@
 <template>
-  <div class="relative bg-gradient-to-b from-[#111014]/5 to-[#111014]">
-    <div class="container p-20 relative">
+  <div class="relative bg-gradient-to-b from-[#111014] to-[#111014]/5">
+    <div class="container pt-20 relative">
       <h1
         class="text-center text-4xl md:text-6xl w-full max-w-[842px] mx-auto font-display"
       >
@@ -12,6 +12,9 @@
         Request songs and shoutouts directly from DJs, Hypemen seamlessly at
         clubs, events, parties, lounges and bars!
       </p>
+      <div class="max-w-[600px] mx-auto">
+        <HostSearchInput />
+      </div>
       <div
         class="w-full max-w-[842px] relative left-1/2 -translate-x-1/2 -translate-y-1/3 opacity-40"
       >
@@ -21,6 +24,5 @@
         />
       </div>
     </div>
-    <!-- <div class="absolute h-[200px] w-full opacity-40 bottom-20"></div> -->
   </div>
 </template>
