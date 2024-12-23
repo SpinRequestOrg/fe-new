@@ -5,8 +5,8 @@
     :loading="status === 'pending'"
   >
     <OrderHistoryTableRow
-      v-for="order in mergedOrders"
-      :key="order.id + order.parent_id + order.date"
+      v-for="(order, index) in mergedOrders"
+      :key="order.id + order.parent_id + order.date + index"
       :order="order"
     />
     <template #empty>
@@ -53,17 +53,19 @@ const groupedOrders = computed(() => {
 });
 
 const mergedOrders = computed(() => {
-  return Object.values(groupedOrders.value).map((item) => {
-    return item.reduce((acc, item) => {
-      if (!acc.amount) {
-        Object.assign(acc, item);
+  return Object.values(groupedOrders.value)
+    .reverse()
+    .map((item) => {
+      return item.reduce((acc, item) => {
+        if (!acc.amount) {
+          Object.assign(acc, item);
+          return acc;
+        }
+        acc.amount = Number(acc.amount) + Number(item.amount);
+        acc.reference = `${acc.reference}-${item.reference}`;
+        acc.payment_gateway = `${acc.payment_gateway} + ${item.payment_gateway}`;
         return acc;
-      }
-      acc.amount = Number(acc.amount) + Number(item.amount);
-      acc.reference = `${acc.reference}-${item.reference}`;
-      acc.payment_gateway = `${acc.payment_gateway} + ${item.payment_gateway}`;
-      return acc;
-    }, {} as Order);
-  });
+      }, {} as Order);
+    });
 });
 </script>

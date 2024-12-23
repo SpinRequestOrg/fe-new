@@ -57,14 +57,20 @@
               v-if="request?.type === 'song'"
             >
               <div class="text-sm text-muted-foreground">Title</div>
-              <div>{{ request?.song_title ?? "" }}</div>
+              <SharedSummary
+                :content="request?.song_title ?? ''"
+                class="max-w-[50%] text-right"
+              />
             </div>
             <div
               class="flex items-center justify-between"
               v-if="request?.type === 'song'"
             >
               <div class="text-sm text-muted-foreground">Artsite</div>
-              <div>{{ request?.artist ?? "" }}</div>
+              <SharedSummary
+                :content="request?.artist ?? ''"
+                class="max-w-[50%] text-right"
+              />
             </div>
             <div class="flex items-center justify-between">
               <div class="text-sm text-muted-foreground">Your nickname</div>
