@@ -33,7 +33,7 @@
         />
         <Summary
           class="font-semibold text-base"
-          v-if="activeRequest"
+          v-if="activeRequest && hasPendingRequest"
           :content="
             activeRequest?.type === 'hype'
               ? activeRequest?.description
@@ -72,6 +72,7 @@
           :key="item.id"
           :request="item"
           :type="item.type"
+          :detailed="hasPendingRequest"
         />
       </div>
       <div class="p-3 text-center grid place-items-center" v-else>
@@ -97,6 +98,10 @@ const eventRequests = computed(() => {
         .slice(0, 3)
     : [];
 });
+
+const hasPendingRequest = computed(() =>
+  eventRequests.value.some((req) => req.audience.email === authEmail.value)
+);
 
 const activeRequest = computed(() =>
   props?.event?.requests?.find((item) => item?.status === "now-playing")

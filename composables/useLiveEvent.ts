@@ -161,7 +161,9 @@ export const useLiveEvent = () => {
           external: true,
         });
       }
-      return navigateTo(`/${host_slug}`);
+      return navigateTo(
+        `/${host_slug}/${request.event_id}/${request.id}/request-receipt`
+      );
     } catch (error) {
       const e = error as ApiError;
       paying.value = false;
