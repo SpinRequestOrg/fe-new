@@ -36,7 +36,7 @@
             </div>
           </div>
         </div>
-        <NuxtLink class="w-full sm:w-auto block">
+        <NuxtLink class="w-full sm:w-auto block" to="/signup/audience">
           <UiButton :size="'lg'" class="w-full sm:w-auto"
             >Create an audience account</UiButton
           >

@@ -139,7 +139,7 @@ const host_steps = ref([
   },
   {
     icon: "bubble-question-mark",
-    title: "Get a personlized QR code",
+    title: "Get a personalized QR code",
     subtitle: "Share your QR code for anyone to find you",
   },
   {
