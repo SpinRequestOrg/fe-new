@@ -67,7 +67,15 @@
         <div>
           © {{ new Date().getFullYear() }} SpinRequest - All Rights Reserved
         </div>
-        <div>Privacy Policy | Terms of Use</div>
+        <div
+          class="[&_>_a:hover]:underline flex items-center gap-x-1 justify-center"
+        >
+          <NuxtLink to="/privacy-policy">Privacy Policy</NuxtLink>
+          <span>|</span>
+          <NuxtLink to="/terms"> Terms of Use </NuxtLink>
+          <span>|</span>
+          <NuxtLink to="/community-guidelines"> Guidelines </NuxtLink>
+        </div>
       </div>
     </div>
   </div>

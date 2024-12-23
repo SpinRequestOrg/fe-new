@@ -6,10 +6,15 @@ export default defineNuxtRouteMiddleware((to) => {
     "reset-password",
     "email-confirmation",
   ];
+  const GUEST_PAGES = ["privacy-policy", "terms", "community-guidelines"];
+  const isGuestPage =
+    to.path === "/" ||
+    to.name === "host" ||
+    GUEST_PAGES.some((page) => to.path.includes(page));
   const { isLoggedIn, isEmailVerified } = useAuth();
   const isAuthPage = AUTH_PAGES.some((page) => to.path.includes(page));
   const isEmailConfirmationPage = to.path.includes("email-confirmation");
-  if (to.path === "/" || to.name === "host") return;
+  if (isGuestPage) return;
   if (!isLoggedIn.value && !isAuthPage) {
     return navigateTo("/login");
   }

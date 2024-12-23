@@ -24,7 +24,8 @@
     --input: 215 27.9% 16.9%;
     --ring: 263.4 80% 80.4%;
     --radius: 0.5rem;
-    --cp: 2rem;
+    --cp: 0.8rem;
+    --cp-md: 2rem;
   }
 
   .light {
@@ -65,6 +66,10 @@
 
   .place-center {
     @apply absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2;
+  }
+
+  .container {
+    @apply sm:!px-[var(--cp-md)];
   }
 
   @keyframes looped {
