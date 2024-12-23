@@ -1,5 +1,5 @@
 <template>
-  <div class="flex gap-1 items-center">
+  <div class="flex gap-1 items-center border border-border/30 rounded-2xl px-0">
     <div :class="avatar_variant({ type })">
       <SvgIcon
         :name="type == 'song' ? 'music' : 'mic'"
@@ -10,11 +10,17 @@
       <SharedSummary
         :content="request.description"
         class="font-medium"
-        v-if="request.type === 'hype'"
+        v-if="request.type === 'hype' && detailed"
       />
-      <div class="flex items-center gap-2 text-base" v-else>
-        <div class="text-foreground font-medium">{{ request.song_title }}</div>
-        <div class="text-muted-foreground">by {{ request.artist }}</div>
+      <div class="flex items-center gap-2 text-base" v-else-if="detailed">
+        <SharedSummary
+          :content="request?.song_title ?? ''"
+          class="font-medium text-foreground"
+        />
+        <SharedSummary
+          :content="`by ${request.artist}`"
+          class="font-medium text-muted-foreground"
+        />
       </div>
       <div class="flex items-center text-muted-foreground">
         <div class="flex items-center gap-1 text-primary-foreground">
@@ -45,7 +51,7 @@
 <script lang="ts" setup>
 import { Dot } from "lucide-vue-next";
 import { cva, type VariantProps } from "class-variance-authority";
-import type { HostProfile } from "~/types/user";
+import type { EventRequest } from "~/types/event";
 
 const { authEmail } = useAuth();
 
@@ -68,8 +74,9 @@ type AvatarVariant = VariantProps<typeof avatar_variant>;
 withDefaults(
   defineProps<{
     type: AvatarVariant["type"];
-    request: HostProfile["live_event"]["requests"][number];
+    request: EventRequest;
+    detailed?: boolean;
   }>(),
-  { type: "song" }
+  { type: "song", detailed: true }
 );
 </script>
