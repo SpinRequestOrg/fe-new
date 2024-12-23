@@ -1,7 +1,7 @@
 <template>
   <div class="h-full">
     <NuxtLayout :name="'auth'">
-      <div class="absolute top-12 left-[var(--cp)]">
+      <div class="absolute top-20 left-[var(--cp)] container">
         <BackButton to="/signup" />
       </div>
       <div class="w-full">
