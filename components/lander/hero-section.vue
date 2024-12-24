@@ -16,11 +16,12 @@
         <HostSearchInput />
       </div>
       <div
-        class="w-full max-w-[842px] relative left-1/2 -translate-x-1/2 -translate-y-1/3 opacity-40"
+        class="w-full max-w-[842px] aspect-video relative left-1/2 -translate-x-1/2 -translate-y-1/3 opacity-40"
       >
         <NuxtImg
           src="/images/ring-light.png"
           class="w-full h-full object-contain"
+          loading="lazy"
         />
       </div>
     </div>

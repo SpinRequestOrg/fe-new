@@ -36,8 +36,8 @@ const props = defineProps<{
 }>();
 
 const normalizedPriceTimes = computed(() => {
-  if (!props.history) return [];
-  return props.history
+  if (!props.history?.length) return [];
+  return [...props.history]
     .map((item) => {
       const [hours, minutes] = useDateFormat(item.created_at, "H_m")
         .value.split("_")

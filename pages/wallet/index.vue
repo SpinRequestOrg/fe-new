@@ -16,11 +16,11 @@
           <div class="space-y-2">
             <div class="flex gap-x-1 items-center text-muted-foreground">
               <div>Wallet Balance</div>
-              <UiTooltip
-                message="This is your earnings minus commission. resets Back to zero after payout weekly."
+              <UiPopover
+                content="This is your earnings minus commission. resets Back to zero after payout weekly."
               >
                 <Info class="size-4" />
-              </UiTooltip>
+              </UiPopover>
             </div>
             <div class="tabular-nums font-semibold text-4xl">
               ₦{{ formatMoney(Number(data?.wallet_balance ?? 0)) }}
@@ -36,9 +36,9 @@
                 class="flex items-center text-muted-foreground gap-x-2 justify-self-end"
               >
                 <div>₦{{ formatMoney(data?.total_earnings ?? 0) }}</div>
-                <UiTooltip message="The total amount you’ve made this week.">
+                <UiPopover content="The total amount you’ve made this week.">
                   <Info class="size-4" />
-                </UiTooltip>
+                </UiPopover>
               </div>
             </div>
             <div class="flex items-center gap-x-4 flex-wrap justify-between">
@@ -50,11 +50,11 @@
                 class="flex items-center text-muted-foreground gap-x-2 justify-self-end"
               >
                 <div>-₦{{ formatMoney((data?.wallet_expenses ?? 0) * 1) }}</div>
-                <UiTooltip
-                  message="A 15% platform fee to support the services we provide."
+                <UiPopover
+                  content="A 15% platform fee to support the services we provide."
                 >
                   <Info class="size-4" />
-                </UiTooltip>
+                </UiPopover>
               </div>
             </div>
           </div>

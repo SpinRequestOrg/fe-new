@@ -180,9 +180,9 @@ const host = computed(() => data?.value?.data?.user);
 
 const { authEmail } = useAuth();
 
-const liveEventRequests = computed(
-  () => data.value?.data?.live_event?.requests
-);
+const liveEventRequests = computed(() => {
+  return data.value?.data.live_event?.requests ?? [];
+});
 
 const request_rejected = ref(false);
 
