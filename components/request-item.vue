@@ -6,13 +6,13 @@
         :class="cn(request.status === 'now-playing' ? 'animate-bounce' : '')"
       />
     </div>
-    <div class="space-y-1">
+    <div class="space-y-1 w-full">
       <SharedSummary
         :content="request.description"
         class="font-medium"
         v-if="request.type === 'hype' && detailed"
       />
-      <div class="flex items-center gap-2 text-base" v-else-if="detailed">
+      <div class="flex items-end gap-2 text-base" v-else-if="detailed">
         <SharedSummary
           :content="request?.song_title ?? ''"
           class="font-medium text-foreground"
