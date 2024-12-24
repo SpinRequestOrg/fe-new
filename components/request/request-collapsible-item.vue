@@ -4,35 +4,37 @@
     :open="open"
     :disabled="disabled"
   >
-    <CollapsibleTrigger
-      class="grid grid-cols-[auto_1fr_auto] gap-x-4 w-full items-center justify-start relative px-4 sm:px-6 py-3 [&[data-state='open']_.caret]:rotate-180"
-      @click="handleOpening"
-    >
+    <CollapsibleTrigger asChild>
       <div
-        :class="
-          cn(
-            request.status === 'now-playing'
-              ? 'text-primary text-base font-medium'
-              : 'text-foreground'
-          )
-        "
+        @click="handleOpening"
+        class="grid grid-cols-[auto_1fr_auto] gap-x-4 w-full items-center justify-start relative px-4 sm:px-6 py-3 [&[data-state='open']_.caret]:rotate-180 cursor-pointer"
       >
-        {{ index ?? "-" }}
+        <div
+          :class="
+            cn(
+              request.status === 'now-playing'
+                ? 'text-primary text-base font-medium'
+                : 'text-foreground'
+            )
+          "
+        >
+          {{ index ?? "-" }}
+        </div>
+        <div class="space-y-1 text-left">
+          <Summary
+            v-if="request.type === 'hype'"
+            :content="request?.description"
+            v-model="popover_open"
+          />
+          <template v-else>
+            <div class="font-medium">{{ request.song_title }}</div>
+            <div class="text-sm text-muted-foreground">
+              by {{ request.artist }}
+            </div>
+          </template>
+        </div>
+        <ChevronDown class="size-5 caret transition-transform relative" />
       </div>
-      <div class="space-y-1 text-left">
-        <Summary
-          v-if="request.type === 'hype'"
-          :content="request?.description"
-          v-model="popover_open"
-        />
-        <template v-else>
-          <div class="font-medium">{{ request.song_title }}</div>
-          <div class="text-sm text-muted-foreground">
-            by {{ request.artist }}
-          </div>
-        </template>
-      </div>
-      <ChevronDown class="size-5 caret transition-transform relative" />
     </CollapsibleTrigger>
 
     <CollapsibleContent

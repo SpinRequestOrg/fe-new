@@ -42,8 +42,8 @@
     </template>
     <template v-else>
       <CollapsibleRoot
-        v-for="event in events"
-        :key="event.id"
+        v-for="(event, index) in events"
+        :key="event.id + index"
         class="rounded-lg bg-white/5"
       >
         <CollapsibleTrigger

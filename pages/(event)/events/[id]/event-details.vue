@@ -1,6 +1,6 @@
 <template>
   <div class="container py-20">
-    <SharedBackButton to="/events" class="fixed top-20" />
+    <SharedBackButton to="/events" class="fixed top-24" />
     <SharedLoadingArea :loading="status === 'pending'" :error="error">
       <div
         class="grid sm:grid-cols-[repeat(auto-fit,_minmax(400px,_1fr))] gap-6"

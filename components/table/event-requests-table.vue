@@ -57,12 +57,15 @@
       :key="request.id"
     >
       <div>{{ index + 1 }}</div>
-      <div class="space-y-px">
-        <div>{{ request.audience.name ?? request.audience.stage_name }}</div>
-        <div class="flex items-center gap-x-4">
+      <div class="flex items-center gap-x-2">
+        <div class="space-y-px">
+          <div>{{ request.audience.name ?? request.audience.stage_name }}</div>
           <div class="text-muted-foreground">
             {{ useDateFormat(request.created_at, "HH:mm") }}
           </div>
+        </div>
+
+        <div class="flex items-center gap-x-4">
           <div
             :class="
               cn(
@@ -93,7 +96,7 @@
           </div>
         </div>
       </div>
-      <div class="font-semibold justify-self-end border">
+      <div class="font-semibold justify-self-end">
         ₦{{ formatMoney(request?.price ?? 0) }}
       </div>
     </div>
