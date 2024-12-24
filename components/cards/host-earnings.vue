@@ -42,7 +42,7 @@
       </div>
     </div>
     <div class="flex items-center gap-x-4 border-t border-b py-4 my-8">
-      <div class="flex gap-x-2 items-center">
+      <div class="flex gap-2 items-center flex-wrap [&_>_div]:shrink-0">
         <div class="size-2 bg-[#8878E9]"></div>
         <div>Expenses</div>
       </div>

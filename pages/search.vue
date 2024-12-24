@@ -1,7 +1,9 @@
 <template>
   <div class="container pt-16 pb-40 relative">
     <div class="max-w-full w-[912px] mx-auto">
-      <div class="flex gap-x-1 items-center text-muted-foreground">
+      <div
+        class="flex gap-x-1 items-center text-muted-foreground fixed top-24 z-10"
+      >
         <SharedBackButton to="/audience" />
         <div class="font-display text-xl ml-6">
           Showing results for
