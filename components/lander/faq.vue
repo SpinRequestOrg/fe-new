@@ -21,7 +21,7 @@
               <AccordionTrigger
                 class="flex w-full items-center justify-between"
               >
-                <span class="font-medium">{{ item.title }}</span>
+                <div class="font-medium text-left">{{ item.title }}</div>
                 <SvgIcon
                   name="arrow_forward"
                   class="arrow relative -rotate-180 will-change-transform transition-transform"

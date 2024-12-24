@@ -12,8 +12,8 @@
       <div
         :class="
           cn(
-            'max-w-full w-[410px] mx-auto aspect-[1.42] border border-dashed rounded-lg relative',
-            isOverDropZone ? ' border-primary' : ' border-input'
+            'w-full max-w-[410px] mx-auto aspect-[1.42] border border-dashed rounded-lg relative',
+            isOverDropZone ? 'border-primary' : ' border-input'
           )
         "
         ref="dropZoneRef"
@@ -25,7 +25,7 @@
           class="w-full h-full object-contain rounded-[inherit]"
         />
         <div
-          class="space-y-4 place-center w-full grid place-items-center text-center relative"
+          class="space-y-4 w-full h-full grid place-items-center text-center relative"
           v-else
         >
           <Upload class="size-8 text-muted-foreground" />

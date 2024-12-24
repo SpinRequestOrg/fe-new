@@ -1,6 +1,6 @@
 <template>
   <div class="container py-20">
-    <SharedBackButton to="/dashboard" class="fixed top-20" />
+    <SharedBackButton to="/dashboard" class="fixed top-6" />
     <SharedLoadingArea
       class="space-y-4"
       :error="error"
@@ -60,8 +60,8 @@
           </div>
         </div>
         <div class="p-3 border rounded-b-[inherit] bg-white/10">
-          <div class="flex justify-center gap-x-2">
-            <SvgIcon name="bell" />
+          <div class="flex justify-center gap-x-1">
+            <SvgIcon name="bell" class="shrink-0" />
             <div class="text-muted-foreground text-center">
               Your wallet balance is automatically sent to your bank account ({{
                 data?.account ?? ""

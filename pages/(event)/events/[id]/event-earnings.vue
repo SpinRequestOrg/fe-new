@@ -1,6 +1,6 @@
 <template>
   <div class="container pb-20 pt-10">
-    <SharedBackButton class="fixed top-20" to="/dashboard" />
+    <SharedBackButton class="fixed top-24" to="/dashboard" />
     <SharedLoadingArea :loading="status === 'pending'" :error="error">
       <div
         :class="

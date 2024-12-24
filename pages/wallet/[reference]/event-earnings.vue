@@ -32,8 +32,8 @@
           </div>
           <div class="text-muted-foreground">Transaction id</div>
           <div class="flex items-center gap-x-1 cursor-pointer">
-            <Copy class="size-4" />
-            <span>{{ data?.data?.reference ?? "" }}</span>
+            <Copy class="size-4 shrink-0" />
+            <div class="shrink-0">{{ data?.data?.reference ?? "" }}</div>
           </div>
         </div>
       </div>
