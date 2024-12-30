@@ -2,15 +2,15 @@
   <div class="container pt-16 pb-40 relative">
     <div class="max-w-full w-[912px] mx-auto">
       <div
-        class="flex gap-x-1 items-center text-muted-foreground fixed top-24 z-10"
+        class="flex gap-x-2 items-center text-muted-foreground fixed top-24 z-10"
       >
         <SharedBackButton to="/audience" />
-        <div class="font-display text-xl ml-6">
+        <div class="font-display sm:text-xl">
           Showing results for
           <span class="font-semibold ml-2">"{{ search }}"</span>
         </div>
         <Dot class="size-12" />
-        <div class="text-xl">{{ hosts.length }} results</div>
+        <div class="sm:text-xl shrink-0">{{ hosts.length }} results</div>
       </div>
       <div class="relative mt-6">
         <ListboxRoot class="w-full">
@@ -123,7 +123,8 @@
                     <div
                       :class="
                         cn(
-                          'inline-flex gap-1 text-xs font-bol items-center bg-white/10 rounded-2xl px-2 py-1'
+                          'inline-flex gap-1 text-xs font-bol items-center bg-white/10 rounded-2xl px-2 py-1',
+                          host.is_live ? 'opacity-100' : 'opacity-0'
                         )
                       "
                     >

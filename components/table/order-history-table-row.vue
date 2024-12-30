@@ -44,11 +44,8 @@
     <td>{{ order.dj }}</td>
     <td>{{ order.payment_gateway }}</td>
     <td>{{ order.date }}</td>
-    <td>
-      <div
-        class="flex items-center gap-x-2 relative"
-        @click="copyText(order.reference)"
-      >
+    <td @click="copyText(order.reference)">
+      <div class="flex items-center gap-x-2 relative">
         <div
           :class="
             cn(
@@ -89,21 +86,39 @@
         </Teleport>
       </ClientOnly>
 
-      <UiButton
-        :size="'icon'"
-        :variant="'outline'"
-        class="relative"
-        :loading="loading || converting"
-        @click="loadAndDownloadReceipt"
+      <UiTooltip
+        message="Re-validate payment"
+        v-if="order.status === 'pending'"
       >
-        <Download class="size-4" />
-      </UiButton>
+        <UiButton
+          :size="'icon'"
+          :variant="'outline'"
+          class="relative"
+          :loading="loading || validating"
+          @click="validatePayment"
+        >
+          <Loader class="size-4 animate-spin" v-if="validating" />
+          <RefreshCcw class="size-4" v-else />
+        </UiButton>
+      </UiTooltip>
+
+      <UiTooltip message="Download Receipt" v-else>
+        <UiButton
+          :size="'icon'"
+          :variant="'outline'"
+          class="relative"
+          :loading="loading || converting"
+          @click="loadAndDownloadReceipt"
+        >
+          <Download class="size-4" />
+        </UiButton>
+      </UiTooltip>
     </td>
   </tr>
 </template>
 
 <script lang="ts" setup>
-import { Download, Copy } from "lucide-vue-next";
+import { Download, Copy, RefreshCcw, Loader } from "lucide-vue-next";
 import { promiseTimeout } from "@vueuse/core";
 import saveAs from "file-saver";
 import type { Order } from "~/types/payment";
@@ -121,7 +136,7 @@ const copyText = async (text: string) => {
 };
 
 const {
-  $repo: { event },
+  $repo: { event, payment },
 } = useNuxtApp();
 
 const order_request = ref<EventRequest>();
@@ -168,6 +183,25 @@ const loadAndDownloadReceipt = async () => {
     const error = e as ApiError;
     const message = error.data?.message ?? "Failed to download receipt";
     showToast({ title: message, variant: "warning" });
+  }
+};
+
+const emit = defineEmits(["reload"]);
+
+const validating = ref(false);
+const validatePayment = async () => {
+  try {
+    validating.value = true;
+    await payment.verifyPayment(props.order.reference);
+    validating.value = false;
+    emit("reload");
+  } catch (err) {
+    validating.value = false;
+    const error = err as ApiError;
+    showToast({
+      title: error.data?.message ?? "Verification failed",
+      variant: "warning",
+    });
   }
 };
 </script>

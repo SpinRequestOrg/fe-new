@@ -40,7 +40,9 @@
       </AccordionRoot>
       <div class="text-lg text-muted-foreground mt-2">
         Can’t find the answer you're looking for?
-        <NuxtLink class="text-primary"> Chat with us </NuxtLink>
+        <a href="mailto:spinrequestsupp@gmail.com" class="text-primary"
+          >Chat with us</a
+        >
       </div>
     </div>
   </div>
