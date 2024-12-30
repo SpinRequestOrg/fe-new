@@ -134,23 +134,27 @@ const audience_steps = ref([
 const host_steps = ref([
   {
     icon: "bubble-search",
-    title: "Sign up with unique stage name",
-    subtitle: "Let your audience find you with your unique stage name",
+    title: "Sign Up & Create",
+    subtitle:
+      "Join Spin Request for free! Set up events with clear names and decide your prices for song requests and hype shouts.",
   },
   {
     icon: "bubble-question-mark",
-    title: "Get a personalized QR code",
-    subtitle: "Share your QR code for anyone to find you",
-  },
-  {
-    icon: "bubble-dollar",
-    title: "Create paid event",
-    subtitle: "Create event and set request price",
+    title: "Go Live & Take Requests",
+    subtitle:
+      "Launch your event and SpinRequest will display incoming requests on your dashboard.",
   },
   {
     icon: "bubble-play",
-    title: "Anchor the event",
-    subtitle: "Play requests as they come in",
+    title: "Manage with a Click",
+    subtitle:
+      "Review song titles, hype details, and usernames. Accept requests you want to play or politely decline with a single click.",
+  },
+  {
+    icon: "bubble-dollar",
+    title: "Cash out",
+    subtitle:
+      "Receive your earnings after the event. Spin Request handles secure payments",
   },
 ]);
 </script>

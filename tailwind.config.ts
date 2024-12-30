@@ -143,10 +143,8 @@ const config = {
         swipeOut: "swipeOut 100ms ease-out",
         overlayShow: "overlay-show 150ms cubic-bezier(0.16, 1, 0.3, 1)",
         contentShow: "content-show 150ms cubic-bezier(0.16, 1, 0.3, 1)",
-        collapsibleSlideDown:
-          "collapsibleSlideDown 300ms cubic-bezier(0.87, 0, 0.13, 1)",
-        collapsibleSlideUp:
-          "collapsibleSlideUp 300ms cubic-bezier(0.87, 0, 0.13, 1)",
+        collapsibleSlideDown: "collapsibleSlideDown 300ms ease-in",
+        collapsibleSlideUp: "collapsibleSlideUp 300ms ease-out",
       },
     },
   },

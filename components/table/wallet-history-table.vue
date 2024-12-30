@@ -5,7 +5,11 @@
       v-for="item in history"
       :key="item.reference"
       v-slot="{ navigate }"
-      :to="`/wallet/${item.reference}/event-earnings`"
+      :to="
+        item.type === 'credit'
+          ? `/wallet/${item.reference}/event-earnings`
+          : `/wallet/${item.reference}/event-payout`
+      "
     >
       <tr
         @click="navigate"

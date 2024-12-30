@@ -119,8 +119,10 @@
     <ol start="8">
       <li>Contact Us</li>
     </ol>
-    <p>If you have any questions or need support, please contact us at</p>
-    <p>spinrequestsupp@gmail.com</p>
+    <p>
+      If you have any questions or need support, please contact us at
+      <a href="mailto:spinrequestsupp@gmail.com">spinrequestsupp@gmail.com</a>
+    </p>
   </section>
 </template>
 

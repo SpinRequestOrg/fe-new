@@ -1,6 +1,6 @@
 <template>
   <div class="w-full rounded-xl relative" v-if="event">
-    <div class="py-4 px-6 bg-[#1C1B1F] rounded-t-[inherit]">
+    <div class="py-4 px-3 sm:px-6 bg-[#1C1B1F] rounded-t-[inherit]">
       <div class="font-display font-semibold text-2xl mb-2">Request Queue</div>
       <div class="flex items-center gap-4 text-muted-foreground text-sm -ml-1">
         <div class="flex items-center gap-px">
@@ -13,7 +13,7 @@
         </div>
       </div>
     </div>
-    <div class="relative px-6 py-8 bg-white/5 rounded-b-[inherit]">
+    <div class="relative px-3 sm:px-6 py-8 bg-white/5 rounded-b-[inherit]">
       <div
         class="bg-sp-purple/50 blur-[200px] size-56 absolute left-1/2 -translate-x-1/2"
       ></div>
