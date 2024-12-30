@@ -190,3 +190,13 @@ export interface EventTransactionDetails {
   status: "success";
   history: EventRequest[];
 }
+
+export interface EventPayoutDetails {
+  amount: string | number;
+  date: string;
+  id: number;
+  payment_gateway: "paystack" | "wallet";
+  reference: string;
+  status: "success";
+  time: string;
+}

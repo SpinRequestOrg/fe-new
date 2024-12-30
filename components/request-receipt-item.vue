@@ -100,13 +100,24 @@
       >
         <UiButton
           :size="'lg'"
-          class="uppercase"
+          class="uppercase hidden sm:inline-flex"
           :loading="converting"
           @click="convertNodeToImage"
         >
           Download Receipt
           <span class="hidden md:inline ml-1"> & loud IT</span>
         </UiButton>
+        <UiTooltip message="Download receipt and loud it" class="sm:hidden">
+          <UiButton
+            :size="'icon'"
+            class="uppercase sm:hidden"
+            :loading="converting"
+            @click="convertNodeToImage"
+          >
+            <Download class="size-4" />
+          </UiButton>
+        </UiTooltip>
+
         <UiTooltip message="Share to twitter/X">
           <UiButton
             :size="'icon'"
@@ -144,7 +155,7 @@
 </template>
 
 <script lang="ts" setup>
-import { Copy, CopyCheck } from "lucide-vue-next";
+import { Copy, CopyCheck, Download } from "lucide-vue-next";
 import saveAs from "file-saver";
 import { useNodeToImage } from "~/composables/useNodeToImage";
 import type { EventRequest, OrderEvent } from "~/types/event";
@@ -154,7 +165,9 @@ const props = defineProps<{
   print?: boolean;
 }>();
 
-const APP_BASE_URL = "https://dev.spinrequest.com";
+const {
+  public: { APP_BASE_URL },
+} = useRuntimeConfig();
 
 const eventDetails = computed(() => {
   const event = {

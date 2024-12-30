@@ -10,7 +10,7 @@
             }}
           </div>
           <UiButton :variant="'outline'" @click="refresh" :loading="loading">
-            Confirm agai
+            Confirm again
           </UiButton>
         </div>
       </template>
@@ -65,7 +65,9 @@ const {
   status: verification_status,
   error: verification_error,
   refresh,
-} = useCustomFetch<ApiResponse<LiveEvent>>(`transactions/${reference}/verify`);
+} = useCustomFetch<ApiResponse<LiveEvent>>(`transactions/${reference}/verify`, {
+  immediate: !!reference,
+});
 
 const {
   data: top_spenders,

@@ -236,7 +236,7 @@ onMounted(() => {
 });
 
 useSeoMeta({
-  title: () => `${host?.value?.stage_name ?? ""}`,
+  title: () => `${host?.value?.stage_name ?? "Live event"}`,
   ogTitle: () =>
     `${data.value?.data?.live_event?.title ?? ""} | ${
       host.value?.stage_name ?? ""

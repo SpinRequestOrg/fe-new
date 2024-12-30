@@ -6,9 +6,12 @@
       >
         <div class="space-y-4 mx-auto md:mx-0">
           <SvgIcon name="spin-request" />
-          <div class="text-primary font-medium text-center md:text-left">
-            Contact us
-          </div>
+          <a
+            href="mailto:spinrequestsupp@gmail.com"
+            class="text-primary font-medium text-center md:text-left"
+          >
+            Contact us</a
+          >
         </div>
         <div
           class="flex items-center gap-x-6 [&_>_div]:size-[24px] mx-auto md:mx-0"
@@ -55,6 +58,30 @@
               target="_blank"
             >
               <SvgIcon name="tiktok" />
+            </NuxtLink>
+          </div>
+
+          <div
+            class="size-[24px] grid place-items-center hover:scale-105 transition-transform"
+          >
+            <NuxtLink
+              to="https://www.youtube.com/@spinrequest"
+              external
+              target="_blank"
+            >
+              <SvgIcon name="youtube" />
+            </NuxtLink>
+          </div>
+
+          <div
+            class="size-[24px] grid place-items-center hover:scale-105 transition-transform"
+          >
+            <NuxtLink
+              to="https://www.linkedin.com/company/spinrequest"
+              external
+              target="_blank"
+            >
+              <SvgIcon name="linkedin" />
             </NuxtLink>
           </div>
         </div>

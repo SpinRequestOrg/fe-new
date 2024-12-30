@@ -8,6 +8,7 @@
       v-for="(order, index) in mergedOrders"
       :key="order.id + order.parent_id + order.date + index"
       :order="order"
+      @reload="refresh"
     />
     <template #empty>
       <div class="min-h-[297px] grid place-items-center">
@@ -45,7 +46,8 @@ const heading = ref([
   "",
 ]);
 
-const { data, status } = useCustomFetch<ApiResponse<Order[]>>("/transactions");
+const { data, status, refresh } =
+  useCustomFetch<ApiResponse<Order[]>>("/transactions");
 
 const groupedOrders = computed(() => {
   const orders = data.value?.data ?? [];
