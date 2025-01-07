@@ -1,3 +1,4 @@
+import { useNotifications } from "~/components/notification";
 import { eventRequests } from "~/constants/mocks";
 import type {
   HypeRequestPayload,
@@ -13,6 +14,7 @@ export const useLiveEvent = () => {
       public: { APP_BASE_URL },
     },
   } = useNuxtApp();
+  const { refreshNotifications } = useNotifications();
   const ending = ref(false);
   const update_status = ref<EventRequest["status"] | null>(null);
   const updating = ref(false);
@@ -26,6 +28,7 @@ export const useLiveEvent = () => {
     try {
       ending.value = true;
       const response = await event.endEvent(event_id);
+      refreshNotifications();
       ending.value = false;
       if (response.data) {
         navigateTo(`/events/${event_id}/event-earnings`);
@@ -49,6 +52,7 @@ export const useLiveEvent = () => {
       update_status.value = status;
       updating.value = true;
       const response = await event.updateEventRequest(request_id, status);
+      refreshNotifications();
       showToast({ title: response.message ?? "Updated" });
       updating.value = false;
       update_status.value = null;
@@ -72,6 +76,7 @@ export const useLiveEvent = () => {
       const spin_route = true;
       creating.value = true;
       const response = await event.createRequest(request);
+      refreshNotifications();
       const price = Number(response.data.price);
 
       if (!price) {
@@ -161,6 +166,7 @@ export const useLiveEvent = () => {
           external: true,
         });
       }
+      refreshNotifications();
       return navigateTo(
         `/${host_slug}/${request.event_id}/${request.id}/request-receipt`
       );

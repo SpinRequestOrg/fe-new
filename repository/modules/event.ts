@@ -3,6 +3,7 @@ import type { $Fetch, NitroFetchOptions } from "nitropack";
 import type { Host } from "~/types/user";
 import type { EventPayload } from "~/schemas/event-schema";
 import type {
+  AppNotification,
   EventRequest,
   LiveEvent,
   RequestPaymentPayload,
@@ -25,6 +26,8 @@ export default class Auth {
   EVENT_REQUESTS = "requests";
   CREATE_REQUEST = "requests";
   DELETE_EVENT = "events";
+  ALL_NOTIFICATIONS = "user/notification";
+  MARK_NOTIFICATION_AS_READ = "user/mark/notification-read";
 
   constructor(fetcher: $Fetch) {
     this.$fetch = fetcher;
@@ -113,5 +116,17 @@ export default class Auth {
       `payment/requests/${request_id}/payment/create`,
       payload
     );
+  }
+
+  async fetchAllNotifications() {
+    return await this.call<AppNotification[]>("GET", this.ALL_NOTIFICATIONS);
+  }
+
+  async markNotificationAsRead(id: string | number) {
+    return await this.call("GET", `${this.MARK_NOTIFICATION_AS_READ}/${id}`);
+  }
+
+  async markAllNotificationsAsRead() {
+    return await this.call("GET", this.MARK_NOTIFICATION_AS_READ);
   }
 }
