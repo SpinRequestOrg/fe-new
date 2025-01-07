@@ -61,7 +61,7 @@
         </div>
         <div class="p-3 border rounded-b-[inherit] bg-white/10">
           <div class="flex justify-center gap-x-1">
-            <SvgIcon name="bell" class="shrink-0" />
+            <SvgIcon name="bell" class="shrink-0 text-destructive" />
             <div class="text-muted-foreground text-center">
               Your wallet balance is automatically sent to your bank account ({{
                 data?.account ?? ""

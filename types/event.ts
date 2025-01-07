@@ -200,3 +200,16 @@ export interface EventPayoutDetails {
   status: "success";
   time: string;
 }
+
+export interface AppNotification {
+  id: string;
+  type: string;
+  notifiable_type: string;
+  notifiable_id: number;
+  data: {
+    message: string;
+  };
+  read_at: null | string;
+  created_at: string;
+  updated_at: string;
+}
