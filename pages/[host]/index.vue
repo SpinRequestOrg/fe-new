@@ -77,7 +77,6 @@
                   :variant="'secondary'"
                   class="w-full md:w-auto"
                   :size="'lg'"
-                  @click="request_rejected = true"
                 >
                   Follow
                 </Button>

@@ -16,6 +16,7 @@
             </Button>
           </UiTooltip>
         </NuxtLink>
+        <NotificationMenu />
         <ProfileMenu />
       </template>
 

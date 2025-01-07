@@ -72,6 +72,8 @@ import type { LiveEvent } from "~/types/event";
 import Button from "../ui/button.vue";
 import NumberInput from "../ui/number-input.vue";
 import { Loader } from "lucide-vue-next";
+import { useNotifications } from "../notification";
+import type { ApiError } from "~/types";
 
 const props = withDefaults(
   defineProps<{
@@ -94,6 +96,7 @@ const props = withDefaults(
   }
 );
 
+const { refreshNotifications } = useNotifications();
 const updating = ref(false);
 const host_services = ref<LiveEvent["types"]>([]);
 
@@ -122,9 +125,11 @@ const updateAllPrice = async () => {
         updatePrice(service.id, service.price)
       )
     );
+    refreshNotifications();
     updating.value = false;
     showToast({ title: "Prices updated" });
-  } catch (e) {
+  } catch (error) {
+    const e = error as ApiError;
     updating.value = false;
     showToast({
       title: e?.data?.message ?? "Failed to update prices",
