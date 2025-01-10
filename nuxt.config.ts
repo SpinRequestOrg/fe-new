@@ -26,6 +26,9 @@ export default defineNuxtConfig({
     "pinia-plugin-persistedstate/nuxt",
     "@vueuse/nuxt",
     "nuxt-jsonld",
+    "nuxt-gtag",
+    "@nuxtjs/sitemap",
+    "@nuxtjs/robots",
   ],
   runtimeConfig: {
     public: {
@@ -41,5 +44,11 @@ export default defineNuxtConfig({
   },
   alias: {
     "@spinlander": r("./components/lander"),
+  },
+  gtag: {
+    id: "G-E298NRK4DP",
+  },
+  site: {
+    url: process.env.APP_BASE_URL,
   },
 });
