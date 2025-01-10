@@ -49,7 +49,8 @@
 </template>
 
 <script lang="ts" setup>
-const faqs = [
+import type { Thing, WithContext } from "schema-dts";
+const faqs = ref([
   {
     value: "what_is_spin_request",
     title: "What is Spin Request?",
@@ -122,7 +123,29 @@ const faqs = [
     content:
       "As a host on Spin Request, getting paid is seamless and stress-free. All the money you earn from song requests and hype requests is securely processed and debited into your account weekly. Every Tuesday, your earnings are automatically calculated, and payments are made directly to your linked account. Make sure your payment details are correctly filled during account setup. Monitor your earnings and transactions through your dashboard for full transparency.",
   },
-];
+]);
+
+const jsonLdFaq = computed(() => {
+  return faqs.value?.map((faq) => {
+    return {
+      "@type": "Question",
+      name: faq.title,
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: faq.content,
+      },
+    };
+  });
+});
+
+useJsonld(
+  () =>
+    ({
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      mainEntity: jsonLdFaq.value,
+    } as WithContext<Thing>)
+);
 </script>
 
 <style scoped>
