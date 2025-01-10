@@ -29,20 +29,24 @@ const {
   },
 } = useNuxtApp();
 provideNotification();
+const path = useRoute().path;
 useHead({
   titleTemplate: "%s | Spin Request",
   link: [
     {
       id: "canonical",
       rel: "canonical",
-      href: APP_BASE_URL,
+      href: `${APP_BASE_URL}/${path}`,
     },
   ],
 });
 
 useSeoMeta({
+  title: "Spin Request",
   ogTitle: "Spin Request",
   ogDescription:
+    "Spin Request is a platform bridging the gap between DJs, Hosts and their audiences by facilitating song requests or hypes during live performances.",
+  description:
     "Spin Request is a platform bridging the gap between DJs, Hosts and their audiences by facilitating song requests or hypes during live performances.",
   keywords: "DJ, hype man, hosts, song request, hype request",
   ogSiteName: "Spin Request",
@@ -59,7 +63,7 @@ useSeoMeta({
   twitterCard: "summary",
 });
 
-useJsonld({
+useJsonld(() => ({
   "@context": "https://schema.org",
   "@type": "Organization",
   name: "Spin Request",
@@ -79,5 +83,5 @@ useJsonld({
   keywords: ["DJ", "hype man", "hosts", "song request", "hype request"],
   foundingDate: "June 2023",
   address: "Nigeria",
-});
+}));
 </script>
